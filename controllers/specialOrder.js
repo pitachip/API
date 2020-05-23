@@ -1,3 +1,5 @@
+const SpecialOrder = require("../models/SpecialOrder");
+
 //@desc     get all special orders
 //@route    GET /api/v1/specialorder
 //@access   Public
@@ -17,8 +19,18 @@ exports.getSpecialOrder = (req, res, next) => {
 //@desc     Create new special order
 //@route    POST /api/v1/specialorder
 //@access   Private
-exports.createSpecialOrder = (req, res, next) => {
-	res.status(200).json({ success: true, data: "Create new special order" });
+exports.createSpecialOrder = async (req, res, next) => {
+	try {
+		const specialOrder = await SpecialOrder.create(req.body);
+
+		res.status(201).json({
+			success: true,
+			data: specialOrder,
+		});
+	} catch (err) {
+		res.status(400).json({ success: false, message: err });
+		console.log(`Error: ${err}`.bold.red);
+	}
 };
 
 //@desc     Update specialorder
