@@ -1,4 +1,5 @@
 const SpecialOrder = require("../models/SpecialOrder");
+const stripe = require("stripe")("sk_test_lG00dXwz3Cpz3Z1TIwdNLL7c");
 
 //@desc     get all special orders
 //@route    GET /api/v1/specialorder

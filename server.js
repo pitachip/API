@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 //routes
 const specialOrder = require("./routes/specialOrder");
 const test = require("./routes/test");
+const inventory = require("./routes/inventory");
 
 //load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -27,6 +28,7 @@ if (process.env.NODE_ENV === "development") {
 //Mount Routers
 app.use("/api/v1/", test);
 app.use("/api/v1/specialorder", specialOrder);
+app.use("/api/v1/inventory", inventory);
 
 const PORT = process.env.PORT || 5000;
 
