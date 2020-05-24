@@ -1,5 +1,6 @@
 const SpecialOrder = require("../models/SpecialOrder");
-const stripe = require("stripe")("sk_test_lG00dXwz3Cpz3Z1TIwdNLL7c");
+const stripe = require("stripe")("sk_test_lG00dXwz3Cpz3Z1TIwdNLL7c"); //TODO: need to use environment variables here
+const _ = require("lodash");
 
 //@desc     get all special orders
 //@route    GET /api/v1/specialorder
@@ -21,12 +22,37 @@ exports.getSpecialOrder = (req, res, next) => {
 //@route    POST /api/v1/specialorder
 //@access   Private
 exports.createSpecialOrder = async (req, res, next) => {
+	const { customerInformation, orderItems } = req.body;
 	try {
-		const specialOrder = await SpecialOrder.create(req.body);
+		/**
+		 * 1. TODO: get customerID see if customer already exists with that email,
+		 * 			if not, need to create them and then save that value in the userDB wherever that ends up being
+		 * 2. TODO: just get the total price and create an invoice line item with that
+		 * 3. TODO: Create invoice with that customer and that newly created line item
+		 * 4. TODO: modify req object with newly created data and put it into mongo.
+		 */
+		const stripeCustomerList = await stripe.customers.list({
+			email: customerInformation.email,
+		});
+
+		_.each(orderItems, async (orderItem) => {
+			const lineItemTotal = orderItem.quantity * orderItem.pricePerUnit * 100; //invoice is calculated in cents
+			await stripe.invoiceItems.create({
+				customer: stripeCustomerList.data[0].id,
+				unit_amount: orderItem.pricePerUnit * 100,
+				description: orderItem.item,
+				currency: "usd",
+				quantity: orderItem.quantity,
+			});
+		});
+
+		const newInvoice = await stripe.invoices.create({
+			customer: stripeCustomerList.data[0].id,
+		});
 
 		res.status(201).json({
 			success: true,
-			data: specialOrder,
+			data: newInvoice,
 		});
 	} catch (err) {
 		res.status(400).json({ success: false, message: err });

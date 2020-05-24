@@ -50,7 +50,7 @@ const SpecialOrderSchema = new mongoose.Schema({
 			"University Money Account",
 		],
 	},
-	order: {
+	orderItems: {
 		type: [Object],
 	},
 });

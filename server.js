@@ -38,3 +38,8 @@ const server = app.listen(
 		`Server running in ${process.env.NODE_ENV} on port ${PORT}`.yellow.bold
 	)
 );
+
+//Handle unhandled promise rejections
+process.on("unhandledRejection", (err, promise) => {
+	console.log(`Error: ${err.message}`.bold.red);
+});
