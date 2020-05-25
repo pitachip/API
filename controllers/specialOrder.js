@@ -20,39 +20,64 @@ exports.getSpecialOrder = (req, res, next) => {
 
 //@desc     Create new special order
 //@route    POST /api/v1/specialorder
-//@access   Private
+//@access   Public
 exports.createSpecialOrder = async (req, res, next) => {
 	const { customerInformation, orderItems } = req.body;
 	try {
 		/**
 		 * 1. TODO: get customerID see if customer already exists with that email,
 		 * 			if not, need to create them and then save that value in the userDB wherever that ends up being
-		 * 2. TODO: just get the total price and create an invoice line item with that
-		 * 3. TODO: Create invoice with that customer and that newly created line item
-		 * 4. TODO: modify req object with newly created data and put it into mongo.
+		 * 2. TODO: go through the customer use cases
+		 * 			(e.g. has portal account, has portal account/stripeID, guest on the portal, guest on the portal with stripeID)
+		 * 3. Probably need to refactor this a bit into a utility.
 		 */
 		const stripeCustomerList = await stripe.customers.list({
 			email: customerInformation.email,
 		});
 
-		_.each(orderItems, async (orderItem) => {
-			const lineItemTotal = orderItem.quantity * orderItem.pricePerUnit * 100; //invoice is calculated in cents
-			await stripe.invoiceItems.create({
-				customer: stripeCustomerList.data[0].id,
-				unit_amount: orderItem.pricePerUnit * 100,
-				description: orderItem.item,
-				currency: "usd",
-				quantity: orderItem.quantity,
-			});
-		});
+		/**
+		 * TODO: not high priorty but I can't find a great way to
+		 * add the modifers in the invoice without going through callback hell
+		 */
+
+		await Promise.all(
+			_.each(orderItems, (orderItem) => {
+				return new Promise((resolve, reject) => {
+					stripe.invoiceItems.create({
+						customer: stripeCustomerList.data[0].id,
+						unit_amount: orderItem.pricePerUnit * 100,
+						description: orderItem.description,
+						currency: "usd",
+						quantity: orderItem.quantity,
+					});
+				});
+			})
+		);
 
 		const newInvoice = await stripe.invoices.create({
 			customer: stripeCustomerList.data[0].id,
+			auto_advance: false,
+			collection_method: "send_invoice",
+			days_until_due: 45,
 		});
+
+		const sendInvoice = await stripe.invoices.sendInvoice(newInvoice.id);
+
+		//Put into Mongo
+		var specialOrder = req.body;
+		specialOrder = {
+			...specialOrder,
+			invoiceId: sendInvoice.id,
+			stripeCustomerId: sendInvoice.customer,
+			hosted_invoice_url: sendInvoice.hosted_invoice_url,
+			invoice_pdf: sendInvoice.invoice_pdf,
+		};
+
+		const newSpecialOrder = await SpecialOrder.create(specialOrder);
 
 		res.status(201).json({
 			success: true,
-			data: newInvoice,
+			data: newSpecialOrder,
 		});
 	} catch (err) {
 		res.status(400).json({ success: false, message: err });
@@ -64,6 +89,10 @@ exports.createSpecialOrder = async (req, res, next) => {
 //@route    PUT /api/v1/specialorder/:id
 //@access   Private
 exports.updateSpecialOrder = (req, res, next) => {
+	/**
+	 * This is going to be a pain because we have to
+	 * void and create a new invoice
+	 */
 	res
 		.status(200)
 		.json({ success: true, data: `Update special order ${req.params.id}` });

@@ -53,6 +53,10 @@ const SpecialOrderSchema = new mongoose.Schema({
 	orderItems: {
 		type: [Object],
 	},
+	invoiceId: String,
+	stripeCustomerId: String,
+	hosted_invoice_url: String,
+	invoice_pdf: String,
 });
 
 module.exports = mongoose.model("SpecialOrder", SpecialOrderSchema);
