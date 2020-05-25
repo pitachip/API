@@ -39,21 +39,24 @@ exports.createSpecialOrder = async (req, res, next) => {
 		 * TODO: not high priorty but I can't find a great way to
 		 * add the modifers in the invoice without going through callback hell
 		 */
+		var promiseArray = [];
 
-		await Promise.all(
-			_.each(orderItems, (orderItem) => {
-				return new Promise(() => {
-					stripe.invoiceItems.create({
-						customer: stripeCustomerList.data[0].id,
-						unit_amount: orderItem.pricePerUnit * 100,
-						description: orderItem.item,
-						currency: "usd",
-						quantity: orderItem.quantity,
-					});
-				});
-			})
-		);
+		_.each(orderItems, (orderItem) => {
+			promiseArray.push(
+				stripe.invoiceItems.create({
+					customer: stripeCustomerList.data[0].id,
+					unit_amount: orderItem.pricePerUnit * 100,
+					description: orderItem.item,
+					currency: "usd",
+					quantity: orderItem.quantity,
+				})
+			);
+		});
 
+		//put all promises in an array and wait till they are done executing.
+		await Promise.all(promiseArray);
+
+		//create invoice
 		const newInvoice = await stripe.invoices.create({
 			customer: stripeCustomerList.data[0].id,
 			auto_advance: false,
@@ -61,6 +64,7 @@ exports.createSpecialOrder = async (req, res, next) => {
 			days_until_due: 45,
 		});
 
+		//send invoice
 		const sendInvoice = await stripe.invoices.sendInvoice(newInvoice.id);
 
 		//Put into Mongo
