@@ -42,11 +42,11 @@ exports.createSpecialOrder = async (req, res, next) => {
 
 		await Promise.all(
 			_.each(orderItems, (orderItem) => {
-				return new Promise((resolve, reject) => {
+				return new Promise(() => {
 					stripe.invoiceItems.create({
 						customer: stripeCustomerList.data[0].id,
 						unit_amount: orderItem.pricePerUnit * 100,
-						description: orderItem.description,
+						description: orderItem.item,
 						currency: "usd",
 						quantity: orderItem.quantity,
 					});
