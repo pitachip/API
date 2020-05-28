@@ -41,6 +41,7 @@ if (process.env.NODE_ENV === "development") {
 			"Origin, X-Requested-With, Content-Type, Accept"
 		);
 		return next();
+	});
 }
 
 //Mount Routers
