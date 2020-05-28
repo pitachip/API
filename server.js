@@ -21,8 +21,28 @@ const app = express();
 app.use(express.json());
 
 //Dev logging middleware
+//note that 'development' here really means localhost
 if (process.env.NODE_ENV === "development") {
 	app.use(morgan());
+	//Gets rid of the annoying CORS error
+	app.use(function (req, res, next) {
+		res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+		res.header(
+			"Access-Control-Allow-Headers",
+			"Origin, X-Requested-With, Content-Type, Accept"
+		);
+		return next();
+	});
+} else {
+	var allowedOrigins = [
+		"https://dev-specialorder.pitachip.biz",
+		"https://specialorder.pitachip.biz",
+	];
+	var origin = req.headers.origin;
+	if (allowedOrigins.indexOf(origin) > -1) {
+		res.setHeader("Access-Control-Allow-Origin", origin);
+	}
+	return next();
 }
 
 //Mount Routers
