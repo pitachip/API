@@ -34,18 +34,11 @@ if (process.env.NODE_ENV === "development") {
 		return next();
 	});
 } else {
-	var allowedOrigins = [
-		"https://dev-specialorder.pitachip.biz",
-		"https://specialorder.pitachip.biz",
-	];
-	var origin = req.headers.origin;
-	if (allowedOrigins.indexOf(origin) > -1) {
-		res.header("Access-Control-Allow-Origin", "*");
-		res.header(
-			"Access-Control-Allow-Headers",
-			"Origin, X-Requested-With, Content-Type, Accept"
-		);
-	}
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header(
+		"Access-Control-Allow-Headers",
+		"Origin, X-Requested-With, Content-Type, Accept"
+	);
 	return next();
 }
 
