@@ -34,6 +34,7 @@ if (process.env.NODE_ENV === "development") {
 		return next();
 	});
 } else {
+	//TODO: update this origin list to only be the dev and prod site
 	app.use(function (req, res, next) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header(
