@@ -1,22 +1,25 @@
 const SpecialOrder = require("../models/SpecialOrder");
 const stripe = require("stripe")("sk_test_lG00dXwz3Cpz3Z1TIwdNLL7c"); //TODO: need to use environment variables here
 const _ = require("lodash");
+const ErrorResponse = require("../utils/errorResponse");
+const asyncHandler = require("../middleware/async");
 
 //@desc     get all special orders
 //@route    GET /api/v1/specialorder
 //@access   Public
-exports.getSpecialOrders = (req, res, next) => {
-	res.status(200).json({ success: true, data: "Show all special orders" });
-};
+exports.getSpecialOrders = asyncHandler(async (req, res, next) => {
+	const response = await SpecialOrder.find();
+
+	res.status(200).json({ success: true, data: response });
+});
 
 //@desc     get single specialorder
 //@route    GET /api/v1/specialorder/:id
 //@access   Public
-exports.getSpecialOrder = (req, res, next) => {
-	res
-		.status(200)
-		.json({ success: true, data: `Get special order ${req.params.id}` });
-};
+exports.getSpecialOrder = asyncHandler(async (req, res, next) => {
+	const response = await SpecialOrder.findById(req.params.id);
+	res.status(200).json({ success: true, data: response });
+});
 
 //@desc     Create new special order
 //@route    POST /api/v1/specialorder

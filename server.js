@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const morgan = require("morgan");
 const colors = require("colors");
 const connectDB = require("./config/db");
+const errorHandler = require("./middleware/error");
 
 //routes
 const specialOrder = require("./routes/specialOrder");
@@ -49,6 +50,9 @@ if (process.env.NODE_ENV === "development") {
 app.use("/api/v1/", test);
 app.use("/api/v1/specialorder", specialOrder);
 app.use("/api/v1/inventory", inventory);
+
+//Mount error handler -- HAS TO BE after routes
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
