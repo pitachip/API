@@ -8,9 +8,10 @@ const asyncHandler = require("../middleware/async");
 //@route    GET /api/v1/specialorder
 //@access   Public
 exports.getSpecialOrders = asyncHandler(async (req, res, next) => {
-	const response = await SpecialOrder.find();
-
-	res.status(200).json({ success: true, data: response });
+	const response = await SpecialOrder.find(req.query);
+	res
+		.status(200)
+		.json({ success: true, count: response.length, data: response });
 });
 
 //@desc     get single specialorder

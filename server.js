@@ -23,7 +23,10 @@ app.use(express.json());
 
 //Dev logging middleware
 //note that 'development' here really means localhost
-if (process.env.NODE_ENV === "development") {
+if (
+	process.env.NODE_ENV === "development" ||
+	process.env.NODE_ENV === "localhost"
+) {
 	app.use(morgan());
 	//Gets rid of the annoying CORS error
 	app.use(function (req, res, next) {

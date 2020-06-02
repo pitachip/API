@@ -57,6 +57,11 @@ const SpecialOrderSchema = new mongoose.Schema({
 	stripeCustomerId: String,
 	hosted_invoice_url: String,
 	invoice_pdf: String,
+	status: {
+		type: String,
+		required: [true, "Status is Required"],
+		enum: ["Submitted", "Confirmed", "Scheduled For Delivery", "Completed"],
+	},
 });
 
 module.exports = mongoose.model("SpecialOrder", SpecialOrderSchema);
