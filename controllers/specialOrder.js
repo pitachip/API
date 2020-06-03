@@ -8,10 +8,79 @@ const asyncHandler = require("../middleware/async");
 //@route    GET /api/v1/specialorder
 //@access   Public
 exports.getSpecialOrders = asyncHandler(async (req, res, next) => {
-	const response = await SpecialOrder.find(req.query);
-	res
-		.status(200)
-		.json({ success: true, count: response.length, data: response });
+	let query;
+
+	const reqQuery = { ...req.query };
+
+	/**
+	 * Fields to exclude because they are mongodb keywords
+	 */
+	const removeFields = ["select", "sort", "page", "limit"];
+
+	//Loop over removeFields and delete them from reqQuery
+	removeFields.forEach((param) => delete reqQuery[param]);
+
+	let queryString = JSON.stringify(reqQuery);
+
+	//Create operators like greater than, less than
+	queryString = queryString.replace(
+		/\b(gt|gte|lt|lte|in)\b/g,
+		(match) => `$${match}`
+	);
+
+	/**
+	 * Find the resources
+	 * Start by building the query object
+	 */
+	query = SpecialOrder.find(JSON.parse(queryString));
+
+	//Select fields
+	if (req.query.select) {
+		const fields = req.query.select.split(",").join(" ");
+		query = query.select(fields);
+	}
+
+	//Sort
+	if (req.query.sort) {
+		const sortBy = req.query.sort.split(",").join(" ");
+		query = query.sort(sortBy);
+	} else {
+		//TODO: might want a default sort. Maybe not
+	}
+
+	//Pagination
+	const page = parseInt(req.query.page, 10) || 1;
+	const limit = parseInt(req.query.limit, 10) || 2;
+	const startIndex = (page - 1) * limit;
+	const endIndex = page * limit;
+	const total = await SpecialOrder.countDocuments();
+
+	query = query.skip(startIndex).limit(limit);
+
+	//Executing the query
+	const specialorders = await query;
+
+	//Pagination result
+	const pagination = {};
+	if (endIndex < total) {
+		pagination.next = {
+			page: page + 1,
+			limit,
+		};
+	}
+	if (startIndex > 0) {
+		pagination.prev = {
+			page: page - 1,
+			limit,
+		};
+	}
+
+	res.status(200).json({
+		success: true,
+		count: specialorders.length,
+		pagination,
+		data: specialorders,
+	});
 });
 
 //@desc     get single specialorder
