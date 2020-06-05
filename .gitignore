@@ -1,5 +1,6 @@
 config/config.env
 config/config.env.local
+config/config.env.prod
 config/*.json
 _data
 seeder.js
