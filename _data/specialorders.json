@@ -1,0 +1,119 @@
+[
+	{
+		"status": "Submitted",
+		"customerInformation": {
+			"name": "Rend Alsaadi",
+			"email": "alsaadirend@gmail.com",
+			"phoneNumber": 2154328666
+		},
+		"deliveryInformation": {
+			"name": "Charlotte Adams",
+			"phoneNumber": 2154328666,
+			"deliveryAddress": "123 Food Lane",
+			"deliveryDetails": "Details Go Here",
+			"orderDate": "2020-05-25T18:24:41.466Z",
+			"dropOffTime": "2020-05-25T18:24:41.466Z"
+		},
+		"payment": "Purchase Order",
+		"orderItems": [
+			{
+				"item": "Build Your Own",
+				"quantity": 10,
+				"pricePerUnit": 13,
+				"modifiers": [
+					{
+						"category": "Choose Your Protein",
+						"items": ["Chicken Shawarma", "Falafel"]
+					},
+					{
+						"category": "Choose Your Hummus",
+						"items": ["Original Hummus"]
+					}
+				],
+				"specialInstructions": "special instructions go here"
+			}
+		],
+		"taxExempt": true,
+		"tax": 0,
+		"deliveryFee": 25,
+		"subTotal": 130
+	},
+	{
+		"status": "Confirmed",
+		"customerInformation": {
+			"name": "Rend Alsaadi",
+			"email": "alsaadirend@gmail.com",
+			"phoneNumber": 2154328666
+		},
+		"deliveryInformation": {
+			"name": "Charlotte Adams",
+			"phoneNumber": 2154328666,
+			"deliveryAddress": "123 Food Lane",
+			"deliveryDetails": "Details Go Here",
+			"orderDate": "2020-05-25T18:24:41.466Z",
+			"dropOffTime": "2020-05-25T18:24:41.466Z"
+		},
+		"payment": "Purchase Order",
+		"orderItems": [
+			{
+				"item": "Build Your Own",
+				"quantity": 10,
+				"pricePerUnit": 13,
+				"modifiers": [
+					{
+						"category": "Choose Your Protein",
+						"items": ["Chicken Shawarma", "Falafel"]
+					},
+					{
+						"category": "Choose Your Hummus",
+						"items": ["Original Hummus"]
+					}
+				],
+				"specialInstructions": "special instructions go here"
+			}
+		],
+		"taxExempt": true,
+		"tax": 0,
+		"deliveryFee": 25,
+		"subTotal": 130
+	},
+	{
+		"status": "Confirmed",
+		"customerInformation": {
+			"name": "Rend Alsaadi",
+			"email": "alsaadirend@gmail.com",
+			"phoneNumber": 2154328666
+		},
+		"deliveryInformation": {
+			"name": "Charlotte Adams",
+			"phoneNumber": 2154328666,
+			"deliveryAddress": "123 Food Lane",
+			"deliveryDetails": "Details Go Here",
+			"orderDate": "2020-05-25T18:24:41.466Z",
+			"dropOffTime": "2020-05-25T18:24:41.466Z"
+		},
+		"payment": "Purchase Order",
+		"orderItems": [
+			{
+				"item": "Build Your Own",
+				"quantity": 10,
+				"pricePerUnit": 13,
+				"modifiers": [
+					{
+						"category": "Choose Your Protein",
+						"items": ["Chicken Shawarma", "Falafel"]
+					},
+					{
+						"category": "Choose Your Hummus",
+						"items": ["Original Hummus"]
+					}
+				],
+				"specialInstructions": "special instructions go here"
+			}
+		],
+		"taxExempt": true,
+		"tax": 0,
+		"deliveryFee": 25,
+		"subTotal": 130
+	}
+]
