@@ -1,0 +1,14 @@
+config/config.env
+config/config.env.local
+config/config.env.prod
+_data
+seeder.js
+node_modules
+package-lock.json
+*.log
+*.gz
+.elasticbeanstalk/
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
