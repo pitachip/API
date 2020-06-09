@@ -2,6 +2,8 @@ const firebase = require("firebase-admin");
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const { validateNewUser } = require("../utils/authValidation");
+const { getIdToken } = require("../utils/generateIdToken");
+const nodemailer = require("../utils/nodemailer");
 const User = require("../models/User");
 
 //@desc     Register new user
@@ -10,6 +12,7 @@ const User = require("../models/User");
 exports.registerNewUser = asyncHandler(async (req, res, next) => {
 	const { firstName, lastName, email, password, role } = req.body;
 
+	//Validate that required fields are included
 	const isValid = validateNewUser(req);
 
 	if (!isValid) {
@@ -32,18 +35,13 @@ exports.registerNewUser = asyncHandler(async (req, res, next) => {
 			admin: role.admin ? true : false,
 		});
 
-		//Send back the token that they can signin with token and get a token id to be used on future server requests
-		const token = await firebase.auth().createCustomToken(user.uid);
-
 		//Put user into mongo for reference and metadata storage
 		await User.create({
 			firebaseUserId: user.uid,
 		});
 
-		res.status(200).json({
-			success: true,
-			token,
-		});
+		//Send back the token that they can signin with token and get a token id to be used on future server requests
+		sendTokenResponse(email, password, res, next);
 	}
 });
 
@@ -51,13 +49,79 @@ exports.registerNewUser = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/auth/signin
 //@access   Public
 exports.signin = asyncHandler(async (req, res, next) => {
-	const { token } = req.body;
+	//TODO: Handle invalid creds
+	const { email, password } = req.body;
 
-	//Verify signin token that was sent
-	const veryifyToken = await firebase.auth().verifyIdToken(token);
+	sendTokenResponse(email, password, res, next);
+});
+
+//@desc    	Get current user's information
+//@route    POST /api/v1/auth/me
+//@access   Private
+exports.getMyUserInfo = asyncHandler(async (req, res, next) => {
+	//TODO: Have to figure out if not sending the token here is an issue.
+	//Should always be in the cookies though
+	const user = req.user;
 
 	res.status(200).json({
 		success: true,
-		data: veryifyToken,
+		data: user,
 	});
 });
+
+//@desc    	Send user a password reset link
+//@route    POST /api/v1/auth/resetpassword
+//@access   Public
+exports.resetPassword = asyncHandler(async (req, res, next) => {
+	const { email } = req.body;
+
+	const resetPasswordLink = await firebase
+		.auth()
+		.generatePasswordResetLink(email);
+
+	const html = `<p>${resetPasswordLink}</p>`;
+
+	const response = await nodemailer(email, "Password Reset", html, next);
+
+	if (!response) {
+		return next(new ErrorResponse("Error sending password reset email", 500));
+	}
+
+	res.status(200).json({
+		success: true,
+		data: response,
+	});
+});
+
+//@desc    	Get current user's information
+//@route    POST /api/v1/auth/updatepassword
+//@access   Private (authenticated users)
+exports.updatePassword = asyncHandler(async (req, res, next) => {
+	//TODO: could possibly make this for any updates and pass optional params in
+	const { uid, password } = req.body;
+
+	//Make sure user that went through protected middleware is the same as body
+	if (uid !== req.user.uid) {
+		return next(new ErrorResponse("Not authorized to change password", 401));
+	}
+
+	const response = await firebase.auth().updateUser(uid, { password });
+
+	//Send an updated token
+	sendTokenResponse(response.email, password, res, next);
+});
+
+//Get token, create cookie and send response
+const sendTokenResponse = async (email, password, res, next) => {
+	const token = await getIdToken(email, password, next);
+
+	if (!token) {
+		return next(new ErrorResponse("Invalid Credentials", 401));
+	}
+
+	//TODO: change the name of the token based on the environment
+	res.status(200).cookie("pc-dev-token", token, { httpOnly: true }).json({
+		success: true,
+		token,
+	});
+};

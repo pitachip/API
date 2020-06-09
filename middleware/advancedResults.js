@@ -3,6 +3,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 	let query;
 
 	const reqQuery = { ...req.query };
+	const user = req.user;
 
 	//Fields to exclude
 	const removeFields = ["select", "sort", "page", "limit"];
@@ -35,12 +36,27 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 		//Maybe do a default sort
 	}
 
+	//Check roles
+	/**
+	 * Customers should only be able to see their orders
+	 * managers, and admins can see all
+	 */
+	let totalDocumentFilter = {};
+	if (user.customClaims.customer) {
+		query = query.find({ userId: user.uid });
+		totalDocumentFilter = {
+			userId: user.uid,
+		};
+	} else if (user.customClaims.manager || user.customClaims.admin) {
+		query = query.find();
+	}
+
 	//Pagination
 	const page = parseInt(req.query.page, 10) || 1;
 	const limit = parseInt(req.query.limit, 10) || 2;
 	const startIndex = (page - 1) * limit;
 	const endIndex = page * limit;
-	const total = await model.countDocuments();
+	const total = await model.countDocuments(totalDocumentFilter);
 
 	query = query.skip(startIndex).limit(limit);
 
