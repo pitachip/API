@@ -115,12 +115,20 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
 const sendTokenResponse = async (email, password, res, next) => {
 	const token = await getIdToken(email, password, next);
 
+	const options = {
+		httpOnly: true,
+	};
+
 	if (!token) {
 		return next(new ErrorResponse("Invalid Credentials", 401));
 	}
 
+	if (process.env.NODE_ENV === "production") {
+		options.secure = true;
+	}
+
 	//TODO: change the name of the token based on the environment
-	res.status(200).cookie("pc-dev-token", token, { httpOnly: true }).json({
+	res.status(200).cookie("pc-dev-token", token, options).json({
 		success: true,
 		token,
 	});
