@@ -1,6 +1,7 @@
 config/config.env
 config/config.env.local
 config/config.env.prod
+config/config.env.dev
 config/*.json
 node_modules
 package-lock.json
