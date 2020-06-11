@@ -10,8 +10,8 @@ const errorHandler = require("./middleware/error");
 //routes
 const specialOrder = require("./routes/specialOrder");
 const test = require("./routes/test");
-const inventory = require("./routes/inventory");
 const auth = require("./routes/auth");
+const user = require("./routes/user");
 
 //load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -62,7 +62,7 @@ if (
 app.use("/api/v1/", test);
 app.use("/api/v1/specialorder", specialOrder);
 app.use("/api/v1/auth", auth);
-app.use("/api/v1/inventory", inventory);
+app.use("/api/v1/user", user);
 
 //Mount error handler -- HAS TO BE after routes
 app.use(errorHandler);

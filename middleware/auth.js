@@ -20,7 +20,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
 
 	//Make sure token exists
 	if (!token) {
-		return next(new ErrorResponse("Not authorized", 401));
+		return next(new ErrorResponse("Not Authorized", 401));
 	}
 
 	//Verify token & set user data
@@ -31,7 +31,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
 
 		next();
 	} catch (error) {
-		return next(new ErrorResponse("Not authorized", 401));
+		return next(new ErrorResponse("Not Authorized", 401));
 	}
 });
 
@@ -45,7 +45,7 @@ exports.authorize = (...roles) => {
 			}
 		});
 		if (_.isEmpty(_.intersectionWith(roles, userPermissionsArray))) {
-			return next(new ErrorResponse("Access Not authorized", 403));
+			return next(new ErrorResponse("Access Not Authorized", 403));
 		}
 		next();
 	};

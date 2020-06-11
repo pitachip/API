@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema({
 	},
 	stripeCustomerId: String,
 	taxExemptId: String,
-	//You can add things like customer address and phone number
+	metaData: Object,
 });
 
 module.exports = mongoose.model("User", UserSchema);

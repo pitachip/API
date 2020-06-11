@@ -93,7 +93,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 	});
 });
 
-//@desc    	Get current user's information
+//@desc    	Update user's password
 //@route    POST /api/v1/auth/updatepassword
 //@access   Private (authenticated users)
 exports.updatePassword = asyncHandler(async (req, res, next) => {
@@ -109,6 +109,39 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
 
 	//Send an updated token
 	sendTokenResponse(response.email, password, res, next);
+});
+
+//@desc    	Update user roles & disabled flag
+//@route    POST /api/v1/auth/updateroles
+//@access   Private (authenticated users | admin)
+exports.updateUser = asyncHandler(async (req, res, next) => {
+	const { uid, role, disabled } = req.body;
+	let response;
+	let updateMongoUser;
+
+	if (role) {
+		response = await firebase.auth().setCustomUserClaims(uid, {
+			customer: role.customer ? true : false,
+			manager: role.manager ? true : false,
+			employee: role.employee ? true : false,
+			admin: role.admin ? true : false,
+		});
+	} else if (disabled || !disabled) {
+		response = await firebase.auth().updateUser(uid, {
+			disabled,
+		});
+		updateMongoUser = await User.findOneAndUpdate(
+			{ firebaseUserId: uid },
+			{ disabled },
+			{ new: true }
+		);
+	}
+
+	res.status(200).json({
+		success: true,
+		response,
+		updateMongoUser,
+	});
 });
 
 //Get token, create cookie and send response

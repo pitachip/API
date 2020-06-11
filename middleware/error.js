@@ -7,7 +7,7 @@ const errorHandler = (err, req, res, next) => {
 
 	//Mongoose id not found
 	if (err.name === "CastError") {
-		const message = `Invoice not found with id of ${err.value}`;
+		const message = `Object not found with id of ${err.value}`;
 		error = new ErrorResponse(message, 404);
 	}
 
