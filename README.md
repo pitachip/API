@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installations
 
-Code Editor
+#### Code Editor
 
 I use VS Code. Love it for web development.
 
@@ -24,21 +24,21 @@ Install Homebrew -- v2.4.0
 Install NodeJS -- v13.8.0
 
 ```
-brew install node
+$ brew install node
 ```
 
 Install Mongodb
 
 ```
-brew tap mongodb/brew
-brew install mongodb-community@4.2
+$ brew tap mongodb/brew
+$ brew install mongodb-community@4.2
 ```
 
 Start Mongodb as a Service
 
 ```
-brew services start mongodb-community@4.2
-mongo
+$ brew services start mongodb-community@4.2
+$ mongo
 ```
 
 - It should start running after the latest command
