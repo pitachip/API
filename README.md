@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installations
 
-#### Code Editor
+- #### Code Editor
 
 I use VS Code. Love it for web development.
 
