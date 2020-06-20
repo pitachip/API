@@ -21,10 +21,17 @@ I use VS Code. Love it for web development.
 - This will allow you to more easily install other packages
 - Follow the instructions listed [here](https://brew.sh/)
 
+```
+$ brew --version
+Homebrew 2.4.0
+```
+
 #### Install NodeJS -- v13.8.0
 
 ```
 $ brew install node
+$ node -v
+v13.8.0
 ```
 
 #### Install Mongodb
@@ -32,6 +39,8 @@ $ brew install node
 ```
 $ brew tap mongodb/brew
 $ brew install mongodb-community@4.2
+$ mongo --version
+MongoDB shell version v4.2.6
 ```
 
 #### Start Mongodb as a Service
@@ -41,7 +50,7 @@ $ brew services start mongodb-community@4.2
 $ mongo
 ```
 
-- It should start running after the latest command
+It should start running after the latest command
 
 #### Install Mongodb Compass GUI
 
@@ -115,17 +124,11 @@ MONGO_URI
 
 ```
 $ npm run seed-local
-.
-.
-.
 Data imported
 ```
 
 ```
 $ npm run delete-seed-local
-.
-.
-.
 Data deleted
 ```
 
@@ -133,9 +136,6 @@ Data deleted
 
 ```
 $ npm run local
-.
-.
-.
 Server running in localhost on port 5000
 Firebase connected: [Default]
 MongoDB Connected: localhost
@@ -144,7 +144,7 @@ MongoDB Connected: localhost
 ### Import API Endpoint Collection
 
 - Use this endpoint collection and import it into Postman
-- You can find this in the Pita Chip dropbox in the [Tech Folder](https://www.dropbox.com/sh/lsb35bhx6m7yjxb/AACmBHhMBYyYfp3GC1htts1Oa?dl=0)
+- You can find this in the Pita Chip dropbox in the [Dropbox Tech Folder](https://www.dropbox.com/sh/lsb35bhx6m7yjxb/AACmBHhMBYyYfp3GC1htts1Oa?dl=0)
 
 ### Documentaion
 
