@@ -1,12 +1,74 @@
-# Project Title
+# Pita Chip API
 
-One Paragraph of project description goes here
+NodeJS/Express API for Pita Chip webapps, mobile apps, and integrated services.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
+### Installations
+
+Code Editor
+
+I use VS Code. Love it for web development.
+
+Install XCode
+
+- Follow the instructions listed [here](https://developer.apple.com/xcode/)
+
+Install Homebrew -- v2.4.0
+
+- This will allow you to more easily install other packages
+- Follow the instructions listed [here](https://brew.sh/)
+
+Install NodeJS -- v13.8.0
+
+```
+brew install node
+```
+
+Install Mongodb
+
+```
+brew tap mongodb/brew
+brew install mongodb-community@4.2
+```
+
+Start Mongodb as a Service
+
+```
+brew services start mongodb-community@4.2
+mongo
+```
+
+- It should start running after the latest command
+
+Install Mongodb Compass GUI
+
+- This will allow you to view the database with a GUI
+- Follow the instructions listed [here](https://www.mongodb.com/products/compass)
+
+Install Postman -- v7.26.1
+
+- Postman is the main tool that I use to test out the API
+- Follow the instructions listed [here](https://www.postman.com/downloads/)
+
+Install AWS CLI -- v2.0.24 && AWS ElasticBeanstalk (EB) CLI -- v3.18.1
+
+- You might need this to make calls to some of our aws resources
+
+```
+brew update
+brew install awscli
+brew install awsebcli
+```
+
+- Make sure the following two commands work
+
+```
+aws --verison
+eb --version
+```
 
 What things you need to install the software and how to install them
 
