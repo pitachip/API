@@ -27,12 +27,12 @@ router
 		advancedResults(SpecialOrder),
 		getSpecialOrders
 	)
-	.post(createSpecialOrder);
+	.post(protect, createSpecialOrder);
 
 router
 	.route("/:id")
 	.get(getSpecialOrder)
-	.put(updateSpecialOrder)
-	.delete(deleteSpecialOrder);
+	.put(protect, authorize("admin", "customer"), updateSpecialOrder)
+	.delete(protect, authorize("admin", "customer"), deleteSpecialOrder);
 
 module.exports = router;

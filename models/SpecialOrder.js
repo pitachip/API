@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const SpecialOrderSchema = new mongoose.Schema({
+	userId: {
+		type: String,
+		required: [true, "User Id is required for Invoices"],
+	},
 	customerInformation: {
 		name: {
 			type: String,
@@ -54,13 +58,25 @@ const SpecialOrderSchema = new mongoose.Schema({
 		type: [Object],
 	},
 	invoiceId: String,
+	invoiceNumber: String,
 	stripeCustomerId: String,
 	hosted_invoice_url: String,
 	invoice_pdf: String,
 	status: {
 		type: String,
 		required: [true, "Status is Required"],
-		enum: ["Submitted", "Confirmed", "Scheduled For Delivery", "Completed"],
+		enum: [
+			"Submitted",
+			"Confirmed",
+			"Scheduled For Delivery",
+			"Completed",
+			"Canceled",
+		],
+	},
+	createdAt: {
+		type: Date,
+		required: [true, "Created At is Required"],
+		default: Date.now(),
 	},
 });
 

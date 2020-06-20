@@ -3,6 +3,8 @@ const stripe = require("stripe")("sk_test_lG00dXwz3Cpz3Z1TIwdNLL7c"); //TODO: ne
 const _ = require("lodash");
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
+const stripeUtility = require("../utils/stripe");
+const nodemailer = require("../utils/nodemailer");
 
 //@desc     get all special orders
 //@route    GET /api/v1/specialorder
@@ -21,93 +23,176 @@ exports.getSpecialOrder = asyncHandler(async (req, res, next) => {
 
 //@desc     Create new special order
 //@route    POST /api/v1/specialorder
-//@access   Public
-exports.createSpecialOrder = async (req, res, next) => {
+//@access   Private
+exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	const { customerInformation, orderItems } = req.body;
-	try {
-		/**
-		 * 1. TODO: get customerID see if customer already exists with that email,
-		 * 			if not, need to create them and then save that value in the userDB wherever that ends up being
-		 * 2. TODO: go through the customer use cases
-		 * 			(e.g. has portal account, has portal account/stripeID, guest on the portal, guest on the portal with stripeID)
-		 * 3. Probably need to refactor this a bit into a utility.
-		 */
-		const stripeCustomerList = await stripe.customers.list({
-			email: customerInformation.email,
-		});
+	/**
+	 * 2. TODO: go through the customer use cases
+	 * 			(e.g. has portal account, has portal account/stripeID, guest on the portal, guest on the portal with stripeID)
+	 */
 
-		/**
-		 * TODO: not high priorty but I can't find a great way to
-		 * add the modifers in the invoice without going through callback hell
-		 */
-		var promiseArray = [];
+	const stripeCustomer = await stripeUtility.findStripeCustomer(
+		customerInformation,
+		req,
+		next
+	);
 
-		_.each(orderItems, (orderItem) => {
-			promiseArray.push(
-				stripe.invoiceItems.create({
-					customer: stripeCustomerList.data[0].id,
-					unit_amount: orderItem.pricePerUnit * 100,
-					description: orderItem.item,
-					currency: "usd",
-					quantity: orderItem.quantity,
-				})
-			);
-		});
+	/**
+	 * TODO: not high priorty but I can't find a great way to
+	 * add the modifers in the invoice without going through callback hell
+	 */
 
-		//put all promises in an array and wait till they are done executing.
-		await Promise.all(promiseArray);
+	var promiseArray = [];
 
-		//create invoice
-		const newInvoice = await stripe.invoices.create({
-			customer: stripeCustomerList.data[0].id,
-			auto_advance: false,
-			collection_method: "send_invoice",
-			days_until_due: 45,
-		});
+	_.each(orderItems, (orderItem) => {
+		promiseArray.push(
+			stripe.invoiceItems.create({
+				customer: stripeCustomer,
+				unit_amount: orderItem.pricePerUnit * 100,
+				description: orderItem.item,
+				currency: "usd",
+				quantity: orderItem.quantity,
+			})
+		);
+	});
 
-		//send invoice
-		const sendInvoice = await stripe.invoices.sendInvoice(newInvoice.id);
+	//put all promises in an array and wait till they are done executing.
+	await Promise.all(promiseArray);
 
-		//Put into Mongo
-		var specialOrder = req.body;
-		specialOrder = {
-			...specialOrder,
-			invoiceId: sendInvoice.id,
-			stripeCustomerId: sendInvoice.customer,
-			hosted_invoice_url: sendInvoice.hosted_invoice_url,
-			invoice_pdf: sendInvoice.invoice_pdf,
-		};
+	//create invoice
+	const newInvoice = await stripe.invoices.create({
+		customer: stripeCustomer,
+		collection_method: "send_invoice",
+		days_until_due: 45,
+	});
 
-		const newSpecialOrder = await SpecialOrder.create(specialOrder);
+	//finalize invoice
+	const finalizeInvoice = await stripe.invoices.finalizeInvoice(newInvoice.id);
 
-		res.status(201).json({
-			success: true,
-			data: newSpecialOrder,
-		});
-	} catch (err) {
-		res.status(400).json({ success: false, message: err });
-		console.log(`Error: ${err}`.bold.red);
-	}
-};
+	//send invoice via nodemailer
+	await nodemailer(
+		customerInformation.email,
+		"Pita Chip Invoice",
+		"Test body",
+		next
+	);
+
+	//Put into Mongo
+	var specialOrder = req.body;
+	specialOrder = {
+		...specialOrder,
+		invoiceId: finalizeInvoice.id,
+		invoiceNumber: finalizeInvoice.number,
+		stripeCustomerId: finalizeInvoice.customer,
+		hosted_invoice_url: finalizeInvoice.hosted_invoice_url,
+		invoice_pdf: finalizeInvoice.invoice_pdf,
+		userId: req.user.uid,
+	};
+
+	const newSpecialOrder = await SpecialOrder.create(specialOrder);
+
+	res.status(201).json({
+		success: true,
+		data: newSpecialOrder,
+	});
+});
 
 //@desc     Update specialorder
 //@route    PUT /api/v1/specialorder/:id
 //@access   Private
-exports.updateSpecialOrder = (req, res, next) => {
+exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 	/**
-	 * This is going to be a pain because we have to
-	 * void and create a new invoice
+	 * 5.TODO: maybe we put voided invoices in an array for tracking
 	 */
-	res
-		.status(200)
-		.json({ success: true, data: `Update special order ${req.params.id}` });
-};
+	const { orderItems, customerInformation } = req.body;
+	const user = req.user;
 
-//@desc     Delete specialorder
+	const order = await SpecialOrder.findById(req.params.id);
+	if (order.userId !== req.user.uid && !user.customClaims.admin) {
+		return next(
+			new ErrorResponse(
+				`User ${req.user.uid} Not Authorized to Access Order ${req.params.id}`,
+				401
+			)
+		);
+	}
+
+	//find the stripe customer
+	const stripeCustomer = await stripeUtility.findStripeCustomer(
+		customerInformation,
+		req,
+		next
+	);
+
+	//void the invoice
+	const voidInvoice = await stripe.invoices.voidInvoice(order.invoiceId);
+
+	//create new invoice with updated order items
+	await stripeUtility.createInvoiceItems(orderItems, stripeCustomer, next);
+
+	//create invoice
+	const newInvoice = await stripe.invoices.create({
+		customer: stripeCustomer,
+		collection_method: "send_invoice",
+		days_until_due: 45,
+	});
+
+	//finalize invoice
+	const finalizeInvoice = await stripe.invoices.finalizeInvoice(newInvoice.id);
+
+	//send invoice via nodemailer
+	await nodemailer(
+		customerInformation.email,
+		"Pita Chip Invoice",
+		"Test body",
+		next
+	);
+
+	//update record in mongodb
+	var specialOrder = req.body;
+	specialOrder = {
+		...specialOrder,
+		invoiceId: finalizeInvoice.id,
+		invoiceNumber: finalizeInvoice.number,
+		stripeCustomerId: finalizeInvoice.customer,
+		hosted_invoice_url: finalizeInvoice.hosted_invoice_url,
+		invoice_pdf: finalizeInvoice.invoice_pdf,
+	};
+
+	const updatedSpecialOrder = await SpecialOrder.findByIdAndUpdate(
+		req.params.id,
+		specialOrder,
+		{ new: true }
+	);
+
+	res.status(200).json({ success: true, data: updatedSpecialOrder });
+});
+
+//@desc     Cancel a special order
 //@route    DELETE /api/v1/specialorder/:id
 //@access   Private
-exports.deleteSpecialOrder = (req, res, next) => {
-	res
-		.status(200)
-		.json({ success: true, data: `Delete special order ${req.params.id}` });
-};
+exports.deleteSpecialOrder = asyncHandler(async (req, res, next) => {
+	const user = req.user;
+
+	const order = await SpecialOrder.findById(req.params.id);
+	if (order.userId !== req.user.uid && !user.customClaims.admin) {
+		return next(
+			new ErrorResponse(
+				`User ${req.user.uid} Not Authorized to Cancel Order ${req.params.id}`,
+				401
+			)
+		);
+	}
+
+	//Void the invoice
+	const voidInvoice = await stripe.invoices.voidInvoice(order.invoiceId);
+
+	//Set the status of order to "cancelled" in mongo
+	const cancelOrder = await SpecialOrder.findByIdAndUpdate(
+		req.params.id,
+		{ status: "Cancelled" },
+		{ new: true }
+	);
+
+	res.status(200).json({ success: true, data: cancelOrder });
+});
