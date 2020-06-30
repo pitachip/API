@@ -1,0 +1,64 @@
+[
+	{
+		"menuType": "Catering",
+		"categories": [
+			{
+				"title": "Build Your Own",
+				"description": "Build your own custom catering spread to accommodate large parties and a variety of dietary preferences.",
+				"items": [
+					{
+						"name": "Build Your Own",
+						"basePrice": 1300,
+						"description": "All Orders Include Pita Bread, Rice, and Lettuce",
+						"modifiers": [
+							{
+								"name": "Choose Your Protein",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 2,
+								"options": [
+									{
+										"name": "Chicken Shawarma (Popular)"
+									},
+									{
+										"name": "Falafel (Popular)"
+									},
+									{
+										"name": "Beef Shawarma"
+									},
+									{
+										"name": "Roasted Veggies"
+									}
+								]
+							},
+							{
+								"name": "Choose Your Hummus",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 1,
+								"options": [
+									{
+										"name": "Original Hummus"
+									},
+									{
+										"name": "Roasted Red Pepper Hummus"
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"title": "Lunch Boxes",
+				"description": "Lunch boxes are a great option for those looking to quickly order a meal with everything included in each box. **All lunch boxes include Pita Chips & Hummus, Baklava, and Bottled Water",
+				"items": [
+					{
+						"name": "Chicken Shawarma Box",
+						"basePrice": 1300
+					}
+				]
+			}
+		]
+	}
+]

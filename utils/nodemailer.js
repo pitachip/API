@@ -1,7 +1,8 @@
 const nodemailer = require("nodemailer");
+const Email = require("email-templates");
 const ErrorResponse = require("../utils/errorResponse");
 
-const mailer = async (toEmail, subject, body, next) => {
+const mailer = async (toEmail, orderNumber, customerName, invoiceUrl, next) => {
 	const transporter = nodemailer.createTransport({
 		service: "gmail",
 		auth: {
@@ -10,15 +11,26 @@ const mailer = async (toEmail, subject, body, next) => {
 		},
 	});
 
-	const mailOptions = {
-		from: '"Pita Chip" info@pitachipphilly.com',
-		to: toEmail,
-		subject: subject,
-		html: `${body}`,
-	};
+	const email = new Email({
+		transport: transporter,
+		send: true,
+		preview: false,
+	});
 
 	try {
-		const sendMail = await transporter.sendMail(mailOptions);
+		const sendMail = await email.send({
+			template: "specialOrder",
+			message: {
+				from: "Pita Chip <info@pitachipphilly.com>",
+				to: toEmail,
+			},
+			locals: {
+				customerName,
+				orderNumber,
+				invoiceUrl,
+			},
+		});
+		//const sendMail = await transporter.sendMail(mailOptions);
 		return sendMail;
 	} catch (error) {
 		return next(new ErrorResponse("Error sending password reset email", 500));

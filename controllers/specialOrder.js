@@ -72,8 +72,9 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	//send invoice via nodemailer
 	await nodemailer(
 		customerInformation.email,
-		"Pita Chip Invoice",
-		"Test body",
+		finalizeInvoice.number,
+		customerInformation.name,
+		finalizeInvoice.hosted_invoice_url,
 		next
 	);
 
@@ -143,8 +144,9 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 	//send invoice via nodemailer
 	await nodemailer(
 		customerInformation.email,
-		"Pita Chip Invoice",
-		"Test body",
+		finalizeInvoice.number,
+		customerInformation.name,
+		finalizeInvoice.hosted_invoice_url,
 		next
 	);
 
