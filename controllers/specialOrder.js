@@ -5,6 +5,7 @@ const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const stripeUtility = require("../utils/stripe");
 const nodemailer = require("../utils/nodemailer");
+const orderUtility = require("../utils/orderUtility");
 
 //@desc     get all special orders
 //@route    GET /api/v1/specialorder
@@ -70,13 +71,16 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	const finalizeInvoice = await stripe.invoices.finalizeInvoice(newInvoice.id);
 
 	//send invoice via nodemailer
-	await nodemailer(
-		customerInformation.email,
-		finalizeInvoice.number,
-		customerInformation.name,
-		finalizeInvoice.hosted_invoice_url,
-		next
-	);
+	const mailOptions = {
+		template: "specialOrder",
+		toEmail: customerInformation.email,
+		locals: {
+			orderNumber: finalizeInvoice.number,
+			customerName: customerInformation.name,
+			invoiceUrl: finalizeInvoice.hosted_invoice_url,
+		},
+	};
+	await nodemailer(mailOptions);
 
 	//Put into Mongo
 	var specialOrder = req.body;
@@ -104,8 +108,17 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 	/**
 	 * 5.TODO: maybe we put voided invoices in an array for tracking
+	 *
+	 * case for updating items that would require an invoice update
+	 * 		-customer information
+	 * 		-order items
+	 * case for updating items that would not require an invoice update
+	 * 		-delivery information
+	 * 		-payment type
+	 * 		-status
 	 */
-	const { orderItems, customerInformation } = req.body;
+	let updatedOrder;
+	const { orderItems, customerInformation, updateType } = req.body;
 	const user = req.user;
 
 	const order = await SpecialOrder.findById(req.params.id);
@@ -118,56 +131,43 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 		);
 	}
 
-	//find the stripe customer
-	const stripeCustomer = await stripeUtility.findStripeCustomer(
-		customerInformation,
-		req,
-		next
-	);
+	if (!updateType) {
+		return next(new ErrorResponse("Type of update needs to be specified", 500));
+	}
 
-	//void the invoice
-	const voidInvoice = await stripe.invoices.voidInvoice(order.invoiceId);
-
-	//create new invoice with updated order items
-	await stripeUtility.createInvoiceItems(orderItems, stripeCustomer, next);
-
-	//create invoice
-	const newInvoice = await stripe.invoices.create({
-		customer: stripeCustomer,
-		collection_method: "send_invoice",
-		days_until_due: 45,
-	});
-
-	//finalize invoice
-	const finalizeInvoice = await stripe.invoices.finalizeInvoice(newInvoice.id);
-
-	//send invoice via nodemailer
-	await nodemailer(
-		customerInformation.email,
-		finalizeInvoice.number,
-		customerInformation.name,
-		finalizeInvoice.hosted_invoice_url,
-		next
-	);
-
-	//update record in mongodb
-	var specialOrder = req.body;
-	specialOrder = {
-		...specialOrder,
-		invoiceId: finalizeInvoice.id,
-		invoiceNumber: finalizeInvoice.number,
-		stripeCustomerId: finalizeInvoice.customer,
-		hosted_invoice_url: finalizeInvoice.hosted_invoice_url,
-		invoice_pdf: finalizeInvoice.invoice_pdf,
-	};
-
-	const updatedSpecialOrder = await SpecialOrder.findByIdAndUpdate(
-		req.params.id,
-		specialOrder,
-		{ new: true }
-	);
-
-	res.status(200).json({ success: true, data: updatedSpecialOrder });
+	/**
+	 * check the type of update that needs to be made
+	 *
+	 * case for updating items that would require an invoice update
+	 * 		-customer information
+	 * 		-order items
+	 * case for updating items that would not require an invoice update
+	 * 		-delivery information
+	 * 		-payment type
+	 * 		-status
+	 */
+	switch (updateType) {
+		case "INVOICE_UPDATE":
+			updatedOrder = await orderUtility.invoiceUpdate(
+				req,
+				orderItems,
+				customerInformation,
+				order,
+				next
+			);
+			return res.status(201).json({ success: true, data: updatedOrder });
+		case "NON_INVOICE_UPDATE":
+			updatedOrder = await orderUtility.nonInvoiceUpdate(
+				req,
+				orderItems,
+				customerInformation,
+				order,
+				next
+			);
+			return res.status(200).json({ success: true, data: updatedOrder });
+		default:
+			return res.status(200).json({ success: true, data: " " });
+	}
 });
 
 //@desc     Cancel a special order

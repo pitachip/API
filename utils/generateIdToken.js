@@ -4,7 +4,7 @@ const ErrorResponse = require("../utils/errorResponse");
 const getIdToken = async (email, password, next) => {
 	try {
 		const token = await axios.post(
-			"https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyCrsDcLr2hRM2-H4h0LDGd5eolrMQPCbXM",
+			`https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${process.env.GOOGLE_API_KEY}`,
 			{
 				email,
 				password,

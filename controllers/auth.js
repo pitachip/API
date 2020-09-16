@@ -75,22 +75,29 @@ exports.getMyUserInfo = asyncHandler(async (req, res, next) => {
 exports.resetPassword = asyncHandler(async (req, res, next) => {
 	const { email } = req.body;
 
-	const resetPasswordLink = await firebase
+	const passwordResetLink = await firebase
 		.auth()
 		.generatePasswordResetLink(email);
 
-	const html = `<p>${resetPasswordLink}</p>`;
+	const mailOptions = {
+		toEmail: email,
+		template: "passwordReset",
+		locals: {
+			passwordResetLink,
+		},
+	};
 
-	const response = await nodemailer(email, "Password Reset", html, next);
+	try {
+		await nodemailer(mailOptions);
 
-	if (!response) {
+		res.status(200).json({
+			success: true,
+			data: "Password reset email sent",
+		});
+	} catch (error) {
+		console.log(error);
 		return next(new ErrorResponse("Error sending password reset email", 500));
 	}
-
-	res.status(200).json({
-		success: true,
-		data: response,
-	});
 });
 
 //@desc    	Update user's password
@@ -161,7 +168,7 @@ const sendTokenResponse = async (email, password, res, next) => {
 	}
 
 	//TODO: change the name of the token based on the environment
-	res.status(200).cookie("pc-dev-token", token, options).json({
+	res.status(200).cookie(`${process.env.COOKIE_NAME}`, token, options).json({
 		success: true,
 		token,
 	});
