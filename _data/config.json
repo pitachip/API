@@ -1,0 +1,9 @@
+[
+	{
+		"type": "menuConfig",
+		"settings": {
+			"taxRate": 0.08,
+			"cateringDeliveryFee": 25
+		}
+	}
+]

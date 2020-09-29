@@ -6,6 +6,7 @@ const colors = require("colors");
 const SpecialOrder = require("./models/SpecialOrder");
 const User = require("./models/User");
 const Menu = require("./models/Menu");
+const Config = require("./models/Config");
 
 //Conntect to db
 mongoose.connect(process.env.MONGO_URI, {
@@ -27,12 +28,17 @@ const menu = JSON.parse(
 	fs.readFileSync(`${__dirname}/_data/menu.json`, "utf-8")
 );
 
+const config = JSON.parse(
+	fs.readFileSync(`${__dirname}/_data/config.json`, "utf-8")
+);
+
 //Import data into db
 const importData = async () => {
 	try {
 		await SpecialOrder.create(specialOrders);
 		await User.create(users);
 		await Menu.create(menu);
+		await Config.create(config);
 		console.log("Data imported".green.inverse);
 		process.exit();
 	} catch (err) {
@@ -46,6 +52,7 @@ const deleteData = async () => {
 		await SpecialOrder.deleteMany();
 		await User.deleteMany();
 		await Menu.deleteMany();
+		await Config.deleteMany();
 		console.log("Data deleted".red.inverse);
 		process.exit();
 	} catch (err) {
