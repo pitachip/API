@@ -5,5 +5,18 @@
 			"taxRate": 0.08,
 			"cateringDeliveryFee": 25
 		}
+	},
+	{
+		"type": "storeInformation",
+		"locations": [
+			{
+				"storeName": "Temple",
+				"storeAddress": "1600 N Broad Street"
+			},
+			{
+				"storeName": "University City",
+				"storeAddress": "3601 Market Street"
+			}
+		]
 	}
 ]

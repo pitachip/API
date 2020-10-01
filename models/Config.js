@@ -6,6 +6,7 @@ const ConfigSchema = new mongoose.Schema({
 		required: [true, "Config Type is Required"],
 	},
 	settings: {},
+	locations: [],
 });
 
 module.exports = mongoose.model("Config", ConfigSchema);
