@@ -40,8 +40,14 @@ exports.registerNewUser = asyncHandler(async (req, res, next) => {
 			firebaseUserId: user.uid,
 		});
 
-		//Send back the token that they can signin with token and get a token id to be used on future server requests
-		sendTokenResponse(email, password, res, next);
+		//Create a custom token for client-side sign in
+		const token = await firebase.auth().createCustomToken(user.uid);
+
+		res.status(200).json({
+			success: true,
+			token,
+			user,
+		});
 	}
 });
 
