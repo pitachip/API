@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const colors = require("colors");
@@ -31,6 +32,9 @@ app.use(express.json());
 
 //Cookie Parser
 app.use(cookieParser());
+
+//Cors
+app.use(cors());
 
 //Dev logging middleware
 //note that 'development' here really means localhost
