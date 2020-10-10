@@ -52,7 +52,9 @@ if (
 		);
 		return next();
 	});
-} else {
+}
+/*
+else {
 	//TODO: update this origin list to only be the dev and prod site
 	app.use(function (req, res, next) {
 		res.header("Access-Control-Allow-Origin", "*");
@@ -63,6 +65,7 @@ if (
 		return next();
 	});
 }
+*/
 
 //Mount Routers
 app.use("/api/v1/", test);
