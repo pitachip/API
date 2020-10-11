@@ -33,8 +33,27 @@ app.use(express.json());
 //Cookie Parser
 app.use(cookieParser());
 
-//Cors
-app.use(cors());
+//cors
+var allowedOrigins = [
+	"https://pitachipphilly.com",
+	"https://specialorder.pitachip.biz",
+];
+app.use(
+	cors({
+		origin: function (origin, callback) {
+			// allow requests with no origin
+			// (like mobile apps or curl requests)
+			if (!origin) return callback(null, true);
+			if (allowedOrigins.indexOf(origin) === -1) {
+				var msg =
+					"The CORS policy for this site does not " +
+					"allow access from the specified Origin.";
+				return callback(new Error(msg), false);
+			}
+			return callback(null, true);
+		},
+	})
+);
 
 //Dev logging middleware
 //note that 'development' here really means localhost
