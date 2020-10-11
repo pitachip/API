@@ -35,7 +35,7 @@ app.use(cookieParser());
 
 //cors
 var allowedOrigins = [
-	"https://pitachipphilly.com",
+	"https://dev-specialorder.pitachip.biz",
 	"https://specialorder.pitachip.biz",
 ];
 app.use(
