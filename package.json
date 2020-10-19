@@ -10,7 +10,9 @@
 		"seed-local": "env-cmd -f ./config/config.env.local node seeder -i",
 		"delete-seed-local": "env-cmd -f ./config/config.env.local node seeder -d",
 		"seed-dev": "env-cmd -f ./config/config.env.dev node seeder -i",
-		"delete-seed-dev": "env-cmd -f ./config/config.env.dev node seeder -d"
+		"delete-seed-dev": "env-cmd -f ./config/config.env.dev node seeder -d",
+		"seed-prod": "env-cmd -f ./config/config.env.prod node seeder -seedProd",
+		"delete-seed-prod": "env-cmd -f ./config/config.env.prod node seeder -deleteProd"
 	},
 	"author": "",
 	"license": "ISC",

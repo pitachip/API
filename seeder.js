@@ -32,7 +32,7 @@ const config = JSON.parse(
 	fs.readFileSync(`${__dirname}/_data/config.json`, "utf-8")
 );
 
-//Import data into db
+//Import data into db for dev and local
 const importData = async () => {
 	try {
 		await SpecialOrder.create(specialOrders);
@@ -46,7 +46,7 @@ const importData = async () => {
 	}
 };
 
-//Delete data
+//Delete data for dev and local
 const deleteData = async () => {
 	try {
 		await SpecialOrder.deleteMany();
@@ -60,8 +60,34 @@ const deleteData = async () => {
 	}
 };
 
+const seedProdData = async () => {
+	try {
+		await Menu.create(menu);
+		await Config.create(config);
+		console.log("Data imported".green.inverse);
+		process.exit();
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const deleteProdData = async () => {
+	try {
+		await Menu.deleteMany();
+		await Config.deleteMany();
+		console.log("Data deleted".red.inverse);
+		process.exit();
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 if (process.argv[2] === "-i") {
 	importData();
 } else if (process.argv[2] === "-d") {
 	deleteData();
+} else if (process.argv[2] === "-seedProd") {
+	seedProdData();
+} else if (process.argv[2] === "-deleteProd") {
+	deleteProdData();
 }

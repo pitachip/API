@@ -16,6 +16,7 @@ const user = require("./routes/user");
 const menu = require("./routes/menu");
 const config = require("./routes/config");
 
+//TODO: might not need that line anymore
 //load env vars
 dotenv.config({ path: "./config/config.env" });
 
@@ -37,6 +38,7 @@ app.use(cookieParser());
 var allowedOrigins = [
 	"https://dev-specialorder.pitachip.biz",
 	"https://specialorder.pitachip.biz",
+	"http://localhost:3000",
 ];
 app.use(
 	cors({
@@ -72,19 +74,6 @@ if (
 		return next();
 	});
 }
-/*
-else {
-	//TODO: update this origin list to only be the dev and prod site
-	app.use(function (req, res, next) {
-		res.header("Access-Control-Allow-Origin", "*");
-		res.header(
-			"Access-Control-Allow-Headers",
-			"Origin, X-Requested-With, Content-Type, Accept"
-		);
-		return next();
-	});
-}
-*/
 
 //Mount Routers
 app.use("/api/v1/", test);
