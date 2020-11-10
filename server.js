@@ -15,6 +15,7 @@ const auth = require("./routes/auth");
 const user = require("./routes/user");
 const menu = require("./routes/menu");
 const config = require("./routes/config");
+const payment = require("./routes/payment");
 
 //TODO: might not need that line anymore
 //load env vars
@@ -82,6 +83,7 @@ app.use("/api/v1/auth", auth);
 app.use("/api/v1/user", user);
 app.use("/api/v1/menu", menu);
 app.use("/api/v1/config", config);
+app.use("/api/v1/payment", payment);
 
 //Mount error handler -- HAS TO BE after routes
 app.use(errorHandler);
