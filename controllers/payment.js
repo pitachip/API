@@ -4,19 +4,15 @@ const asyncHandler = require("../middleware/async");
 //@desc     create Stripe session for pre-built UI payment checkout
 //@route    POST /api/v1/payment/session
 //@access   Public TODO: needs to be an authorized route for now its okay
-exports.createStripeSession = asyncHandler(async (req, res, next) => {
-	const { email } = req.body;
-	const YOUR_DOMAIN = "http://localhost:3000/checkout";
-	const session = await stripe.checkout.sessions.create({
-		payment_method_types: ["card"],
-		line_items: [{ price: "price_1HlbeiJuHI1QTbxdfQpT0CVt", quantity: 1 }],
-		mode: "payment",
-		success_url: `${YOUR_DOMAIN}/confirmation?success=true`,
-		cancel_url: `${YOUR_DOMAIN}/payment?canceled=true`,
-		customer_email: email,
+exports.createPaymentIntent = asyncHandler(async (req, res, next) => {
+	const { amount } = req.body;
+	const paymentIntent = await stripe.paymentIntents.create({
+		amount: amount,
+		currency: "usd",
 	});
+
 	res.status(200).json({
 		success: true,
-		data: session.id,
+		data: paymentIntent.client_secret,
 	});
 });

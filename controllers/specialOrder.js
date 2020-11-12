@@ -26,12 +26,27 @@ exports.getSpecialOrder = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/specialorder
 //@access   Private
 exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
+	var specialOrder = req.body.order;
+	specialOrder = {
+		...specialOrder,
+		userId: req.user.uid,
+		status: "Submitted",
+	};
+
+	const newSpecialOrder = await SpecialOrder.create(specialOrder);
+
+	res.status(201).json({
+		success: true,
+		data: newSpecialOrder,
+	});
+	/*
 	const { customerInformation, orderItems } = req.body;
 	/**
 	 * 2. TODO: go through the customer use cases
 	 * 			(e.g. has portal account, has portal account/stripeID, guest on the portal, guest on the portal with stripeID)
 	 */
 
+	/*
 	const stripeCustomer = await stripeUtility.findStripeCustomer(
 		customerInformation,
 		req,
@@ -42,7 +57,7 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	 * TODO: not high priorty but I can't find a great way to
 	 * add the modifers in the invoice without going through callback hell
 	 */
-
+	/*
 	var promiseArray = [];
 
 	_.each(orderItems, (orderItem) => {
@@ -81,25 +96,7 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 		},
 	};
 	await nodemailer(mailOptions);
-
-	//Put into Mongo
-	var specialOrder = req.body;
-	specialOrder = {
-		...specialOrder,
-		invoiceId: finalizeInvoice.id,
-		invoiceNumber: finalizeInvoice.number,
-		stripeCustomerId: finalizeInvoice.customer,
-		hosted_invoice_url: finalizeInvoice.hosted_invoice_url,
-		invoice_pdf: finalizeInvoice.invoice_pdf,
-		userId: req.user.uid,
-	};
-
-	const newSpecialOrder = await SpecialOrder.create(specialOrder);
-
-	res.status(201).json({
-		success: true,
-		data: newSpecialOrder,
-	});
+	*/
 });
 
 //@desc     Update specialorder

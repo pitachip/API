@@ -1,7 +1,7 @@
 const express = require("express");
-const { createStripeSession } = require("../controllers/payment");
+const { createPaymentIntent } = require("../controllers/payment");
 const router = express.Router();
 
-router.route("/session").post(createStripeSession);
+router.route("/intent").post(createPaymentIntent);
 
 module.exports = router;
