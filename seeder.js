@@ -1,5 +1,6 @@
 const fs = require("fs");
 const mongoose = require("mongoose");
+var AutoIncrement = require("mongoose-sequence")(mongoose);
 const colors = require("colors");
 
 //Load the models
@@ -50,6 +51,9 @@ const importData = async () => {
 const deleteData = async () => {
 	try {
 		await SpecialOrder.deleteMany();
+		await SpecialOrder.counterReset("ordeNumberSequencer", function (err) {
+			console.log("Error Reseting Counter: ", err);
+		});
 		await User.deleteMany();
 		await Menu.deleteMany();
 		await Config.deleteMany();

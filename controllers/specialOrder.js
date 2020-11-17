@@ -26,7 +26,7 @@ exports.getSpecialOrder = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/specialorder
 //@access   Private
 exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
-	var specialOrder = req.body.order;
+	var specialOrder = req.body;
 	specialOrder = {
 		...specialOrder,
 		userId: req.user.uid,

@@ -1,122 +1,125 @@
 [
 	{
+		"orderItems": [{
+			"menuItem": "Chicken Shawarma Box",
+			"basePrice": 1300,
+			"modifiers": [],
+			"quantity": 10
+		}],
+		"customerInformation": {
+			"firstName": "Rend",
+			"lastName": "Alsaadi",
+			"email": "alsaadirend@gmail.com",
+			"phoneNumber": "231-231-2312"
+		},
+		"deliveryInformation": {
+			"firstName": "Rend",
+			"lastName": "Alsaadi",
+			"phoneNumber": "231-231-2312",
+			"address1": "123132",
+			"address2": "",
+			"city": "Arlington",
+			"state": "VA",
+			"zip": "18929",
+			"deliveryInstructions": ""
+		},
+		"paymentInformation": {
+			"paymentType": "cc",
+			"taxExempt": false,
+			"taxExemptId": "",
+			"purchaseOrder": false,
+			"purchaseOrderNumber": "",
+			"stripePaymentIntentId": null
+		},
+		"orderDetails": {
+			"location": "",
+			"orderDate": "2020-11-17T07:02:45.771Z",
+			"shippingMethod": "delivery",
+			"specialInstructions": ""
+		},
 		"userId": "KLafxqp95MS2UjWjghkhik1Tbov2",
-		"status": "Submitted",
-		"customerInformation": {
-			"name": "Rend Alsaadi",
-			"email": "alsaadirend@gmail.com",
-			"phoneNumber": 2154328666
-		},
-		"deliveryInformation": {
-			"name": "Charlotte Adams",
-			"phoneNumber": 2154328666,
-			"deliveryAddress": "123 Food Lane",
-			"deliveryDetails": "Details Go Here",
-			"orderDate": "2020-05-25T18:24:41.466Z",
-			"dropOffTime": "2020-05-25T18:24:41.466Z"
-		},
-		"payment": "Purchase Order",
-		"orderItems": [
-			{
-				"item": "Build Your Own",
-				"quantity": 10,
-				"pricePerUnit": 13,
-				"modifiers": [
-					{
-						"category": "Choose Your Protein",
-						"items": ["Chicken Shawarma", "Falafel"]
-					},
-					{
-						"category": "Choose Your Hummus",
-						"items": ["Original Hummus"]
-					}
-				],
-				"specialInstructions": "special instructions go here"
-			}
-		],
-		"taxExempt": true,
-		"tax": 0,
-		"deliveryFee": 25,
-		"subTotal": 130
+		"status": "Submitted"
 	},
 	{
-		"userId": "c9NXUO0Kr7Nns4C3cLKyDYc4zlm2",
-		"status": "Confirmed",
+		"orderItems": [{
+			"menuItem": "Chicken Shawarma Box",
+			"basePrice": 1300,
+			"modifiers": [],
+			"quantity": 10
+		}],
 		"customerInformation": {
-			"name": "Rend Alsaadi",
+			"firstName": "Rend",
+			"lastName": "Alsaadi",
 			"email": "alsaadirend@gmail.com",
-			"phoneNumber": 2154328666
+			"phoneNumber": "231-231-2312"
 		},
 		"deliveryInformation": {
-			"name": "Charlotte Adams",
-			"phoneNumber": 2154328666,
-			"deliveryAddress": "123 Food Lane",
-			"deliveryDetails": "Details Go Here",
-			"orderDate": "2020-05-25T18:24:41.466Z",
-			"dropOffTime": "2020-05-25T18:24:41.466Z"
+			"firstName": "Rend",
+			"lastName": "Alsaadi",
+			"phoneNumber": "231-231-2312",
+			"address1": "123132",
+			"address2": "",
+			"city": "Arlington",
+			"state": "VA",
+			"zip": "18929",
+			"deliveryInstructions": ""
 		},
-		"payment": "Purchase Order",
-		"orderItems": [
-			{
-				"item": "Build Your Own",
-				"quantity": 10,
-				"pricePerUnit": 13,
-				"modifiers": [
-					{
-						"category": "Choose Your Protein",
-						"items": ["Chicken Shawarma", "Falafel"]
-					},
-					{
-						"category": "Choose Your Hummus",
-						"items": ["Original Hummus"]
-					}
-				],
-				"specialInstructions": "special instructions go here"
-			}
-		],
-		"taxExempt": true,
-		"tax": 0,
-		"deliveryFee": 25,
-		"subTotal": 130
+		"paymentInformation": {
+			"paymentType": "cc",
+			"taxExempt": false,
+			"taxExemptId": "",
+			"purchaseOrder": false,
+			"purchaseOrderNumber": "",
+			"stripePaymentIntentId": null
+		},
+		"orderDetails": {
+			"location": "",
+			"orderDate": "2020-11-17T07:02:45.771Z",
+			"shippingMethod": "delivery",
+			"specialInstructions": "order Number 2"
+		},
+		"userId": "KLafxqp95MS2UjWjghkhik1Tbov2",
+		"status": "Submitted"
 	},
 	{
-		"userId": "EXhYlRFEyihb5kWOiDZxS26tx3a2",
-		"status": "Confirmed",
+		"orderItems": [{
+			"menuItem": "Chicken Shawarma Box",
+			"basePrice": 1300,
+			"modifiers": [],
+			"quantity": 10
+		}],
 		"customerInformation": {
-			"name": "Rend Alsaadi",
+			"firstName": "Rend",
+			"lastName": "Alsaadi",
 			"email": "alsaadirend@gmail.com",
-			"phoneNumber": 2154328666
+			"phoneNumber": "231-231-2312"
 		},
 		"deliveryInformation": {
-			"name": "Charlotte Adams",
-			"phoneNumber": 2154328666,
-			"deliveryAddress": "123 Food Lane",
-			"deliveryDetails": "Details Go Here",
-			"orderDate": "2020-05-25T18:24:41.466Z",
-			"dropOffTime": "2020-05-25T18:24:41.466Z"
+			"firstName": "Rend",
+			"lastName": "Alsaadi",
+			"phoneNumber": "231-231-2312",
+			"address1": "123132",
+			"address2": "",
+			"city": "Arlington",
+			"state": "VA",
+			"zip": "18929",
+			"deliveryInstructions": ""
 		},
-		"payment": "Purchase Order",
-		"orderItems": [
-			{
-				"item": "Build Your Own",
-				"quantity": 10,
-				"pricePerUnit": 13,
-				"modifiers": [
-					{
-						"category": "Choose Your Protein",
-						"items": ["Chicken Shawarma", "Falafel"]
-					},
-					{
-						"category": "Choose Your Hummus",
-						"items": ["Original Hummus"]
-					}
-				],
-				"specialInstructions": "special instructions go here"
-			}
-		],
-		"taxExempt": true,
-		"tax": 0,
-		"deliveryFee": 25,
-		"subTotal": 130
+		"paymentInformation": {
+			"paymentType": "cc",
+			"taxExempt": false,
+			"taxExemptId": "",
+			"purchaseOrder": false,
+			"purchaseOrderNumber": "",
+			"stripePaymentIntentId": null
+		},
+		"orderDetails": {
+			"location": "",
+			"orderDate": "2020-11-17T07:02:45.771Z",
+			"shippingMethod": "delivery",
+			"specialInstructions": "order Number Three"
+		},
+		"userId": "KLafxqp95MS2UjWjghkhik1Tbov2",
+		"status": "Submitted"
 	}
 ]

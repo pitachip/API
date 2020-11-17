@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
+var AutoIncrement = require("mongoose-sequence")(mongoose);
 
 const SpecialOrderSchema = new mongoose.Schema({
+	orderNumber: Number,
 	userId: {
 		type: String,
 		required: [true, "User Id is required for Special Orders"],
@@ -112,8 +114,14 @@ const SpecialOrderSchema = new mongoose.Schema({
 	createdAt: {
 		type: Date,
 		required: [true, "Created At is Required"],
-		default: Date.now(),
+		default: Date.now,
 	},
+});
+
+SpecialOrderSchema.plugin(AutoIncrement, {
+	inc_field: "orderNumber",
+	start_seq: 1000,
+	id: "ordeNumberSequencer",
 });
 
 module.exports = mongoose.model("SpecialOrder", SpecialOrderSchema);

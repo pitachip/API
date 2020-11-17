@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 const connectDB = async () => {
 	const connection = await mongoose.connect(process.env.MONGO_URI, {
