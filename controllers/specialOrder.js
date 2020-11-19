@@ -27,11 +27,22 @@ exports.getSpecialOrder = asyncHandler(async (req, res, next) => {
 //@access   Private
 exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	var specialOrder = req.body;
+	const { stripePaymentIntentId } = specialOrder.paymentInformation;
 	specialOrder = {
 		...specialOrder,
 		userId: req.user.uid,
 		status: "Submitted",
 	};
+
+	/**
+	 * TODO: Will need to write a switch statement based on the payment type
+	 * so I can run the proper utils
+	 */
+	const successfulPaymentIntent = await stripeUtility.getPaymentIntent(
+		stripePaymentIntentId,
+		next
+	);
+	specialOrder.paymentInformation.creditCardPaymentDetails = successfulPaymentIntent;
 
 	const newSpecialOrder = await SpecialOrder.create(specialOrder);
 

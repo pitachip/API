@@ -42,6 +42,10 @@ const SpecialOrderSchema = new mongoose.Schema({
 			type: String,
 			required: [true, "Contact Information for Delivery is Required"],
 		},
+		email: {
+			type: String,
+			required: [true, "Contact Information for Delivery is Required"],
+		},
 		address1: {
 			type: String,
 			required: [true, "Delivery Address is Required"],
@@ -73,6 +77,7 @@ const SpecialOrderSchema = new mongoose.Schema({
 			type: Boolean,
 			required: [true, "Tax Exempt Status is Required"],
 		},
+		creditCardPaymentDetails: Object,
 		taxExemptId: String,
 		purchaseOrder: Boolean,
 		purchaseOrderNumber: String,
@@ -99,6 +104,12 @@ const SpecialOrderSchema = new mongoose.Schema({
 			enum: ["delivery", "pickup"],
 		},
 		specialInstructions: String,
+	},
+	orderTotals: {
+		subTotal: Number,
+		tax: Number,
+		delivery: Number,
+		total: Number,
 	},
 	status: {
 		type: String,
