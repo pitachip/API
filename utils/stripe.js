@@ -18,7 +18,8 @@ const findStripeCustomer = async (customerInformation, req, next) => {
 			if (_.isEmpty(lookForStripeCustomer.data)) {
 				//create new stripe customer
 				const createStripeCustomer = await stripe.customers.create({
-					name: customerInformation.name,
+					name:
+						customerInformation.firstName + " " + customerInformation.lastName,
 					email: customerInformation.email,
 				});
 

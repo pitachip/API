@@ -26,8 +26,8 @@ exports.getSpecialOrder = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/specialorder
 //@access   Private
 exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
-	var specialOrder = req.body;
-	const { stripePaymentIntentId } = specialOrder.paymentInformation;
+	var { specialOrder } = req.body;
+
 	specialOrder = {
 		...specialOrder,
 		userId: req.user.uid,
@@ -35,14 +35,16 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	};
 
 	/**
-	 * TODO: Will need to write a switch statement based on the payment type
-	 * so I can run the proper utils
+	 * TODO: We will put this logic in the front end so that we send one object no matter what type
+	 * of order to this endpoint
 	 */
+	/*
 	const successfulPaymentIntent = await stripeUtility.getPaymentIntent(
 		stripePaymentIntentId,
 		next
 	);
 	specialOrder.paymentInformation.creditCardPaymentDetails = successfulPaymentIntent;
+	*/
 
 	const newSpecialOrder = await SpecialOrder.create(specialOrder);
 
@@ -50,53 +52,9 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 		success: true,
 		data: newSpecialOrder,
 	});
-	/*
-	const { customerInformation, orderItems } = req.body;
-	/**
-	 * 2. TODO: go through the customer use cases
-	 * 			(e.g. has portal account, has portal account/stripeID, guest on the portal, guest on the portal with stripeID)
-	 */
-
-	/*
-	const stripeCustomer = await stripeUtility.findStripeCustomer(
-		customerInformation,
-		req,
-		next
-	);
-
-	/**
-	 * TODO: not high priorty but I can't find a great way to
-	 * add the modifers in the invoice without going through callback hell
-	 */
-	/*
-	var promiseArray = [];
-
-	_.each(orderItems, (orderItem) => {
-		promiseArray.push(
-			stripe.invoiceItems.create({
-				customer: stripeCustomer,
-				unit_amount: orderItem.pricePerUnit * 100,
-				description: orderItem.item,
-				currency: "usd",
-				quantity: orderItem.quantity,
-			})
-		);
-	});
-
-	//put all promises in an array and wait till they are done executing.
-	await Promise.all(promiseArray);
-
-	//create invoice
-	const newInvoice = await stripe.invoices.create({
-		customer: stripeCustomer,
-		collection_method: "send_invoice",
-		days_until_due: 45,
-	});
-
-	//finalize invoice
-	const finalizeInvoice = await stripe.invoices.finalizeInvoice(newInvoice.id);
 
 	//send invoice via nodemailer
+	/*
 	const mailOptions = {
 		template: "specialOrder",
 		toEmail: customerInformation.email,
