@@ -83,11 +83,6 @@ const SpecialOrderSchema = new mongoose.Schema({
 		purchaseOrder: Boolean,
 		purchaseOrderNumber: String,
 		universityMoneyAccount: String,
-		invoiceId: String,
-		invoiceNumber: String,
-		stripeCustomerId: String,
-		hosted_invoice_url: String,
-		invoice_pdf: String,
 	},
 	orderItems: {
 		type: [Object],

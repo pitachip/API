@@ -23,7 +23,7 @@ exports.createPaymentIntent = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/payment/invoice
 //@access   Private: Authenticated users
 exports.createInvoice = asyncHandler(async (req, res, next) => {
-	const { contactInformation, orderItems } = req.body;
+	const { contactInformation, orderItems, paymentInformation } = req.body;
 	/**
 	 * 2. TODO: go through the customer use cases
 	 * 			(e.g. has portal account, has portal account/stripeID, guest on the portal, guest on the portal with stripeID)
@@ -57,6 +57,26 @@ exports.createInvoice = asyncHandler(async (req, res, next) => {
 		customer: stripeCustomer,
 		collection_method: "send_invoice",
 		days_until_due: 45,
+		custom_fields: [
+			{
+				name: "PO#",
+				value: paymentInformation.purchaseOrderNumber
+					? paymentInformation.purchaseOrderNumber
+					: "N/A",
+			},
+			{
+				name: "Univ Acct. #",
+				value: paymentInformation.universityMoneyAccount
+					? paymentInformation.universityMoneyAccount
+					: "N/A",
+			},
+			{
+				name: "Tax Exempt ID",
+				value: paymentInformation.taxExemptId
+					? paymentInformation.taxExemptId
+					: "N/A",
+			},
+		],
 	});
 
 	//finalize invoice

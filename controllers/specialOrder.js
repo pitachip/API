@@ -6,6 +6,7 @@ const asyncHandler = require("../middleware/async");
 const stripeUtility = require("../utils/stripe");
 const nodemailer = require("../utils/nodemailer");
 const orderUtility = require("../utils/orderUtility");
+const fs = require("fs");
 
 //@desc     get all special orders
 //@route    GET /api/v1/specialorder
@@ -27,33 +28,26 @@ exports.getSpecialOrder = asyncHandler(async (req, res, next) => {
 //@access   Private
 exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	var { specialOrder } = req.body;
-
+	/*
 	specialOrder = {
 		...specialOrder,
 		userId: req.user.uid,
 		status: "Submitted",
 	};
 
-	/**
-	 * TODO: We will put this logic in the front end so that we send one object no matter what type
-	 * of order to this endpoint
-	 */
-	/*
-	const successfulPaymentIntent = await stripeUtility.getPaymentIntent(
-		stripePaymentIntentId,
-		next
-	);
-	specialOrder.paymentInformation.creditCardPaymentDetails = successfulPaymentIntent;
-	*/
-
 	const newSpecialOrder = await SpecialOrder.create(specialOrder);
+	*/
 
 	res.status(201).json({
 		success: true,
-		data: newSpecialOrder,
+		data: {},
 	});
 
 	//send invoice via nodemailer
+	const emailTemplate = fs
+		.readFileSync("./emails/orderConfirmation/creditCardConfirmation.mjml")
+		.toString();
+
 	/*
 	const mailOptions = {
 		template: "specialOrder",
@@ -64,8 +58,13 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 			invoiceUrl: finalizeInvoice.hosted_invoice_url,
 		},
 	};
-	await nodemailer(mailOptions);
 	*/
+	specialOrder.orderDetails.orderDate = new Date(
+		specialOrder.orderDetails.orderDate
+	)
+		.toLocaleString()
+		.split(",")[0];
+	await nodemailer(null, emailTemplate, specialOrder);
 });
 
 //@desc     Update specialorder
