@@ -28,43 +28,40 @@ exports.getSpecialOrder = asyncHandler(async (req, res, next) => {
 //@access   Private
 exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	var { specialOrder } = req.body;
-	/*
+
 	specialOrder = {
 		...specialOrder,
 		userId: req.user.uid,
 		status: "Submitted",
 	};
 
+	//Save order to Mongo
 	const newSpecialOrder = await SpecialOrder.create(specialOrder);
-	*/
 
 	res.status(201).json({
 		success: true,
-		data: {},
+		data: newSpecialOrder,
 	});
 
-	//send invoice via nodemailer
-	const emailTemplate = fs
-		.readFileSync("./emails/orderConfirmation/creditCardConfirmation.mjml")
-		.toString();
+	//send confirmation email via nodemailer
+	var emailTemplate = "";
+	if (newSpecialOrder.paymentType === "cc") {
+		emailTemplate = fs
+			.readFileSync("./emails/orderConfirmation/creditCardConfirmation.mjml")
+			.toString();
+	} else {
+		emailTemplate = fs
+			.readFileSync("./emails/orderConfirmation/invoiceConfirmation.mjml")
+			.toString();
+	}
 
-	/*
-	const mailOptions = {
-		template: "specialOrder",
-		toEmail: customerInformation.email,
-		locals: {
-			orderNumber: finalizeInvoice.number,
-			customerName: customerInformation.name,
-			invoiceUrl: finalizeInvoice.hosted_invoice_url,
-		},
-	};
-	*/
-	specialOrder.orderDetails.orderDate = new Date(
-		specialOrder.orderDetails.orderDate
+	newSpecialOrder.orderDetails.orderDate = new Date(
+		newSpecialOrder.orderDetails.orderDate
 	)
 		.toLocaleString()
 		.split(",")[0];
-	await nodemailer(null, emailTemplate, specialOrder);
+
+	await nodemailer("alsaadirend@gmail.com", emailTemplate, newSpecialOrder);
 });
 
 //@desc     Update specialorder
