@@ -45,7 +45,7 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 
 	//send confirmation email via nodemailer
 	var emailTemplate = "";
-	if (newSpecialOrder.paymentType === "cc") {
+	if (newSpecialOrder.paymentInformation.paymentType === "cc") {
 		emailTemplate = fs
 			.readFileSync("./emails/orderConfirmation/creditCardConfirmation.mjml")
 			.toString();
