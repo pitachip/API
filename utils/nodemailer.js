@@ -4,7 +4,7 @@ const ErrorResponse = require("../utils/errorResponse");
 const mustache = require("mustache");
 const mjml = require("mjml");
 
-const mailer = async (toEmail, template, templateData) => {
+const mailer = async (mailOptions) => {
 	/**
 	 * TODO
 	 * Might not be able to figure out how to use the email templates way of doing things,
@@ -20,16 +20,19 @@ const mailer = async (toEmail, template, templateData) => {
 		},
 	});
 
-	const renderedMJML = mustache.render(template, templateData);
+	const renderedMJML = mustache.render(
+		mailOptions.template,
+		mailOptions.templateData
+	);
 
 	const html = mjml(renderedMJML).html;
 
 	let info = await transporter.sendMail({
-		from: "Pita Chip <info@pitachipphilly.com>", // sender address
-		to: toEmail, // list of receivers
-		subject: "Order Confirmation", // Subject line
-		text: "Order Confirmation", // plain text body
-		html: html, // html body
+		from: "Pita Chip <info@pitachipphilly.com>",
+		to: mailOptions.toEmail,
+		subject: mailOptions.subject,
+		text: mailOptions.text,
+		html: html,
 	});
 };
 

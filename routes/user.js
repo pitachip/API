@@ -1,5 +1,9 @@
 const express = require("express");
-const { getUserData, updateUserData } = require("../controllers/user");
+const {
+	getUserData,
+	saveUserData,
+	updateUserData,
+} = require("../controllers/user");
 const router = express.Router();
 
 //Route protection
@@ -9,6 +13,10 @@ const router = express.Router();
  */
 const { protect, authorize } = require("../middleware/auth");
 
-router.route("/").get(protect, getUserData).put(protect, updateUserData);
+router
+	.route("/")
+	.get(protect, getUserData)
+	.post(protect, saveUserData)
+	.put(protect, updateUserData);
 
 module.exports = router;

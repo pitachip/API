@@ -44,13 +44,13 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	});
 
 	//send confirmation email via nodemailer
-	var emailTemplate = "";
+	var template = "";
 	if (newSpecialOrder.paymentInformation.paymentType === "cc") {
-		emailTemplate = fs
+		template = fs
 			.readFileSync("./emails/orderConfirmation/creditCardConfirmation.mjml")
 			.toString();
 	} else {
-		emailTemplate = fs
+		template = fs
 			.readFileSync("./emails/orderConfirmation/invoiceConfirmation.mjml")
 			.toString();
 	}
@@ -61,7 +61,15 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 		.toLocaleString()
 		.split(",")[0];
 
-	await nodemailer("alsaadirend@gmail.com", emailTemplate, newSpecialOrder);
+	const mailOptions = {
+		template,
+		templateData: newSpecialOrder,
+		toEmail: newSpecialOrder.customerInformation.email,
+		subject: `Confirmation Order#${newSpecialOrder.orderNumber}`,
+		text: "Order Confirmation",
+	};
+
+	await nodemailer(mailOptions);
 });
 
 //@desc     Update specialorder
