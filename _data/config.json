@@ -12,11 +12,25 @@
 		"locations": [
 			{
 				"storeName": "Temple",
-				"storeAddress": "1600 N Broad Street"
+				"storeAddress": "1600 N Broad Street",
+				"address1": "1600 North Broad Street",
+				"address2": "Unit 7",
+				"city": "Philadelphia",
+				"state": "PA",
+				"zip": "19121",
+				"phoneNumber": "267-273-1716",
+				"email": "info@pitachipphilly.com"
 			},
 			{
 				"storeName": "University City",
-				"storeAddress": "3601 Market Street"
+				"storeAddress": "3601 Market Street",
+				"address1": "3601 Market Street",
+				"address2": "Unit 3",
+				"city": "Philadelphia",
+				"state": "PA",
+				"zip": "19104",
+				"phoneNumber": "215-397-4251",
+				"email": "info@pitachipphilly.com"
 			}
 		]
 	}

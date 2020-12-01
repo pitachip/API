@@ -1,6 +1,7 @@
 [
 	{
 		"firebaseUserId": "KLafxqp95MS2UjWjghkhik1Tbov2",
+		"isAnonymous": false,
 		"metaData": {
 			"firstName": "Customer1First",
 			"lastName": "Customer1Last",
@@ -9,6 +10,7 @@
 	},
 	{
 		"firebaseUserId": "c9NXUO0Kr7Nns4C3cLKyDYc4zlm2",
+		"isAnonymous": false,
 		"metaData": {
 			"firstName": "Customer2First",
 			"lastName": "Customer2Last",
@@ -17,6 +19,7 @@
 	},
 	{
 		"firebaseUserId": "EXhYlRFEyihb5kWOiDZxS26tx3a2",
+		"isAnonymous": false,
 		"metaData": {
 			"firstName": "Customer3First",
 			"lastName": "Customer3Last",
@@ -25,6 +28,7 @@
 	},
 	{
 		"firebaseUserId": "VY1R1tlP0eXvDtkLPFBIOD5bmyl1",
+		"isAnonymous": false,
 		"metaData": {
 			"firstName": "Employee1First",
 			"lastName": "Employee1Last",
@@ -33,6 +37,7 @@
 	},
 	{
 		"firebaseUserId": "15DmlBUMiDgCSnxzRbtX4G9wzYN2",
+		"isAnonymous": false,
 		"metaData": {
 			"firstName": "Manager1First",
 			"lastName": "Manager1Last",
@@ -41,6 +46,7 @@
 	},
 	{
 		"firebaseUserId": "Yp0XCrbpeSdlBcuouF9mAqGn5ne2",
+		"isAnonymous": false,
 		"metaData": {
 			"firstName": "Admin1First",
 			"lastName": "Admin1Last",
@@ -49,6 +55,7 @@
 	},
 	{
 		"firebaseUserId": "aAvYQvR3BQh4uoUWQ4yFjtD6FZY2",
+		"isAnonymous": false,
 		"metaData": {
 			"firstName": "Rend",
 			"lastName": "Alsaadi",
