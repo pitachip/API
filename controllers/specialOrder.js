@@ -29,6 +29,8 @@ exports.getSpecialOrder = asyncHandler(async (req, res, next) => {
 exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	var { specialOrder } = req.body;
 
+	console.log(specialOrder);
+
 	specialOrder = {
 		...specialOrder,
 		userId: req.user.uid,
@@ -44,14 +46,35 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	});
 
 	//send confirmation email via nodemailer
+	/**
+	 * TODO:
+	 * This is intentially bad. Will be switching how we send confirmation emails relatively soon
+	 * so I don't want to spend too much time on this. Just something quick and dirty
+	 */
 	var template = "";
-	if (newSpecialOrder.paymentInformation.paymentType === "cc") {
+	if (
+		newSpecialOrder.paymentInformation.paymentType === "cc" &&
+		newSpecialOrder.orderDetails.shippingMethod === "delivery"
+	) {
 		template = fs
 			.readFileSync("./emails/orderConfirmation/creditCardConfirmation.mjml")
 			.toString();
-	} else {
+	} else if (
+		newSpecialOrder.paymentInformation.paymentType === "cc" &&
+		newSpecialOrder.orderDetails.shippingMethod === "pickup"
+	) {
+		template = fs
+			.readFileSync(
+				"./emails/orderConfirmation/creditCardConfirmationPickup.mjml"
+			)
+			.toString();
+	} else if (newSpecialOrder.orderDetails.shippingMethod === "delivery") {
 		template = fs
 			.readFileSync("./emails/orderConfirmation/invoiceConfirmation.mjml")
+			.toString();
+	} else {
+		template = fs
+			.readFileSync("./emails/orderConfirmation/invoiceConfirmationPickup.mjml")
 			.toString();
 	}
 

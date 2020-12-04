@@ -30,42 +30,30 @@ const SpecialOrderSchema = new mongoose.Schema({
 	deliveryInformation: {
 		firstName: {
 			type: String,
-			required: [true, "Contact Information for Delivery is Required"],
 			trim: true,
 		},
 		lastName: {
 			type: String,
-			required: [true, "Contact Information for Delivery is Required"],
 			trim: true,
 		},
-		phoneNumber: {
-			type: String,
-			required: [true, "Contact Information for Delivery is Required"],
-		},
-		email: {
-			type: String,
-			required: [true, "Contact Information for Delivery is Required"],
-		},
-		address1: {
-			type: String,
-			required: [true, "Delivery Address is Required"],
-		},
-		address2: {
-			type: String,
-		},
-		city: {
-			type: String,
-			required: [true, "City is Required"],
-		},
-		state: {
-			type: String,
-			required: [true, "State is Required"],
-		},
-		zip: {
-			type: String,
-			required: [true, "Zip is Required"],
-		},
+		phoneNumber: String,
+		email: String,
+		address1: String,
+		address2: String,
+		city: String,
+		state: String,
+		zip: String,
 		deliveryInstructions: String,
+	},
+	pickupInformation: {
+		address1: String,
+		address2: String,
+		city: String,
+		state: String,
+		zip: String,
+		phoneNumber: String,
+		email: String,
+		pickupInstructions: String,
 	},
 	paymentInformation: {
 		paymentType: {

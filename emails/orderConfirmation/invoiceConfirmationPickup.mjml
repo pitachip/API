@@ -40,16 +40,14 @@
         <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{customerInformation.phoneNumber}}</mj-text>
       </mj-column>
       <mj-column>
-        <mj-text font-size="12px" font-weight="bold" align="left" padding-left="15px">Delivery Contact</mj-text>
-        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{deliveryInformation.firstName}} {{deliveryInformation.lastName}}</mj-text>
-        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{deliveryInformation.email}}</mj-text>
-        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{deliveryInformation.phoneNumber}}</mj-text>
-      </mj-column>
-      <mj-column>
-        <mj-text font-size="12px" font-weight="bold" align="left" padding-left="15px">Delivery Details</mj-text>
-        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{deliveryInformation.address1}}, {{deliveryInformation.address2}}</mj-text>
-        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{deliveryInformation.city}}, {{deliveryInformation.state}} {{deliveryInformation.zip}}</mj-text>
-        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">Delivery Instructions: {{deliveryInformation.deliveryInstructions}}</mj-text>
+        <mj-text font-size="12px" font-weight="bold" align="left" padding-left="15px">Pickup Details</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">Location: {{orderDetails.location}}</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{pickupInformation.address1}}</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{pickupInformation.address2}}</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{pickupInformation.city}}, {{pickupInformation.state}} {{pickupInformation.zip}}</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{pickupInformation.phoneNumber}}</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{pickupInformation.email}}</mj-text>    
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">Pickup Instructions: {{pickupInformation.pickupInstructions}}</mj-text>     
       </mj-column>
     </mj-section>
     <!--Contact section divider-->
@@ -92,9 +90,8 @@
     <mj-section background-color="#f0f0f0" padding-bottom="5px" padding-top="0">
       <mj-column>
         <mj-text  font-size="14px" font-weight="bold" align="left" padding-left="15px">Payment Details</mj-text>
-        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">Credit Card: {{paymentInformation.creditCardPaymentDetails.charges.data.0.payment_method_details.card.brand}} ending in {{paymentInformation.creditCardPaymentDetails.charges.data.0.payment_method_details.card.last4}} </mj-text>
-        <mj-text  font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">Expiry Date: {{paymentInformation.creditCardPaymentDetails.charges.data.0.payment_method_details.card.exp_month}}/{{paymentInformation.creditCardPaymentDetails.charges.data.0.payment_method_details.card.exp_year}}</mj-text>
-        <mj-button background-color="#b21300" color="#FFF" font-size="10px" align="left" font-weight="bold" border="none" border-radius="5px" href={{paymentInformation.creditCardPaymentDetails.charges.data.0.receipt_url}} font-family="Helvetica" padding-left="15px" padding-right="25px" padding-bottom="10px" inner-padding="5px 20px">View Receipt</mj-button>
+        <mj-button background-color="#b21300" color="#FFF" font-size="10px" align="left" font-weight="bold" border="none" border-radius="5px" href={{paymentInformation.invoicePaymentDetails.invoice_pdf}} font-family="Helvetica" padding-left="15px" padding-right="25px" padding-bottom="10px" inner-padding="5px 20px">Invoice PDF</mj-button>
+         <mj-button background-color="#b21300" color="#FFF" font-size="10px" align="left" font-weight="bold" border="none" border-radius="5px" href={{paymentInformation.invoicePaymentDetails.hosted_invoice_url}} font-family="Helvetica" padding-left="15px" padding-right="25px" padding-bottom="10px" inner-padding="5px 20px">Pay For Invoice</mj-button>
       </mj-column>
     </mj-section>
     <!--Footer-->

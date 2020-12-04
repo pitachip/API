@@ -3,7 +3,7 @@
     <!--Logo and brand title-->
     <mj-section background-color="#fff" padding-bottom="5px">
       <mj-column width="100%">
-        <mj-image src="https://static.wixstatic.com/media/a7f4a4_69cff1fbe96b4c72ba5443ee2c02dbf9~mv2.png/v1/fill/w_100,h_97,al_c,q_85,usm_0.66_1.00_0.01/Pita-Chip-Logo-compressor.webp" alt="" align="center" border="none" width="100px"></mj-image>
+        <mj-image src="https://pitachip-assets.s3.amazonaws.com/PITA+CHIP+final+design+1.png" alt="" align="center" border="none" width="100px"></mj-image>
         <mj-text align="center" font-size="10px">Family Owned | Philly Based | Build Your Own</mj-text>
       </mj-column>
     </mj-section>
