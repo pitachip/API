@@ -2,7 +2,7 @@ const ErrorResponse = require("../utils/errorResponse");
 
 const errorHandler = (err, req, res, next) => {
 	let error = { ...err };
-	console.log(err);
+	console.log("Error in Middleware: ", err);
 	error.message = err.message;
 
 	//Mongoose id not found

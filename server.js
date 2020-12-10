@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const colors = require("colors");
@@ -13,7 +14,10 @@ const test = require("./routes/test");
 const auth = require("./routes/auth");
 const user = require("./routes/user");
 const menu = require("./routes/menu");
+const config = require("./routes/config");
+const payment = require("./routes/payment");
 
+//TODO: might not need that line anymore
 //load env vars
 dotenv.config({ path: "./config/config.env" });
 
@@ -31,6 +35,29 @@ app.use(express.json());
 //Cookie Parser
 app.use(cookieParser());
 
+//cors
+var allowedOrigins = [
+	"https://dev-specialorder.pitachip.biz",
+	"https://specialorder.pitachip.biz",
+	"http://localhost:3000",
+];
+app.use(
+	cors({
+		origin: function (origin, callback) {
+			// allow requests with no origin
+			// (like mobile apps or curl requests)
+			if (!origin) return callback(null, true);
+			if (allowedOrigins.indexOf(origin) === -1) {
+				var msg =
+					"The CORS policy for this site does not " +
+					"allow access from the specified Origin.";
+				return callback(new Error(msg), false);
+			}
+			return callback(null, true);
+		},
+	})
+);
+
 //Dev logging middleware
 //note that 'development' here really means localhost
 if (
@@ -47,16 +74,6 @@ if (
 		);
 		return next();
 	});
-} else {
-	//TODO: update this origin list to only be the dev and prod site
-	app.use(function (req, res, next) {
-		res.header("Access-Control-Allow-Origin", "*");
-		res.header(
-			"Access-Control-Allow-Headers",
-			"Origin, X-Requested-With, Content-Type, Accept"
-		);
-		return next();
-	});
 }
 
 //Mount Routers
@@ -65,6 +82,8 @@ app.use("/api/v1/specialorder", specialOrder);
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/user", user);
 app.use("/api/v1/menu", menu);
+app.use("/api/v1/config", config);
+app.use("/api/v1/payment", payment);
 
 //Mount error handler -- HAS TO BE after routes
 app.use(errorHandler);

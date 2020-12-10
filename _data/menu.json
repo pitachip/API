@@ -44,6 +44,135 @@
 										"name": "Roasted Red Pepper Hummus"
 									}
 								]
+							},
+							{
+								"name": "Choose Your Toppings",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 5,
+								"options": [
+									{
+										"name": "Tomato & Cucumber Salad (Popular)"
+									},
+									{
+										"name": "Salsa (Popular)"
+									},
+									{
+										"name": "Tabbouleh (Popular)"
+									},
+									{
+										"name": "Pickled Turnips Cucumbers (Popular)"
+									},
+									{
+										"name": "Tomatoes"
+									},
+									{
+										"name": "Sliced Cucumbers"
+									},
+									{
+										"name": "Seasoned Onions"
+									},
+									{
+										"name": "Red Cabbage Slaw"
+									}
+								]
+							},
+							{
+								"name": "Choose Your Sauces",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 4,
+								"options": [
+									{
+										"name": "Garlic Sauce (Popular)"
+									},
+									{
+										"name": "Original Tahini Sauce (Popular)"
+									},
+									{
+										"name": "Signature Pita Chip Hot Sauce (Popular)"
+									},
+									{
+										"name": "Vegan Original Tahini Sauce"
+									},
+									{
+										"name": "Buffalo Tahini Sauce"
+									},
+									{
+										"name": "Falafel Chutney Sauce"
+									},
+									{
+										"name": "House Vinaigrette"
+									}
+								]
+							},
+							{
+								"name": "Extra Protein",
+								"price": 0,
+								"min_number_options": 0,
+								"max_number_options": 4,
+								"options": [
+									{
+										"name": "Extra Chicken Shawarma",
+										"price": 200
+									},
+									{
+										"name": "Extra Beef Shawarma",
+										"price": 200
+									},
+									{
+										"name": "Extra Falafel",
+										"price": 200
+									},
+									{
+										"name": "Extra Roasted Veggies",
+										"price": 200
+									}
+								]
+							},
+							{
+								"name": "My Group Includes...",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 4,
+								"options": [
+									{
+										"name": "0 Vegetarians",
+										"price": 0
+									},
+									{
+										"name": "1 Vegetarian",
+										"price": 0
+									},
+									{
+										"name": "2 Vegetarians",
+										"price": 0
+									},
+									{
+										"name": "3 Vegetarians",
+										"price": 0
+									},
+									{
+										"name": "4+ Vegetarians",
+										"price": 0
+									}
+								]
+							},
+							{
+								"name": "Include Utencils, Napkins, Plates, etc?",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 1,
+								"options": [
+									{
+										"name": "Yes",
+										"price": 0
+									},
+									{
+										"name": "No",
+										"price": 0
+									}
+								]
 							}
 						]
 					}

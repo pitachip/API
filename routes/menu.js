@@ -9,7 +9,7 @@ const router = express.Router();
  */
 const { protect, authorize } = require("../middleware/auth");
 
-router.route("/").get(protect, getMenu);
+router.route("/").get(getMenu);
 
 router.route("/:id").put(protect, authorize("admin"), updateMenu);
 

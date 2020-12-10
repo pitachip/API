@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
 	},
 	createdAt: {
 		type: Date,
-		default: Date.now(),
+		default: Date.now,
 	},
 	disabled: {
 		type: Boolean,
@@ -17,6 +17,7 @@ const UserSchema = new mongoose.Schema({
 	stripeCustomerId: String,
 	taxExemptId: String,
 	metaData: Object,
+	isAnonymous: Boolean,
 });
 
 module.exports = mongoose.model("User", UserSchema);

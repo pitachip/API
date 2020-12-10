@@ -1,23 +1,65 @@
 [
 	{
-		"firebaseUserId": "KLafxqp95MS2UjWjghkhik1Tbov2"
+		"firebaseUserId": "KLafxqp95MS2UjWjghkhik1Tbov2",
+		"isAnonymous": false,
+		"metaData": {
+			"firstName": "Customer1First",
+			"lastName": "Customer1Last",
+			"email": "customer1@gmail.com"
+		}
 	},
 	{
-		"firebaseUserId": "c9NXUO0Kr7Nns4C3cLKyDYc4zlm2"
+		"firebaseUserId": "c9NXUO0Kr7Nns4C3cLKyDYc4zlm2",
+		"isAnonymous": false,
+		"metaData": {
+			"firstName": "Customer2First",
+			"lastName": "Customer2Last",
+			"email": "customer2@gmail.com"
+		}
 	},
 	{
-		"firebaseUserId": "EXhYlRFEyihb5kWOiDZxS26tx3a2"
+		"firebaseUserId": "EXhYlRFEyihb5kWOiDZxS26tx3a2",
+		"isAnonymous": false,
+		"metaData": {
+			"firstName": "Customer3First",
+			"lastName": "Customer3Last",
+			"email": "customer3@gmail.com"
+		}
 	},
 	{
-		"firebaseUserId": "VY1R1tlP0eXvDtkLPFBIOD5bmyl1"
+		"firebaseUserId": "VY1R1tlP0eXvDtkLPFBIOD5bmyl1",
+		"isAnonymous": false,
+		"metaData": {
+			"firstName": "Employee1First",
+			"lastName": "Employee1Last",
+			"email": "employee1@gmail.com"
+		}
 	},
 	{
-		"firebaseUserId": "15DmlBUMiDgCSnxzRbtX4G9wzYN2"
+		"firebaseUserId": "15DmlBUMiDgCSnxzRbtX4G9wzYN2",
+		"isAnonymous": false,
+		"metaData": {
+			"firstName": "Manager1First",
+			"lastName": "Manager1Last",
+			"email": "manager1@gmail.com"
+		}
 	},
 	{
-		"firebaseUserId": "Yp0XCrbpeSdlBcuouF9mAqGn5ne2"
+		"firebaseUserId": "Yp0XCrbpeSdlBcuouF9mAqGn5ne2",
+		"isAnonymous": false,
+		"metaData": {
+			"firstName": "Admin1First",
+			"lastName": "Admin1Last",
+			"email": "admin1@gmail.com"
+		}
 	},
 	{
-		"firebaseUserId": "aAvYQvR3BQh4uoUWQ4yFjtD6FZY2"
+		"firebaseUserId": "aAvYQvR3BQh4uoUWQ4yFjtD6FZY2",
+		"isAnonymous": false,
+		"metaData": {
+			"firstName": "Rend",
+			"lastName": "Alsaadi",
+			"email": "alsaadirend@gmail.com"
+		}
 	}
 ]

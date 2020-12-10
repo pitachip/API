@@ -6,6 +6,7 @@ const asyncHandler = require("../middleware/async");
 const stripeUtility = require("../utils/stripe");
 const nodemailer = require("../utils/nodemailer");
 const orderUtility = require("../utils/orderUtility");
+const fs = require("fs");
 
 //@desc     get all special orders
 //@route    GET /api/v1/specialorder
@@ -26,80 +27,72 @@ exports.getSpecialOrder = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/specialorder
 //@access   Private
 exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
-	const { customerInformation, orderItems } = req.body;
-	/**
-	 * 2. TODO: go through the customer use cases
-	 * 			(e.g. has portal account, has portal account/stripeID, guest on the portal, guest on the portal with stripeID)
-	 */
+	var { specialOrder } = req.body;
 
-	const stripeCustomer = await stripeUtility.findStripeCustomer(
-		customerInformation,
-		req,
-		next
-	);
+	console.log(specialOrder);
 
-	/**
-	 * TODO: not high priorty but I can't find a great way to
-	 * add the modifers in the invoice without going through callback hell
-	 */
-
-	var promiseArray = [];
-
-	_.each(orderItems, (orderItem) => {
-		promiseArray.push(
-			stripe.invoiceItems.create({
-				customer: stripeCustomer,
-				unit_amount: orderItem.pricePerUnit * 100,
-				description: orderItem.item,
-				currency: "usd",
-				quantity: orderItem.quantity,
-			})
-		);
-	});
-
-	//put all promises in an array and wait till they are done executing.
-	await Promise.all(promiseArray);
-
-	//create invoice
-	const newInvoice = await stripe.invoices.create({
-		customer: stripeCustomer,
-		collection_method: "send_invoice",
-		days_until_due: 45,
-	});
-
-	//finalize invoice
-	const finalizeInvoice = await stripe.invoices.finalizeInvoice(newInvoice.id);
-
-	//send invoice via nodemailer
-	const mailOptions = {
-		template: "specialOrder",
-		toEmail: customerInformation.email,
-		locals: {
-			orderNumber: finalizeInvoice.number,
-			customerName: customerInformation.name,
-			invoiceUrl: finalizeInvoice.hosted_invoice_url,
-		},
-	};
-	await nodemailer(mailOptions);
-
-	//Put into Mongo
-	var specialOrder = req.body;
 	specialOrder = {
 		...specialOrder,
-		invoiceId: finalizeInvoice.id,
-		invoiceNumber: finalizeInvoice.number,
-		stripeCustomerId: finalizeInvoice.customer,
-		hosted_invoice_url: finalizeInvoice.hosted_invoice_url,
-		invoice_pdf: finalizeInvoice.invoice_pdf,
 		userId: req.user.uid,
+		status: "Submitted",
 	};
 
+	//Save order to Mongo
 	const newSpecialOrder = await SpecialOrder.create(specialOrder);
 
 	res.status(201).json({
 		success: true,
 		data: newSpecialOrder,
 	});
+
+	//send confirmation email via nodemailer
+	/**
+	 * TODO:
+	 * This is intentially bad. Will be switching how we send confirmation emails relatively soon
+	 * so I don't want to spend too much time on this. Just something quick and dirty
+	 */
+	var template = "";
+	if (
+		newSpecialOrder.paymentInformation.paymentType === "cc" &&
+		newSpecialOrder.orderDetails.shippingMethod === "delivery"
+	) {
+		template = fs
+			.readFileSync("./emails/orderConfirmation/creditCardConfirmation.mjml")
+			.toString();
+	} else if (
+		newSpecialOrder.paymentInformation.paymentType === "cc" &&
+		newSpecialOrder.orderDetails.shippingMethod === "pickup"
+	) {
+		template = fs
+			.readFileSync(
+				"./emails/orderConfirmation/creditCardConfirmationPickup.mjml"
+			)
+			.toString();
+	} else if (newSpecialOrder.orderDetails.shippingMethod === "delivery") {
+		template = fs
+			.readFileSync("./emails/orderConfirmation/invoiceConfirmation.mjml")
+			.toString();
+	} else {
+		template = fs
+			.readFileSync("./emails/orderConfirmation/invoiceConfirmationPickup.mjml")
+			.toString();
+	}
+
+	newSpecialOrder.orderDetails.orderDate = new Date(
+		newSpecialOrder.orderDetails.orderDate
+	)
+		.toLocaleString()
+		.split(",")[0];
+
+	const mailOptions = {
+		template,
+		templateData: newSpecialOrder,
+		toEmail: newSpecialOrder.customerInformation.email,
+		subject: `Confirmation Order#${newSpecialOrder.orderNumber}`,
+		text: "Order Confirmation",
+	};
+
+	await nodemailer(mailOptions);
 });
 
 //@desc     Update specialorder

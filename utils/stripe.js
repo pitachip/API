@@ -18,7 +18,8 @@ const findStripeCustomer = async (customerInformation, req, next) => {
 			if (_.isEmpty(lookForStripeCustomer.data)) {
 				//create new stripe customer
 				const createStripeCustomer = await stripe.customers.create({
-					name: customerInformation.name,
+					name:
+						customerInformation.firstName + " " + customerInformation.lastName,
 					email: customerInformation.email,
 				});
 
@@ -72,5 +73,15 @@ const createInvoiceItems = async (orderItems, stripeCustomer, next) => {
 	}
 };
 
+const getPaymentIntent = async (paymentIntentId, next) => {
+	try {
+		const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+		return paymentIntent;
+	} catch (error) {
+		return next(new ErrorResponse("Error in getting payment intent", 500));
+	}
+};
+
 exports.findStripeCustomer = findStripeCustomer;
 exports.createInvoiceItems = createInvoiceItems;
+exports.getPaymentIntent = getPaymentIntent;

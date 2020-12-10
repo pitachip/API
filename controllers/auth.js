@@ -4,6 +4,7 @@ const asyncHandler = require("../middleware/async");
 const { validateNewUser } = require("../utils/authValidation");
 const { getIdToken } = require("../utils/generateIdToken");
 const nodemailer = require("../utils/nodemailer");
+const fs = require("fs");
 const User = require("../models/User");
 
 //@desc     Register new user
@@ -36,12 +37,24 @@ exports.registerNewUser = asyncHandler(async (req, res, next) => {
 		});
 
 		//Put user into mongo for reference and metadata storage
-		await User.create({
+		const saveUser = await User.create({
 			firebaseUserId: user.uid,
+			metaData: {
+				firstName,
+				lastName,
+				email,
+			},
 		});
 
-		//Send back the token that they can signin with token and get a token id to be used on future server requests
-		sendTokenResponse(email, password, res, next);
+		//Create a custom token for client-side sign in
+		const token = await firebase.auth().createCustomToken(user.uid);
+
+		res.status(200).json({
+			success: true,
+			token,
+			user,
+			metaData: saveUser.metaData,
+		});
 	}
 });
 
@@ -79,12 +92,20 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 		.auth()
 		.generatePasswordResetLink(email);
 
+	const template = fs
+		.readFileSync("./emails/passwordReset/passwordReset.mjml")
+		.toString();
+
+	const templateData = {
+		passwordResetLink: passwordResetLink,
+	};
+
 	const mailOptions = {
+		template,
+		templateData,
 		toEmail: email,
-		template: "passwordReset",
-		locals: {
-			passwordResetLink,
-		},
+		subject: "Reset Password",
+		text: "Password reset",
 	};
 
 	try {
