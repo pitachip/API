@@ -18,16 +18,20 @@
 								"max_number_options": 2,
 								"options": [
 									{
-										"name": "Chicken Shawarma (Popular)"
+										"name": "Chicken Shawarma (Popular)",
+										"default": true
 									},
 									{
-										"name": "Falafel (Popular)"
+										"name": "Falafel (Popular)",
+										"default": true
 									},
 									{
-										"name": "Beef Shawarma"
+										"name": "Beef Shawarma",
+										"default": false
 									},
 									{
-										"name": "Roasted Veggies"
+										"name": "Roasted Veggies",
+										"default": false
 									}
 								]
 							},
@@ -38,10 +42,12 @@
 								"max_number_options": 1,
 								"options": [
 									{
-										"name": "Original Hummus"
+										"name": "Original Hummus",
+										"default": true
 									},
 									{
-										"name": "Roasted Red Pepper Hummus"
+										"name": "Roasted Red Pepper Hummus",
+										"default": false
 									}
 								]
 							},
@@ -52,28 +58,36 @@
 								"max_number_options": 5,
 								"options": [
 									{
-										"name": "Tomato & Cucumber Salad (Popular)"
+										"name": "Tomato & Cucumber Salad (Popular)",
+										"default": true
 									},
 									{
-										"name": "Salsa (Popular)"
+										"name": "Salsa (Popular)",
+										"default": true
 									},
 									{
-										"name": "Tabbouleh (Popular)"
+										"name": "Tabbouleh (Popular)",
+										"default": true
 									},
 									{
-										"name": "Pickled Turnips Cucumbers (Popular)"
+										"name": "Pickled Turnips & Cucumbers (Popular)",
+										"default": true
 									},
 									{
-										"name": "Tomatoes"
+										"name": "Tomatoes",
+										"default": false
 									},
 									{
-										"name": "Sliced Cucumbers"
+										"name": "Sliced Cucumbers",
+										"default": false
 									},
 									{
-										"name": "Seasoned Onions"
+										"name": "Seasoned Onions",
+										"default": false
 									},
 									{
-										"name": "Red Cabbage Slaw"
+										"name": "Red Cabbage Slaw",
+										"default": false
 									}
 								]
 							},
@@ -84,25 +98,32 @@
 								"max_number_options": 4,
 								"options": [
 									{
-										"name": "Garlic Sauce (Popular)"
+										"name": "Garlic Sauce (Popular)",
+										"default": true
 									},
 									{
-										"name": "Original Tahini Sauce (Popular)"
+										"name": "Original Tahini Sauce (Popular)",
+										"default": true
 									},
 									{
-										"name": "Signature Pita Chip Hot Sauce (Popular)"
+										"name": "Signature Pita Chip Hot Sauce (Popular)",
+										"default": true
 									},
 									{
-										"name": "Vegan Original Tahini Sauce"
+										"name": "Vegan Original Tahini Sauce",
+										"default": false
 									},
 									{
-										"name": "Buffalo Tahini Sauce"
+										"name": "Buffalo Tahini Sauce",
+										"default": false
 									},
 									{
-										"name": "Falafel Chutney Sauce"
+										"name": "Falafel Chutney Sauce",
+										"default": false
 									},
 									{
-										"name": "House Vinaigrette"
+										"name": "House Vinaigrette",
+										"default": false
 									}
 								]
 							},
@@ -131,35 +152,31 @@
 								]
 							},
 							{
-								"name": "My Group Includes...",
+								"name": "My Group Includes",
 								"price": 0,
-								"min_number_options": 1,
-								"max_number_options": 4,
+								"min_number_options": 0,
+								"max_number_options": 1,
 								"options": [
 									{
-										"name": "0 Vegetarians",
+										"name": "1-2 Vegetarians",
 										"price": 0
 									},
 									{
-										"name": "1 Vegetarian",
+										"name": "2-5 Vegetarians",
 										"price": 0
 									},
 									{
-										"name": "2 Vegetarians",
+										"name": "5-10 Vegetarians",
 										"price": 0
 									},
 									{
-										"name": "3 Vegetarians",
-										"price": 0
-									},
-									{
-										"name": "4+ Vegetarians",
+										"name": "10+ Vegetarians",
 										"price": 0
 									}
 								]
 							},
 							{
-								"name": "Include Utencils, Napkins, Plates, etc?",
+								"name": "Include Utencils, Napkins, Plates",
 								"price": 0,
 								"min_number_options": 1,
 								"max_number_options": 1,
