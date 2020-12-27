@@ -17,6 +17,10 @@ const MenuSchema = new mongoose.Schema({
 							type: Number,
 							required: [true, "Price for Menu Item is Required"],
 						},
+						itemMinimum: {
+							type: Number,
+							required: [true, "Item Minimum is Required"],
+						},
 						description: String,
 						modifiers: [
 							{
@@ -28,6 +32,7 @@ const MenuSchema = new mongoose.Schema({
 									{
 										name: String,
 										default: Boolean,
+										price: Number,
 									},
 								],
 							},
