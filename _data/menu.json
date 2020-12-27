@@ -9,6 +9,7 @@
 					{
 						"name": "Build Your Own",
 						"basePrice": 1300,
+						"itemMinimum": 10,
 						"description": "All Orders Include Pita Bread, Rice, and Lettuce",
 						"modifiers": [
 							{
@@ -18,16 +19,24 @@
 								"max_number_options": 2,
 								"options": [
 									{
-										"name": "Chicken Shawarma (Popular)"
+										"name": "Chicken Shawarma (Popular)",
+										"default": true,
+										"price": 0
 									},
 									{
-										"name": "Falafel (Popular)"
+										"name": "Falafel (Popular)",
+										"default": true,
+										"price": 0
 									},
 									{
-										"name": "Beef Shawarma"
+										"name": "Beef Shawarma",
+										"default": false,
+										"price": 0
 									},
 									{
-										"name": "Roasted Veggies"
+										"name": "Roasted Veggies",
+										"default": false,
+										"price": 0
 									}
 								]
 							},
@@ -38,10 +47,14 @@
 								"max_number_options": 1,
 								"options": [
 									{
-										"name": "Original Hummus"
+										"name": "Original Hummus",
+										"default": true,
+										"price": 0
 									},
 									{
-										"name": "Roasted Red Pepper Hummus"
+										"name": "Roasted Red Pepper Hummus",
+										"default": false,
+										"price": 0
 									}
 								]
 							},
@@ -52,28 +65,44 @@
 								"max_number_options": 5,
 								"options": [
 									{
-										"name": "Tomato & Cucumber Salad (Popular)"
+										"name": "Tomato & Cucumber Salad (Popular)",
+										"default": true,
+										"price": 0
 									},
 									{
-										"name": "Salsa (Popular)"
+										"name": "Salsa (Popular)",
+										"default": true,
+										"price": 0
 									},
 									{
-										"name": "Tabbouleh (Popular)"
+										"name": "Tabbouleh (Popular)",
+										"default": true,
+										"price": 0
 									},
 									{
-										"name": "Pickled Turnips Cucumbers (Popular)"
+										"name": "Pickled Turnips & Cucumbers (Popular)",
+										"default": true,
+										"price": 0
 									},
 									{
-										"name": "Tomatoes"
+										"name": "Tomatoes",
+										"default": false,
+										"price": 0
 									},
 									{
-										"name": "Sliced Cucumbers"
+										"name": "Sliced Cucumbers",
+										"default": false,
+										"price": 0
 									},
 									{
-										"name": "Seasoned Onions"
+										"name": "Seasoned Onions",
+										"default": false,
+										"price": 0
 									},
 									{
-										"name": "Red Cabbage Slaw"
+										"name": "Red Cabbage Slaw",
+										"default": false,
+										"price": 0
 									}
 								]
 							},
@@ -84,25 +113,39 @@
 								"max_number_options": 4,
 								"options": [
 									{
-										"name": "Garlic Sauce (Popular)"
+										"name": "Garlic Sauce (Popular)",
+										"default": true,
+										"price": 0
 									},
 									{
-										"name": "Original Tahini Sauce (Popular)"
+										"name": "Original Tahini Sauce (Popular)",
+										"default": true,
+										"price": 0
 									},
 									{
-										"name": "Signature Pita Chip Hot Sauce (Popular)"
+										"name": "Signature Pita Chip Hot Sauce (Popular)",
+										"default": true,
+										"price": 0
 									},
 									{
-										"name": "Vegan Original Tahini Sauce"
+										"name": "Vegan Original Tahini Sauce",
+										"default": false,
+										"price": 0
 									},
 									{
-										"name": "Buffalo Tahini Sauce"
+										"name": "Buffalo Tahini Sauce",
+										"default": false,
+										"price": 0
 									},
 									{
-										"name": "Falafel Chutney Sauce"
+										"name": "Falafel Chutney Sauce",
+										"default": false,
+										"price": 0
 									},
 									{
-										"name": "House Vinaigrette"
+										"name": "House Vinaigrette",
+										"default": false,
+										"price": 0
 									}
 								]
 							},
@@ -114,62 +157,68 @@
 								"options": [
 									{
 										"name": "Extra Chicken Shawarma",
+										"default": false,
 										"price": 200
 									},
 									{
 										"name": "Extra Beef Shawarma",
+										"default": false,
 										"price": 200
 									},
 									{
 										"name": "Extra Falafel",
+										"default": false,
 										"price": 200
 									},
 									{
 										"name": "Extra Roasted Veggies",
+										"default": false,
 										"price": 200
 									}
 								]
 							},
 							{
-								"name": "My Group Includes...",
+								"name": "My Group Includes",
 								"price": 0,
-								"min_number_options": 1,
-								"max_number_options": 4,
+								"min_number_options": 0,
+								"max_number_options": 1,
 								"options": [
 									{
-										"name": "0 Vegetarians",
+										"name": "1-2 Vegetarians",
+										"default": false,
 										"price": 0
 									},
 									{
-										"name": "1 Vegetarian",
+										"name": "2-5 Vegetarians",
+										"default": false,
 										"price": 0
 									},
 									{
-										"name": "2 Vegetarians",
+										"name": "5-10 Vegetarians",
+										"default": false,
 										"price": 0
 									},
 									{
-										"name": "3 Vegetarians",
-										"price": 0
-									},
-									{
-										"name": "4+ Vegetarians",
+										"name": "10+ Vegetarians",
+										"default": false,
 										"price": 0
 									}
 								]
 							},
 							{
-								"name": "Include Utencils, Napkins, Plates, etc?",
+								"name": "Include Utensils, Napkins, Plates",
 								"price": 0,
 								"min_number_options": 1,
 								"max_number_options": 1,
 								"options": [
 									{
 										"name": "Yes",
+										"default": false,
 										"price": 0
 									},
 									{
 										"name": "No",
+										"default": false,
 										"price": 0
 									}
 								]
@@ -179,12 +228,296 @@
 				]
 			},
 			{
-				"title": "Lunch Boxes",
+				"title": "Lunch Boxes (Individually Packaged)",
 				"description": "Lunch boxes are a great option for those looking to quickly order a meal with everything included in each box. **All lunch boxes include Pita Chips & Hummus, Baklava, and Bottled Water",
 				"items": [
 					{
 						"name": "Chicken Shawarma Box",
-						"basePrice": 1300
+						"description": "Choice of Entree with Chicken Shawarma, Lettuce, Roasted Red Pepper Hummus, Salsa, Seasoned Onions, Pickles, and Garlic Sauce",
+						"basePrice": 1300,
+						"itemMinimum": 0,
+						"modifiers": [
+							{
+								"name": "Choose Your Entree",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 1,
+								"options": [
+									{
+										"name": "Rice Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Salad Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Pita Bread Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Tortilla Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "1/2 Salad 1/2 Rice",
+										"default": false,
+										"price": 0
+									}
+								]
+							}
+						]
+					},
+					{
+						"name": "Falafel Box",
+						"description": "Choice of Entree with Falafel, Roasted Red Pepper Hummus, Lettuce, Tomatos, Sliced Cucumbers, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Original Tahini Sauce",
+						"basePrice": 1300,
+						"itemMinimum": 0,
+						"modifiers": [
+							{
+								"name": "Choose Your Entree",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 1,
+								"options": [
+									{
+										"name": "Rice Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Salad Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Pita Bread Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Tortilla Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "1/2 Salad 1/2 Rice",
+										"default": false,
+										"price": 0
+									}
+								]
+							}
+						]
+					},
+					{
+						"name": "Beef Shawarma Box",
+						"description": "Choice of Entree with Beef Shawarma, Lettuce, Roasted Red Pepper Hummus, Tomato and Cucumber Salad, Seasoned Onions, Pickles, and Original Tahini Sauce",
+						"basePrice": 1300,
+						"itemMinimum": 0,
+						"modifiers": [
+							{
+								"name": "Choose Your Entree",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 1,
+								"options": [
+									{
+										"name": "Rice Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Salad Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Pita Bread Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Tortilla Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "1/2 Salad 1/2 Rice",
+										"default": false,
+										"price": 0
+									}
+								]
+							}
+						]
+					},
+					{
+						"name": "Roasted Veggies Box",
+						"description": "Choice of Entree with Roasted Veggies, Roasted Red Pepper Hummus, Tomato & Cucumber Salad, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Vegan Tahini Sauce",
+						"basePrice": 1300,
+						"itemMinimum": 0,
+						"modifiers": [
+							{
+								"name": "Choose Your Entree",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 1,
+								"options": [
+									{
+										"name": "Rice Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Salad Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Pita Bread Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Tortilla Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "1/2 Salad 1/2 Rice",
+										"default": false,
+										"price": 0
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"title": "Wrap Trays (Individually Wrapped)",
+				"description": "Wrap trays are a great option for those looking to quickly order sandwiches for a meeting or event. **All Orders Include Two 10-Inch Wraps, Pita Chips & Hummus, and Salad**",
+				"items": [
+					{
+						"name": "Chicken Shawarma Wrap",
+						"description": "Chicken Shawarma, Roasted Red Pepper Hummus, Seasoned Onions, Pickles, and Garlic Sauce",
+						"basePrice": 1300,
+						"itemMinimum": 0,
+						"modifiers": []
+					},
+					{
+						"name": "Falafel Wrap",
+						"description": "Falafel, Roasted Red Pepper Hummus, Tomato & Cucumber Salad, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Original Tahini Sauce",
+						"basePrice": 1300,
+						"itemMinimum": 0,
+						"modifiers": []
+					},
+					{
+						"name": "Beef Shawarma Wrap",
+						"description": "Beef Shawarma, Roasted Red Pepper Hummus, Tomato and Cucumber Salad, Seasoned Onions, Pickles, and Original Tahini Sauce",
+						"basePrice": 1300,
+						"itemMinimum": 0,
+						"modifiers": []
+					},
+					{
+						"name": "Roasted Veggies Wrap",
+						"description": "Roasted Veggies, Roasted Red Pepper Hummus, Tomato & Cucumber Salad, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Vegan Tahini Sauce",
+						"basePrice": 1300,
+						"itemMinimum": 0,
+						"modifiers": []
+					}
+				]
+			},
+			{
+				"title": "Add Ons",
+				"description": "",
+				"items": [
+					{
+						"name": "Fattoush Salad (Feeds 10)",
+						"basePrice": 1000,
+						"itemMinimum": 0,
+						"description": "Romaine Lettuce, Tomatoes, Cucumbers, Red Onions, Kalamata Olives, Pita Chips, and House Vinaigrette"
+					},
+					{
+						"name": "Stuffed Grape Leaves (Feeds 10)",
+						"basePrice": 1000,
+						"itemMinimum": 0,
+						"description": "Rice, Tomatoes, Red Onions, Parsley, Mint, Olive Oil, Lemon Juice, and Spices"
+					},
+					{
+						"name": "Seasoned Pita Chips (Feeds 10)",
+						"basePrice": 1000,
+						"itemMinimum": 0,
+						"description": ""
+					}
+				]
+			},
+			{
+				"title": "Desserts",
+				"description": "",
+				"items": [
+					{
+						"name": "(NEW!) Tahini Cookie (Feeds 6)",
+						"basePrice": 1000,
+						"itemMinimum": 0,
+						"description": "Freshly baked cookie filled with tahini, chocolate chips, roasted cashews, and sprinkled with toasted sesame seeds"
+					},
+					{
+						"name": "Assorted Baklava (Feeds 10)",
+						"basePrice": 1250,
+						"itemMinimum": 0,
+						"description": "A rich, sweet pastry made with layers of filo dough, filled with chopped cashews and held together with a sugar syrup."
+					},
+					{
+						"name": "Original Baklava (Feeds 10)",
+						"basePrice": 1250,
+						"itemMinimum": 0,
+						"description": "A rich, sweet pastry made with layers of filo dough, filled with chopped cashews and held together with a sugar syrup."
+					},
+					{
+						"name": "Nutella Baklava (Feeds 10)",
+						"basePrice": 1250,
+						"itemMinimum": 0,
+						"description": "A rich, sweet pastry made with layers of filo dough, filled with chopped cashews and held together with a sugar syrup."
+					}
+				]
+			},
+			{
+				"title": "Drinks",
+				"description": "",
+				"items": [
+					{
+						"name": "Bottled Water",
+						"basePrice": 150,
+						"itemMinimum": 0,
+						"description": ""
+					},
+					{
+						"name": "Assorted Sodas",
+						"basePrice": 125,
+						"itemMinimum": 0,
+						"description": ""
+					},
+					{
+						"name": "Pure Leaf Lemon Iced Tea",
+						"basePrice": 250,
+						"itemMinimum": 0,
+						"description": ""
+					},
+					{
+						"name": "Pure Leaf Unsweetened Iced Tea",
+						"basePrice": 250,
+						"itemMinimum": 0,
+						"description": ""
+					},
+					{
+						"name": "Pure Leaf Sweetened Iced Tea",
+						"basePrice": 250,
+						"itemMinimum": 0,
+						"description": ""
 					}
 				]
 			}
