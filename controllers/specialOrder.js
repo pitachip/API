@@ -29,8 +29,6 @@ exports.getSpecialOrder = asyncHandler(async (req, res, next) => {
 exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	var { specialOrder } = req.body;
 
-	console.log(specialOrder);
-
 	specialOrder = {
 		...specialOrder,
 		userId: req.user.uid,

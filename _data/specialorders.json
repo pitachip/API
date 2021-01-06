@@ -26,6 +26,7 @@
 		},
 		"paymentInformation": {
 			"paymentType": "cc",
+			"paymentStatus": "Paid",
 			"taxExempt": false,
 			"taxExemptId": "",
 			"purchaseOrder": false,
@@ -38,6 +39,12 @@
 			"shippingMethod": "delivery",
 			"specialInstructions": ""
 		},
+		"orderTotals": {
+			"subTotal": 130,
+			"tax": 10.40,
+			"delivery": 25,
+			"total": 165.40
+		},
 		"userId": "KLafxqp95MS2UjWjghkhik1Tbov2",
 		"status": "Submitted"
 	},
@@ -68,6 +75,7 @@
 		},
 		"paymentInformation": {
 			"paymentType": "cc",
+			"paymentStatus": "Paid",
 			"taxExempt": false,
 			"taxExemptId": "",
 			"purchaseOrder": false,
@@ -80,6 +88,12 @@
 			"shippingMethod": "delivery",
 			"specialInstructions": "order Number 2"
 		},
+		"orderTotals": {
+			"subTotal": 130,
+			"tax": 10.40,
+			"delivery": 25,
+			"total": 165.40
+		},
 		"userId": "KLafxqp95MS2UjWjghkhik1Tbov2",
 		"status": "Submitted"
 	},
@@ -110,6 +124,7 @@
 		},
 		"paymentInformation": {
 			"paymentType": "cc",
+			"paymentStatus": "Paid",
 			"taxExempt": false,
 			"taxExemptId": "",
 			"purchaseOrder": false,
@@ -121,6 +136,12 @@
 			"orderDate": "2020-11-17T07:02:45.771Z",
 			"shippingMethod": "delivery",
 			"specialInstructions": "order Number Three"
+		},
+		"orderTotals": {
+			"subTotal": 130,
+			"tax": 10.40,
+			"delivery": 25,
+			"total": 165.40
 		},
 		"userId": "KLafxqp95MS2UjWjghkhik1Tbov2",
 		"status": "Submitted"
