@@ -50,10 +50,12 @@ const importData = async () => {
 //Delete data for dev and local
 const deleteData = async () => {
 	try {
-		await SpecialOrder.deleteMany();
+		//await SpecialOrder.deleteMany();
+		/*
 		await SpecialOrder.counterReset("ordeNumberSequencer", function (err) {
 			console.log("Error Reseting Counter: ", err);
 		});
+		*/
 		await User.deleteMany();
 		await Menu.deleteMany();
 		await Config.deleteMany();

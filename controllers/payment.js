@@ -23,7 +23,12 @@ exports.createPaymentIntent = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/payment/invoice
 //@access   Private: Authenticated users
 exports.createInvoice = asyncHandler(async (req, res, next) => {
-	const { contactInformation, orderItems, paymentInformation } = req.body;
+	const {
+		contactInformation,
+		orderItems,
+		deliveryAndTax,
+		paymentInformation,
+	} = req.body;
 	/**
 	 * 2. TODO: go through the customer use cases
 	 * 			(e.g. has portal account, has portal account/stripeID, guest on the portal, guest on the portal with stripeID)
@@ -42,9 +47,21 @@ exports.createInvoice = asyncHandler(async (req, res, next) => {
 			stripe.invoiceItems.create({
 				customer: stripeCustomer,
 				unit_amount: orderItem.basePrice,
-				description: orderItem.menuItem,
+				description: orderItem.name,
 				currency: "usd",
 				quantity: orderItem.quantity,
+			})
+		);
+	});
+
+	_.each(deliveryAndTax, (deliveryAndTaxItem) => {
+		promiseArray.push(
+			stripe.invoiceItems.create({
+				customer: stripeCustomer,
+				unit_amount: deliveryAndTaxItem.basePrice,
+				description: deliveryAndTaxItem.name,
+				currency: "usd",
+				quantity: deliveryAndTaxItem.quantity,
 			})
 		);
 	});
