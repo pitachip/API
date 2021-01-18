@@ -19,8 +19,17 @@ exports.getSpecialOrders = asyncHandler(async (req, res, next) => {
 //@route    GET /api/v1/specialorder/:id
 //@access   Public
 exports.getSpecialOrder = asyncHandler(async (req, res, next) => {
-	const response = await SpecialOrder.findById(req.params.id);
-	res.status(200).json({ success: true, data: response });
+	const order = await SpecialOrder.findById(req.params.id);
+	const user = req.user;
+	if (order.userId !== req.user.uid && !user.customClaims.admin) {
+		return next(
+			new ErrorResponse(
+				`User ${req.user.uid} Not Authorized to Access Order ${req.params.id}`,
+				401
+			)
+		);
+	}
+	res.status(200).json({ success: true, data: order });
 });
 
 //@desc     Create new special order
