@@ -106,19 +106,7 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 //@route    PUT /api/v1/specialorder/:id
 //@access   Private
 exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
-	/**
-	 * 5.TODO: maybe we put voided invoices in an array for tracking
-	 *
-	 * case for updating items that would require an invoice update
-	 * 		-customer information
-	 * 		-order items
-	 * case for updating items that would not require an invoice update
-	 * 		-delivery information
-	 * 		-payment type
-	 * 		-status
-	 */
-	let updatedOrder;
-	const { orderItems, customerInformation, updateType } = req.body;
+	const { modifiedOrder } = req.body;
 	const user = req.user;
 
 	const order = await SpecialOrder.findById(req.params.id);
@@ -131,43 +119,16 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 		);
 	}
 
-	if (!updateType) {
-		return next(new ErrorResponse("Type of update needs to be specified", 500));
-	}
+	const modifyOrder = await SpecialOrder.findOneAndUpdate(
+		{ _id: req.params.id },
+		modifiedOrder,
+		{ new: true }
+	);
 
-	/**
-	 * check the type of update that needs to be made
-	 *
-	 * case for updating items that would require an invoice update
-	 * 		-customer information
-	 * 		-order items
-	 * case for updating items that would not require an invoice update
-	 * 		-delivery information
-	 * 		-payment type
-	 * 		-status
-	 */
-	switch (updateType) {
-		case "INVOICE_UPDATE":
-			updatedOrder = await orderUtility.invoiceUpdate(
-				req,
-				orderItems,
-				customerInformation,
-				order,
-				next
-			);
-			return res.status(201).json({ success: true, data: updatedOrder });
-		case "NON_INVOICE_UPDATE":
-			updatedOrder = await orderUtility.nonInvoiceUpdate(
-				req,
-				orderItems,
-				customerInformation,
-				order,
-				next
-			);
-			return res.status(200).json({ success: true, data: updatedOrder });
-		default:
-			return res.status(200).json({ success: true, data: " " });
-	}
+	res.status(201).json({
+		success: true,
+		data: modifyOrder,
+	});
 });
 
 //@desc     Cancel a special order

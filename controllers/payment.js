@@ -119,3 +119,41 @@ exports.getPaymentIntent = asyncHandler(async (req, res, next) => {
 		data: paymentIntent,
 	});
 });
+
+//@desc     POST refund for a credit card
+//@route    POST /api/v1/payment/refund/creditcard
+//@access   Private: Authenticated users
+/**
+ * TODO
+ * make sure that only admin and person whose order it is can submit a refund, otherwise, unauthorized
+ */
+exports.refundCreditCard = asyncHandler(async (req, res, next) => {
+	const { paymentIntentId } = req.body;
+
+	const refund = await stripe.refunds.create({
+		payment_intent: paymentIntentId,
+	});
+
+	res.status(200).json({
+		success: true,
+		data: refund,
+	});
+});
+
+//@desc     POST void invoice
+//@route    POST /api/v1/payment/refund/invoice
+//@access   Private: Authenticated users
+/**
+ * TODO
+ * make sure that only admin and person whose order it is can void an invoice, otherwise, unauthorized
+ */
+exports.voidInvoice = asyncHandler(async (req, res, next) => {
+	const { invoiceId } = req.body;
+
+	const voidInvoice = await stripe.invoices.voidInvoice(invoiceId);
+
+	res.status(200).json({
+		success: true,
+		data: voidInvoice,
+	});
+});
