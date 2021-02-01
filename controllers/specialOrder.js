@@ -134,8 +134,9 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 //@desc     Cancel a special order
 //@route    DELETE /api/v1/specialorder/:id
 //@access   Private
-exports.deleteSpecialOrder = asyncHandler(async (req, res, next) => {
+exports.cancelSpecialOrder = asyncHandler(async (req, res, next) => {
 	const user = req.user;
+	const { paymentStatus } = req.body;
 
 	const order = await SpecialOrder.findById(req.params.id);
 	if (order.userId !== req.user.uid && !user.customClaims.admin) {
@@ -147,13 +148,15 @@ exports.deleteSpecialOrder = asyncHandler(async (req, res, next) => {
 		);
 	}
 
-	//Void the invoice
-	const voidInvoice = await stripe.invoices.voidInvoice(order.invoiceId);
-
 	//Set the status of order to "cancelled" in mongo
 	const cancelOrder = await SpecialOrder.findByIdAndUpdate(
-		req.params.id,
-		{ status: "Cancelled" },
+		{ _id: req.params.id },
+		{
+			$set: {
+				status: "Cancelled",
+				"paymentInformation.paymentStatus": paymentStatus,
+			},
+		},
 		{ new: true }
 	);
 

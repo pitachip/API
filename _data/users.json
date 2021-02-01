@@ -61,5 +61,14 @@
 			"lastName": "Alsaadi",
 			"email": "alsaadirend@gmail.com"
 		}
+	},
+	{
+		"firebaseUserId": "OOABRC90sGMv4GEkxGoSckiHORb2",
+		"isAnonymous": false,
+		"metaData": {
+			"firstName": "Omar",
+			"lastName": "Alsaadi",
+			"email": "omar@pitachipphilly.com"
+		}
 	}
 ]

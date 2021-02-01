@@ -3,7 +3,7 @@ const {
 	getSpecialOrders,
 	getSpecialOrder,
 	updateSpecialOrder,
-	deleteSpecialOrder,
+	cancelSpecialOrder,
 	createSpecialOrder,
 } = require("../controllers/specialOrder");
 const router = express.Router();
@@ -33,6 +33,6 @@ router
 	.route("/:id")
 	.get(protect, authorize("admin", "customer"), getSpecialOrder)
 	.put(protect, authorize("admin", "customer"), updateSpecialOrder)
-	.delete(protect, authorize("admin", "customer"), deleteSpecialOrder);
+	.delete(protect, authorize("admin", "customer"), cancelSpecialOrder);
 
 module.exports = router;

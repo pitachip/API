@@ -64,7 +64,7 @@ const SpecialOrderSchema = new mongoose.Schema({
 		paymentStatus: {
 			type: String,
 			required: [true, "Payment Status is Required"],
-			enum: ["Paid", "Pending"],
+			enum: ["Paid", "Pending", "Refunded", "Invoice Voided"],
 		},
 		taxExempt: {
 			type: Boolean,
