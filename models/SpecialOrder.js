@@ -107,7 +107,7 @@ const SpecialOrderSchema = new mongoose.Schema({
 			"Confirmed",
 			"Scheduled For Delivery",
 			"Completed",
-			"Canceled",
+			"Cancelled",
 		],
 	},
 	createdAt: {
