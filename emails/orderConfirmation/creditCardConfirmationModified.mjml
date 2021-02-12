@@ -1,0 +1,123 @@
+<mjml>
+  <mj-body font-size="13px" width="800px">
+    <!--Logo and brand title-->
+    <mj-section background-color="#fff" padding-bottom="5px">
+      <mj-column width="100%">
+        <mj-image src="https://pitachip-assets.s3.amazonaws.com/PITA+CHIP+final+design+1.png" alt="" align="center" border="none" width="100px"></mj-image>
+        <mj-text align="center" font-size="10px">Family Owned | Philly Based | Build Your Own</mj-text>
+      </mj-column>
+    </mj-section>
+    <!--Thank you section-->
+    <mj-section background-color="#b21300" padding-bottom="0px" padding-top="0">
+      <mj-column width="100%">
+        <mj-text align="left" font-size="13px" color="white" font-family="Helvetica" padding-top="15px">Hi {{customerInformation.firstName}}, 
+        </mj-text>
+        <mj-text align="left" font-size="20px" color="white" font-family="Helvetica" padding-left="25px" padding-right="25px">We've modified your order!
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <!--Order Overview-->
+    <mj-section background-color="#b21300" padding-bottom="15px">
+      <mj-column>
+        <mj-text align="center" color="#FFF" font-size="15px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Order Number</strong></mj-text>
+        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">{{orderNumber}}</mj-text>
+      </mj-column>
+      <mj-column>
+        <mj-text align="center" color="#FFF" font-size="15px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Order Date</strong></mj-text>
+        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">{{orderDetails.orderDate}}</mj-text>
+      </mj-column>
+      <mj-column>
+        <mj-text align="center" color="#FFF" font-size="15px" font-family=" Helvetica" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Total Price</strong></mj-text>
+        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${{orderTotals.total}}</mj-text>
+      </mj-column>
+    </mj-section>
+    <!--Contact Information-->
+    <mj-section background-color="#f0f0f0">
+      <mj-column>
+        <mj-text  font-size="12px" font-weight="bold" align="left" padding-left="15px">Contact Information</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{customerInformation.firstName}} {{customerInformation.lastName}}</mj-text>
+        <mj-text  font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{customerInformation.email}}</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{customerInformation.phoneNumber}}</mj-text>
+      </mj-column>
+      <mj-column>
+        <mj-text font-size="12px" font-weight="bold" align="left" padding-left="15px">Delivery Contact</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{deliveryInformation.firstName}} {{deliveryInformation.lastName}}</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{deliveryInformation.email}}</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{deliveryInformation.phoneNumber}}</mj-text>
+      </mj-column>
+      <mj-column>
+        <mj-text font-size="12px" font-weight="bold" align="left" padding-left="15px">Delivery Details</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{deliveryInformation.address1}}, {{deliveryInformation.address2}}</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">{{deliveryInformation.city}}, {{deliveryInformation.state}} {{deliveryInformation.zip}}</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">Delivery Instructions: {{deliveryInformation.deliveryInstructions}}</mj-text>
+      </mj-column>
+    </mj-section>
+    <!--Contact section divider-->
+    <mj-section background-color="#f0f0f0" padding-bottom="5px" padding-top="0">
+      <mj-column width="100%">
+        <mj-divider border-color="#b21300" border-width="2px" border-style="solid" padding-left="15px" padding-right="20px" padding-bottom="0px" padding-top="0"></mj-divider>
+      </mj-column>
+    </mj-section>
+    <!--Order items and totals-->
+    <mj-section background-color="#f0f0f0" padding="0px">
+      <mj-column padding="0px">
+        <mj-text  font-size="14px" font-weight="bold" align="left" padding-left="15px">Order Items</mj-text>
+        {{#orderItems}}
+          <mj-text font-size="12px" padding-left="15px" padding-right="0px" padding-bottom="10px" padding="0px">{{quantity}}x {{ menuItem }}</mj-text>
+          {{#modifiers}}
+            <mj-text font-size="12px" font-style="italic" padding-left="30px" padding-right="0px" padding-bottom="10px" padding="0px">{{modifierName}}</mj-text>
+              <mj-text font-size="10px" padding-left="30px" padding-right="0px" padding-bottom="10px" padding="0px">
+                {{#modifierChoices}}
+                <span>{{name}}, <span>
+                {{/modifierChoices}}
+              </mj-text>
+          {{/modifiers}}
+        {{/orderItems}}
+      </mj-column>
+      <mj-column padding="0px">
+        <mj-text  font-size="14px" font-weight="bold" align="left" padding-left="15px">Order Totals</mj-text>
+        <mj-text font-size="12px" padding-left="15px" padding-right="0px" padding-bottom="10px" padding="0px">Subtotal: ${{ orderTotals.subTotal }}</mj-text>
+        <mj-text font-size="12px" padding-left="15px" padding-right="0px" padding-bottom="10px" padding="0px">Tax: ${{ orderTotals.tax }}</mj-text>
+        <mj-text font-size="12px" padding-left="15px" padding-right="0px" padding-bottom="10px" padding="0px">Delivery: ${{ orderTotals.delivery }}</mj-text>
+        <mj-text font-size="12px" font-weight="bold" padding-left="15px" padding-right="0px" padding-bottom="10px" padding="0px">Total: ${{ orderTotals.total }}</mj-text>
+      </mj-column>
+    </mj-section>
+    <!--Order items and totals divider-->
+    <mj-section background-color="#f0f0f0" padding-bottom="5px" padding-top="0">
+      <mj-column width="100%">
+        <mj-divider border-color="#b21300" border-width="2px" border-style="solid" padding-left="15px" padding-right="20px" padding-bottom="0px" padding-top="0"></mj-divider>
+      </mj-column>
+    </mj-section>
+    <!--Payment Details-->
+    <mj-section background-color="#f0f0f0" padding-bottom="5px" padding-top="0">
+      <mj-column>
+        <mj-text  font-size="14px" font-weight="bold" align="left" padding-left="15px">Payment Details</mj-text>
+        <mj-text font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">Credit Card: {{paymentInformation.creditCardPaymentDetails.charges.data.0.payment_method_details.card.brand}} ending in {{paymentInformation.creditCardPaymentDetails.charges.data.0.payment_method_details.card.last4}} </mj-text>
+        <mj-text  font-size="10px" padding-left="15px" padding-right="0px" padding-bottom="0px">Expiry Date: {{paymentInformation.creditCardPaymentDetails.charges.data.0.payment_method_details.card.exp_month}}/{{paymentInformation.creditCardPaymentDetails.charges.data.0.payment_method_details.card.exp_year}}</mj-text>
+        <mj-button background-color="#b21300" color="#FFF" font-size="10px" align="left" font-weight="bold" border="none" border-radius="5px" href={{paymentInformation.creditCardPaymentDetails.charges.data.0.receipt_url}} font-family="Helvetica" padding-left="15px" padding-right="25px" padding-bottom="10px" inner-padding="5px 20px">View Receipt</mj-button>
+      </mj-column>
+    </mj-section>
+    <!--Footer-->
+    <mj-section background-color="black" padding-bottom="0" padding-top="0">
+      <mj-column width="100%">
+        <mj-text align="center" color="#FFF" font-size="15px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-top="20px">Questions about your order?</mj-text>
+        <mj-text align="center" color="#FFF" font-size="10px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px">Reach out to us at info@pitachipphilly.com</mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="black" padding-bottom="0px" padding-top="0">
+      <mj-column width="100%">
+        <mj-divider border-color="white" border-width="2px" border-style="solid" padding-left="15px" padding-right="20px" padding-bottom="0px" padding-top="0"></mj-divider>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="black" padding="0px">
+      <mj-column>
+        <mj-social icon-size="30px" mode="horizontal">
+          <mj-social-element name="facebook" href="https://facebook.com/pitachipphilly">
+          </mj-social-element>
+          <mj-social-element name="instagram" href="https://instagram.com/pitachipphilly">
+          </mj-social-element>
+        </mj-social>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

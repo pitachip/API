@@ -129,6 +129,61 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 		success: true,
 		data: modifyOrder,
 	});
+
+	//send confirmation email via nodemailer
+	/**
+	 * TODO:
+	 * This is intentially bad. Will be switching how we send confirmation emails relatively soon
+	 * so I don't want to spend too much time on this. Just something quick and dirty
+	 */
+	var template = "";
+	if (
+		modifyOrder.paymentInformation.paymentType === "cc" &&
+		modifyOrder.orderDetails.shippingMethod === "delivery"
+	) {
+		template = fs
+			.readFileSync(
+				"./emails/orderConfirmation/creditCardConfirmationModified.mjml"
+			)
+			.toString();
+	} else if (
+		modifyOrder.paymentInformation.paymentType === "cc" &&
+		modifyOrder.orderDetails.shippingMethod === "pickup"
+	) {
+		template = fs
+			.readFileSync(
+				"./emails/orderConfirmation/creditCardConfirmationPickupModified.mjml"
+			)
+			.toString();
+	} else if (modifyOrder.orderDetails.shippingMethod === "delivery") {
+		template = fs
+			.readFileSync(
+				"./emails/orderConfirmation/invoiceConfirmationModified.mjml"
+			)
+			.toString();
+	} else {
+		template = fs
+			.readFileSync(
+				"./emails/orderConfirmation/invoiceConfirmationPickupModified.mjml"
+			)
+			.toString();
+	}
+
+	modifyOrder.orderDetails.orderDate = new Date(
+		modifyOrder.orderDetails.orderDate
+	)
+		.toLocaleString()
+		.split(",")[0];
+
+	const mailOptions = {
+		template,
+		templateData: modifyOrder,
+		toEmail: modifyOrder.customerInformation.email,
+		subject: `MODIFIED Order#${modifyOrder.orderNumber}`,
+		text: "Order Confirmation",
+	};
+
+	await nodemailer(mailOptions);
 });
 
 //@desc     Cancel a special order
