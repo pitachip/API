@@ -72,8 +72,6 @@ exports.signin = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/auth/me
 //@access   Private
 exports.getMyUserInfo = asyncHandler(async (req, res, next) => {
-	//TODO: Have to figure out if not sending the token here is an issue.
-	//Should always be in the cookies though
 	const user = req.user;
 
 	res.status(200).json({
