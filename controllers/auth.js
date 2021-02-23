@@ -120,7 +120,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 });
 
 //@desc    	Update user's password
-//@route    POST /api/v1/auth/updatepassword
+//@route    PUT /api/v1/auth/updatepassword
 //@access   Private (authenticated users)
 exports.updatePassword = asyncHandler(async (req, res, next) => {
 	//TODO: could possibly make this for any updates and pass optional params in
@@ -133,8 +133,10 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
 
 	const response = await firebase.auth().updateUser(uid, { password });
 
-	//Send an updated token
-	sendTokenResponse(response.email, password, res, next);
+	res.status(200).json({
+		success: true,
+		data: response,
+	});
 });
 
 //@desc    	Update user roles & disabled flag
