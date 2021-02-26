@@ -61,7 +61,7 @@
       <mj-column padding="0px">
         <mj-text  font-size="14px" font-weight="bold" align="left" padding-left="15px">Order Items</mj-text>
         {{#orderItems}}
-          <mj-text font-size="12px" padding-left="15px" padding-right="0px" padding-bottom="10px" padding="0px">{{quantity}}x {{ menuItem }}</mj-text>
+          <mj-text font-size="12px" padding-left="15px" padding-right="0px" padding-bottom="10px" padding="0px">{{quantity}}x {{ name }}</mj-text>
           {{#modifiers}}
             <mj-text font-size="12px" font-style="italic" padding-left="30px" padding-right="0px" padding-bottom="10px" padding="0px">{{modifierName}}</mj-text>
               <mj-text font-size="10px" padding-left="30px" padding-right="0px" padding-bottom="10px" padding="0px">
