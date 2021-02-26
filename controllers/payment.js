@@ -23,7 +23,12 @@ exports.createPaymentIntent = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/payment/invoice
 //@access   Private: Authenticated users
 exports.createInvoice = asyncHandler(async (req, res, next) => {
-	const { contactInformation, orderItems, paymentInformation } = req.body;
+	const {
+		contactInformation,
+		orderItems,
+		deliveryAndTax,
+		paymentInformation,
+	} = req.body;
 	/**
 	 * 2. TODO: go through the customer use cases
 	 * 			(e.g. has portal account, has portal account/stripeID, guest on the portal, guest on the portal with stripeID)
@@ -42,9 +47,21 @@ exports.createInvoice = asyncHandler(async (req, res, next) => {
 			stripe.invoiceItems.create({
 				customer: stripeCustomer,
 				unit_amount: orderItem.basePrice,
-				description: orderItem.menuItem,
+				description: orderItem.name,
 				currency: "usd",
 				quantity: orderItem.quantity,
+			})
+		);
+	});
+
+	_.each(deliveryAndTax, (deliveryAndTaxItem) => {
+		promiseArray.push(
+			stripe.invoiceItems.create({
+				customer: stripeCustomer,
+				unit_amount: deliveryAndTaxItem.basePrice,
+				description: deliveryAndTaxItem.name,
+				currency: "usd",
+				quantity: deliveryAndTaxItem.quantity,
 			})
 		);
 	});
@@ -100,5 +117,43 @@ exports.getPaymentIntent = asyncHandler(async (req, res, next) => {
 	res.status(200).json({
 		success: true,
 		data: paymentIntent,
+	});
+});
+
+//@desc     POST refund for a credit card
+//@route    POST /api/v1/payment/refund/creditcard
+//@access   Private: Authenticated users
+/**
+ * TODO
+ * make sure that only admin and person whose order it is can submit a refund, otherwise, unauthorized
+ */
+exports.refundCreditCard = asyncHandler(async (req, res, next) => {
+	const { paymentIntentId } = req.body;
+
+	const refund = await stripe.refunds.create({
+		payment_intent: paymentIntentId,
+	});
+
+	res.status(200).json({
+		success: true,
+		data: refund,
+	});
+});
+
+//@desc     POST void invoice
+//@route    POST /api/v1/payment/refund/invoice
+//@access   Private: Authenticated users
+/**
+ * TODO
+ * make sure that only admin and person whose order it is can void an invoice, otherwise, unauthorized
+ */
+exports.voidInvoice = asyncHandler(async (req, res, next) => {
+	const { invoiceId } = req.body;
+
+	const voidInvoice = await stripe.invoices.voidInvoice(invoiceId);
+
+	res.status(200).json({
+		success: true,
+		data: voidInvoice,
 	});
 });

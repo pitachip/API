@@ -12,7 +12,7 @@
       <mj-column width="100%">
         <mj-text align="left" font-size="13px" color="white" font-family="Helvetica" padding-top="15px">Hi {{customerInformation.firstName}}, 
         </mj-text>
-        <mj-text align="left" font-size="20px" color="white" font-family="Helvetica" padding-left="25px" padding-right="25px">Thank you for your order!
+        <mj-text align="left" font-size="20px" color="white" font-family="Helvetica" padding-left="25px" padding-right="25px">We've modified your order!
         </mj-text>
       </mj-column>
     </mj-section>

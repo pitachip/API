@@ -40,23 +40,27 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 	/**
 	 * Customers should only be able to see their orders
 	 * managers, and admins can see all
+	 * Customer can only see what they're filtering on in terms of total documents for
+	 * propper pagination
 	 */
 	let totalDocumentFilter = {};
 	if (user.customClaims.customer) {
 		query = query.find({ userId: user.uid });
-		totalDocumentFilter = {
-			userId: user.uid,
-		};
+		totalDocumentFilter.userId = user.uid;
+
+		//append the rest of the nonreservered mongo keywords to the filter list. At this point all the keywords should be removed
+		totalDocumentFilter = { ...totalDocumentFilter, ...reqQuery };
 	} else if (user.customClaims.manager || user.customClaims.admin) {
 		query = query.find();
 	}
 
 	//Pagination
 	const page = parseInt(req.query.page, 10) || 1;
-	const limit = parseInt(req.query.limit, 10) || 10;
+	const limit = parseInt(req.query.limit, 10) || 4;
 	const startIndex = (page - 1) * limit;
 	const endIndex = page * limit;
 	const total = await model.countDocuments(totalDocumentFilter);
+	const totalPages = Math.ceil(total / limit);
 
 	query = query.skip(startIndex).limit(limit);
 
@@ -82,6 +86,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 			limit,
 		};
 	}
+	pagination.totalPages = totalPages;
 
 	res.advancedResults = {
 		success: true,

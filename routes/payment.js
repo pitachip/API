@@ -3,6 +3,8 @@ const {
 	createPaymentIntent,
 	createInvoice,
 	getPaymentIntent,
+	refundCreditCard,
+	voidInvoice,
 } = require("../controllers/payment");
 const router = express.Router();
 
@@ -12,5 +14,8 @@ router.route("/intent").post(createPaymentIntent);
 router.route("/intent/:id").get(protect, getPaymentIntent);
 
 router.route("/invoice").post(protect, createInvoice);
+
+router.route("/refund/creditcard").post(protect, refundCreditCard);
+router.route("/refund/invoice").post(protect, voidInvoice);
 
 module.exports = router;

@@ -61,6 +61,11 @@ const SpecialOrderSchema = new mongoose.Schema({
 			required: [true, "Type of Payment is Required"],
 			enum: ["cc", "check", "univ"],
 		},
+		paymentStatus: {
+			type: String,
+			required: [true, "Payment Status is Required"],
+			enum: ["Paid", "Pending", "Refunded", "Invoice Voided"],
+		},
 		taxExempt: {
 			type: Boolean,
 			required: [true, "Tax Exempt Status is Required"],
@@ -102,7 +107,7 @@ const SpecialOrderSchema = new mongoose.Schema({
 			"Confirmed",
 			"Scheduled For Delivery",
 			"Completed",
-			"Canceled",
+			"Cancelled",
 		],
 	},
 	createdAt: {
