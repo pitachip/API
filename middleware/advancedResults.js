@@ -51,7 +51,8 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 		//append the rest of the nonreservered mongo keywords to the filter list. At this point all the keywords should be removed
 		totalDocumentFilter = { ...totalDocumentFilter, ...reqQuery };
 	} else if (user.customClaims.manager || user.customClaims.admin) {
-		query = query.find();
+		query = query.find(reqQuery);
+		totalDocumentFilter = reqQuery;
 	}
 
 	//Pagination
