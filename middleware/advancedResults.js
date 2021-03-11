@@ -89,6 +89,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 	}
 	pagination.totalPages = totalPages;
 	pagination.totalOrders = total;
+	pagination.limit = limit;
 
 	res.advancedResults = {
 		success: true,

@@ -39,6 +39,8 @@ app.use(cookieParser());
 var allowedOrigins = [
 	"https://dev-specialorder.pitachip.biz",
 	"https://specialorder.pitachip.biz",
+	"https://dev-backoffice.pitachip.biz",
+	"https://backoffice.pitachip.biz",
 	"http://localhost:3000",
 ];
 app.use(
