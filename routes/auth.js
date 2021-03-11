@@ -16,6 +16,6 @@ router.post("/register", registerNewUser);
 router.post("/signin", signin);
 router.post("/resetpassword", resetPassword);
 router.route("/updatepassword").put(protect, updatePassword);
-router.route("/updateroles").put(protect, authorize("admin"), updateUser);
+router.route("/updateroles").put(protect, updateUser);
 
 module.exports = router;
