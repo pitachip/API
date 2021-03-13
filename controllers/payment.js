@@ -157,3 +157,16 @@ exports.voidInvoice = asyncHandler(async (req, res, next) => {
 		data: voidInvoice,
 	});
 });
+
+exports.addPurchaseOrderNumber = asyncHandler(async (req, res, next) => {
+	const invoiceId = req.params.id;
+
+	const invoice = await stripe.invoices.update(invoiceId, {
+		metadata: { order_id: "1010" },
+	});
+
+	res.status(200).json({
+		success: true,
+		data: invoice,
+	});
+});
