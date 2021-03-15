@@ -158,15 +158,16 @@ exports.voidInvoice = asyncHandler(async (req, res, next) => {
 	});
 });
 
-exports.addPurchaseOrderNumber = asyncHandler(async (req, res, next) => {
-	const invoiceId = req.params.id;
-
-	const invoice = await stripe.invoices.update(invoiceId, {
-		metadata: { order_id: "1010" },
+//@desc     POST mark invoice as paid
+//@route    POST /api/v1/payment/invoice/:id/paid
+//@access   Private: Authenticated Managers and Admins
+exports.markInvoicePaid = asyncHandler(async (req, res, next) => {
+	const paidInvoice = await stripe.invoices.pay(req.params.id, {
+		paid_out_of_band: true,
 	});
 
 	res.status(200).json({
 		success: true,
-		data: invoice,
+		data: paidInvoice,
 	});
 });
