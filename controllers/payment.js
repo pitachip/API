@@ -2,6 +2,7 @@ const stripe = require("stripe")("sk_test_lG00dXwz3Cpz3Z1TIwdNLL7c"); //TODO: ne
 const asyncHandler = require("../middleware/async");
 const stripeUtility = require("../utils/stripe");
 const _ = require("lodash");
+const SpecialOrder = require("../models/SpecialOrder");
 
 //@desc     create payment intent to be used to charge customer via credit card
 //@route    POST /api/v1/payment/intent
@@ -43,10 +44,16 @@ exports.createInvoice = asyncHandler(async (req, res, next) => {
 	var promiseArray = [];
 
 	_.each(orderItems, (orderItem) => {
+		let modifierTotal = 0;
+		_.each(orderItem.modifiers, (modifier) => {
+			_.each(modifier.modifierChoices, (modifierChoice) => {
+				modifierTotal = +(modifierTotal + modifierChoice.price).toFixed(2);
+			});
+		});
 		promiseArray.push(
 			stripe.invoiceItems.create({
 				customer: stripeCustomer,
-				unit_amount: orderItem.basePrice,
+				unit_amount: orderItem.basePrice + modifierTotal,
 				description: orderItem.name,
 				currency: "usd",
 				quantity: orderItem.quantity,
@@ -162,12 +169,19 @@ exports.voidInvoice = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/payment/invoice/:id/paid
 //@access   Private: Authenticated Managers and Admins
 exports.markInvoicePaid = asyncHandler(async (req, res, next) => {
+	const {orderId} = req.body
 	const paidInvoice = await stripe.invoices.pay(req.params.id, {
 		paid_out_of_band: true,
 	});
 
+	const updateOrder = await SpecialOrder.findOneAndUpdate(
+		{ _id: orderId },
+		{"paymentDetails.invoicePaymentDetails": paidInvoice, "paymentInformation.paymentStatus" : "Paid"},
+		{ new: true }
+	);
+
 	res.status(200).json({
 		success: true,
-		data: paidInvoice,
+		data: updateOrder,
 	});
 });
