@@ -16,7 +16,7 @@ const router = express.Router();
 const { protect, authorize } = require("../middleware/auth");
 
 //Middleware for advanced querying -- have to bring in model
-const SpecialOrder = require("../models//SpecialOrder");
+const SpecialOrder = require("../models/SpecialOrder");
 const advancedResults = require("../middleware/advancedResults");
 
 router

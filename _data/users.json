@@ -70,5 +70,14 @@
 			"lastName": "Alsaadi",
 			"email": "omar@pitachipphilly.com"
 		}
+	},
+	{
+		"firebaseUserId": "V95l5sLhrYamPbHUEcbXHeBquDl2",
+		"isAnonymous": false,
+		"metaData": {
+			"firstName": "Mike",
+			"lastName": "Kabbani",
+			"email": "kabbani_m@msn.com"
+		}
 	}
 ]
