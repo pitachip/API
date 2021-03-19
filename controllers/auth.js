@@ -172,6 +172,18 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 	});
 });
 
+//@desc    	Get user's roles
+//@route    GET /api/v1/auth/roles/:id
+//@access   Private Authenticated admins
+exports.getUserRoles = asyncHandler(async (req, res, next) => {
+	const user = await firebase.auth().getUser(req.params.id);
+
+	res.status(200).json({
+		success: true,
+		data: user,
+	});
+});
+
 //Get token, create cookie and send response
 const sendTokenResponse = async (email, password, res, next) => {
 	const token = await getIdToken(email, password, next);

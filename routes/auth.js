@@ -6,6 +6,7 @@ const {
 	resetPassword,
 	updatePassword,
 	updateUser,
+	getUserRoles,
 } = require("../controllers/auth");
 
 const router = express.Router();
@@ -17,5 +18,6 @@ router.post("/signin", signin);
 router.post("/resetpassword", resetPassword);
 router.route("/updatepassword").put(protect, updatePassword);
 router.route("/updateroles").put(protect, authorize("admin"), updateUser);
+router.route("/roles/:id").get(protect, authorize("admin"), getUserRoles);
 
 module.exports = router;
