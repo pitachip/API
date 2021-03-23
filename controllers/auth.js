@@ -154,7 +154,8 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 			employee: role.employee ? true : false,
 			admin: role.admin ? true : false,
 		});
-	} else if (disabled || !disabled) {
+	}
+	if (disabled || !disabled) {
 		response = await firebase.auth().updateUser(uid, {
 			disabled,
 		});

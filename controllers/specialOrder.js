@@ -91,11 +91,16 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 		.toLocaleString()
 		.split(",")[0];
 
+	const mailList = [
+		"info@pitachipphilly.com",
+		newSpecialOrder.customerInformation.email,
+	];
+
 	const mailOptions = {
 		template,
 		templateData: newSpecialOrder,
-		toEmail: newSpecialOrder.customerInformation.email,
-		subject: `Confirmation Order#${newSpecialOrder.orderNumber}`,
+		toEmail: mailList,
+		subject: `Submitted Order#${newSpecialOrder.orderNumber}`,
 		text: "Order Confirmation",
 	};
 
@@ -175,11 +180,16 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 		.toLocaleString()
 		.split(",")[0];
 
+	const mailList = [
+		"info@pitachipphilly.com",
+		modifyOrder.customerInformation.email,
+	];
+
 	const mailOptions = {
 		template,
 		templateData: modifyOrder,
-		toEmail: modifyOrder.customerInformation.email,
-		subject: `MODIFIED Order#${modifyOrder.orderNumber}`,
+		toEmail: mailList,
+		subject: `${modifyOrder.status} Order#${modifyOrder.orderNumber}`,
 		text: "Order Confirmation",
 	};
 
