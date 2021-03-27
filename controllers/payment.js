@@ -8,10 +8,11 @@ const SpecialOrder = require("../models/SpecialOrder");
 //@route    POST /api/v1/payment/intent
 //@access   Public TODO: needs to be an authorized route for now its okay
 exports.createPaymentIntent = asyncHandler(async (req, res, next) => {
-	const { amount } = req.body;
+	const { amount, description } = req.body;
 	const paymentIntent = await stripe.paymentIntents.create({
 		amount: amount,
 		currency: "usd",
+		description: description,
 	});
 
 	res.status(200).json({
@@ -169,14 +170,17 @@ exports.voidInvoice = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/payment/invoice/:id/paid
 //@access   Private: Authenticated Managers and Admins
 exports.markInvoicePaid = asyncHandler(async (req, res, next) => {
-	const {orderId} = req.body
+	const { orderId } = req.body;
 	const paidInvoice = await stripe.invoices.pay(req.params.id, {
 		paid_out_of_band: true,
 	});
 
 	const updateOrder = await SpecialOrder.findOneAndUpdate(
 		{ _id: orderId },
-		{"paymentDetails.invoicePaymentDetails": paidInvoice, "paymentInformation.paymentStatus" : "Paid"},
+		{
+			"paymentDetails.invoicePaymentDetails": paidInvoice,
+			"paymentInformation.paymentStatus": "Paid",
+		},
 		{ new: true }
 	);
 
