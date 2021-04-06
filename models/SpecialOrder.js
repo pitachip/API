@@ -91,6 +91,8 @@ const SpecialOrderSchema = new mongoose.Schema({
 			required: [true, "Type of Shipping is Required"],
 			enum: ["delivery", "pickup"],
 		},
+		fulfilledBy: String,
+		deliveredBy: String,
 		specialInstructions: String,
 	},
 	orderTotals: {

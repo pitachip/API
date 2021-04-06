@@ -111,7 +111,7 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 //@route    PUT /api/v1/specialorder/:id
 //@access   Private
 exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
-	const { modifiedOrder } = req.body;
+	const { modifiedOrder, sendEmail } = req.body;
 	const user = req.user;
 
 	const order = await SpecialOrder.findById(req.params.id);
@@ -135,65 +135,67 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 		data: modifyOrder,
 	});
 
-	//send confirmation email via nodemailer
-	/**
-	 * TODO:
-	 * This is intentially bad. Will be switching how we send confirmation emails relatively soon
-	 * so I don't want to spend too much time on this. Just something quick and dirty
-	 */
-	var template = "";
-	if (
-		modifyOrder.paymentInformation.paymentType === "cc" &&
-		modifyOrder.orderDetails.shippingMethod === "delivery"
-	) {
-		template = fs
-			.readFileSync(
-				"./emails/orderConfirmation/creditCardConfirmationModified.mjml"
-			)
-			.toString();
-	} else if (
-		modifyOrder.paymentInformation.paymentType === "cc" &&
-		modifyOrder.orderDetails.shippingMethod === "pickup"
-	) {
-		template = fs
-			.readFileSync(
-				"./emails/orderConfirmation/creditCardConfirmationPickupModified.mjml"
-			)
-			.toString();
-	} else if (modifyOrder.orderDetails.shippingMethod === "delivery") {
-		template = fs
-			.readFileSync(
-				"./emails/orderConfirmation/invoiceConfirmationModified.mjml"
-			)
-			.toString();
-	} else {
-		template = fs
-			.readFileSync(
-				"./emails/orderConfirmation/invoiceConfirmationPickupModified.mjml"
-			)
-			.toString();
+	if (sendEmail) {
+		//send confirmation email via nodemailer
+		/**
+		 * TODO:
+		 * This is intentially bad. Will be switching how we send confirmation emails relatively soon
+		 * so I don't want to spend too much time on this. Just something quick and dirty
+		 */
+		var template = "";
+		if (
+			modifyOrder.paymentInformation.paymentType === "cc" &&
+			modifyOrder.orderDetails.shippingMethod === "delivery"
+		) {
+			template = fs
+				.readFileSync(
+					"./emails/orderConfirmation/creditCardConfirmationModified.mjml"
+				)
+				.toString();
+		} else if (
+			modifyOrder.paymentInformation.paymentType === "cc" &&
+			modifyOrder.orderDetails.shippingMethod === "pickup"
+		) {
+			template = fs
+				.readFileSync(
+					"./emails/orderConfirmation/creditCardConfirmationPickupModified.mjml"
+				)
+				.toString();
+		} else if (modifyOrder.orderDetails.shippingMethod === "delivery") {
+			template = fs
+				.readFileSync(
+					"./emails/orderConfirmation/invoiceConfirmationModified.mjml"
+				)
+				.toString();
+		} else {
+			template = fs
+				.readFileSync(
+					"./emails/orderConfirmation/invoiceConfirmationPickupModified.mjml"
+				)
+				.toString();
+		}
+
+		modifyOrder.orderDetails.orderDate = new Date(
+			modifyOrder.orderDetails.orderDate
+		)
+			.toLocaleString()
+			.split(",")[0];
+
+		const mailList = [
+			"info@pitachipphilly.com",
+			modifyOrder.customerInformation.email,
+		];
+
+		const mailOptions = {
+			template,
+			templateData: modifyOrder,
+			toEmail: mailList,
+			subject: `${modifyOrder.status} Order#${modifyOrder.orderNumber}`,
+			text: "Order Confirmation",
+		};
+
+		await nodemailer(mailOptions);
 	}
-
-	modifyOrder.orderDetails.orderDate = new Date(
-		modifyOrder.orderDetails.orderDate
-	)
-		.toLocaleString()
-		.split(",")[0];
-
-	const mailList = [
-		"info@pitachipphilly.com",
-		modifyOrder.customerInformation.email,
-	];
-
-	const mailOptions = {
-		template,
-		templateData: modifyOrder,
-		toEmail: mailList,
-		subject: `${modifyOrder.status} Order#${modifyOrder.orderNumber}`,
-		text: "Order Confirmation",
-	};
-
-	await nodemailer(mailOptions);
 });
 
 //@desc     Cancel a special order
