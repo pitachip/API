@@ -39,7 +39,10 @@ app.use(cookieParser());
 var allowedOrigins = [
 	"https://dev-specialorder.pitachip.biz",
 	"https://specialorder.pitachip.biz",
+	"https://dev-backoffice.pitachip.biz",
+	"https://backoffice.pitachip.biz",
 	"http://localhost:3000",
+	"http://localhost:3001",
 ];
 app.use(
 	cors({
@@ -67,11 +70,15 @@ if (
 	app.use(morgan());
 	//Gets rid of the annoying CORS error
 	app.use(function (req, res, next) {
-		res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-		res.header(
-			"Access-Control-Allow-Headers",
-			"Origin, X-Requested-With, Content-Type, Accept"
-		);
+		const allowedOrigins = ["http://localhost:3001", "http://localhost:3000"];
+		const origin = req.headers.origin;
+		if (allowedOrigins.includes(origin)) {
+			res.setHeader("Access-Control-Allow-Origin", origin);
+			res.header(
+				"Access-Control-Allow-Headers",
+				"Origin, X-Requested-With, Content-Type, Accept"
+			);
+		}
 		return next();
 	});
 }

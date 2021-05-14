@@ -3,15 +3,29 @@ const _ = require("lodash");
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 
-//@desc     Get user's data from mongodb
+//@desc     Get all users mongodb
 //@route    GET /api/v1/user
-//@access   Authenticated users
-exports.getUserData = asyncHandler(async (req, res, next) => {
-	const userData = await User.find({ firebaseUserId: req.user.uid });
+//@access   Authenticated Admins
+exports.getUsers = asyncHandler(async (req, res, next) => {
+	res.status(200).json(res.advancedResults);
+});
 
+//@desc     Get user's data from mongodb
+//@route    GET /api/v1/user/:id
+//@access   Authenticated Users
+exports.getUser = asyncHandler(async (req, res, next) => {
+	const user = await User.find({ firebaseUserId: req.params.id });
+	if (user[0].firebaseUserId !== req.user.uid && !req.user.customClaims.admin) {
+		return next(
+			new ErrorResponse(
+				`User ${req.user.uid} Not Authorized to Access User ${req.params.id}`,
+				401
+			)
+		);
+	}
 	res.status(200).json({
 		success: true,
-		data: userData[0],
+		data: user,
 	});
 });
 

@@ -460,7 +460,7 @@
 				"description": "",
 				"items": [
 					{
-						"name": "(NEW!) Tahini Cookie (Feeds 6)",
+						"name": "(NEW!) Tahini Chocolate Chip Cookie (Feeds 6)",
 						"basePrice": 1000,
 						"itemMinimum": 0,
 						"description": "Freshly baked cookie filled with tahini, chocolate chips, roasted cashews, and sprinkled with toasted sesame seeds"
@@ -469,19 +469,19 @@
 						"name": "Assorted Baklava (Feeds 10)",
 						"basePrice": 1250,
 						"itemMinimum": 0,
-						"description": "A rich, sweet pastry made with layers of filo dough, filled with chopped cashews and held together with a sugar syrup."
+						"description": "A rich, sweet pastry made with layers of filo dough, filled with chopped cashews and held together with a syrup."
 					},
 					{
 						"name": "Original Baklava (Feeds 10)",
 						"basePrice": 1250,
 						"itemMinimum": 0,
-						"description": "A rich, sweet pastry made with layers of filo dough, filled with chopped cashews and held together with a sugar syrup."
+						"description": "A rich, sweet pastry made with layers of filo dough, filled with chopped cashews and held together with a syrup."
 					},
 					{
 						"name": "Nutella Baklava (Feeds 10)",
 						"basePrice": 1250,
 						"itemMinimum": 0,
-						"description": "A rich, sweet pastry made with layers of filo dough, filled with chopped cashews and held together with a sugar syrup."
+						"description": "A rich, sweet pastry made with layers of filo dough, filled with chopped cashews, Nutella, and held together with a syrup."
 					}
 				]
 			},

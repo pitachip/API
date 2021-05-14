@@ -1,4 +1,4 @@
-const stripe = require("stripe")("sk_test_lG00dXwz3Cpz3Z1TIwdNLL7c"); //TODO: need to use environment variables here
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 const _ = require("lodash");
 const ErrorResponse = require("../utils/errorResponse");
 const User = require("../models/User");

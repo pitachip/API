@@ -154,7 +154,8 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 			employee: role.employee ? true : false,
 			admin: role.admin ? true : false,
 		});
-	} else if (disabled || !disabled) {
+	}
+	if (disabled || !disabled) {
 		response = await firebase.auth().updateUser(uid, {
 			disabled,
 		});
@@ -169,6 +170,18 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 		success: true,
 		response,
 		updateMongoUser,
+	});
+});
+
+//@desc    	Get user's roles
+//@route    GET /api/v1/auth/roles/:id
+//@access   Private Authenticated admins
+exports.getUserRoles = asyncHandler(async (req, res, next) => {
+	const user = await firebase.auth().getUser(req.params.id);
+
+	res.status(200).json({
+		success: true,
+		data: user,
 	});
 });
 

@@ -1,5 +1,5 @@
 const stripeUtility = require("./stripe");
-const stripe = require("stripe")("sk_test_lG00dXwz3Cpz3Z1TIwdNLL7c");
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 const ErrorResponse = require("./errorResponse");
 const SpecialOrder = require("../models/SpecialOrder");
 const nodemailer = require("./nodemailer");

@@ -1,22 +1,25 @@
 const express = require("express");
 const {
-	getUserData,
+	getUsers,
+	getUser,
 	saveUserData,
 	updateUserData,
 } = require("../controllers/user");
 const router = express.Router();
 
 //Route protection
-/**
- * Routes that have this middleware can only be accessed by
- * logged in users
- */
 const { protect, authorize } = require("../middleware/auth");
+
+//Middleware for advanced querying -- have to bring in model
+const User = require("../models/User");
+const advancedResults = require("../middleware/advancedResults");
 
 router
 	.route("/")
-	.get(protect, getUserData)
+	.get(protect, authorize("admin"), advancedResults(User), getUsers)
 	.post(protect, saveUserData)
 	.put(protect, updateUserData);
+
+router.route("/:id").get(protect, getUser)
 
 module.exports = router;

@@ -44,14 +44,15 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 	 * propper pagination
 	 */
 	let totalDocumentFilter = {};
-	if (user.customClaims.customer) {
+	if (user.customClaims.manager || user.customClaims.admin) {
+		query = query.find(reqQuery);
+		totalDocumentFilter = reqQuery;
+	} else if (user.customClaims.customer) {
 		query = query.find({ userId: user.uid });
 		totalDocumentFilter.userId = user.uid;
 
 		//append the rest of the nonreservered mongo keywords to the filter list. At this point all the keywords should be removed
 		totalDocumentFilter = { ...totalDocumentFilter, ...reqQuery };
-	} else if (user.customClaims.manager || user.customClaims.admin) {
-		query = query.find();
 	}
 
 	//Pagination
@@ -87,6 +88,8 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 		};
 	}
 	pagination.totalPages = totalPages;
+	pagination.totalItems = total;
+	pagination.limit = limit;
 
 	res.advancedResults = {
 		success: true,
