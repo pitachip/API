@@ -8,7 +8,7 @@
 				"items": [
 					{
 						"name": "Build Your Own",
-						"basePrice": 1300,
+						"basePrice": 1600,
 						"itemMinimum": 10,
 						"description": "All Orders Include Pita Bread, Rice, and Lettuce",
 						"modifiers": [
@@ -234,7 +234,7 @@
 					{
 						"name": "Chicken Shawarma Box",
 						"description": "Choice of Entree with Chicken Shawarma, Lettuce, Roasted Red Pepper Hummus, Salsa, Seasoned Onions, Pickles, and Garlic Sauce",
-						"basePrice": 1300,
+						"basePrice": 1600,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -275,7 +275,7 @@
 					{
 						"name": "Falafel Box",
 						"description": "Choice of Entree with Falafel, Roasted Red Pepper Hummus, Lettuce, Tomatos, Sliced Cucumbers, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Original Tahini Sauce",
-						"basePrice": 1300,
+						"basePrice": 1600,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -316,7 +316,7 @@
 					{
 						"name": "Beef Shawarma Box",
 						"description": "Choice of Entree with Beef Shawarma, Lettuce, Roasted Red Pepper Hummus, Tomato and Cucumber Salad, Seasoned Onions, Pickles, and Original Tahini Sauce",
-						"basePrice": 1300,
+						"basePrice": 1600,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -357,7 +357,7 @@
 					{
 						"name": "Roasted Veggies Box",
 						"description": "Choice of Entree with Roasted Veggies, Roasted Red Pepper Hummus, Tomato & Cucumber Salad, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Vegan Tahini Sauce",
-						"basePrice": 1300,
+						"basePrice": 1600,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -394,6 +394,65 @@
 								]
 							}
 						]
+					},
+					{
+						"name": "Gluten Free Box",
+						"description": "Choice of Entree and Protein with Stuffed Grape Leaves (Gluten-Free) and Bottled Water",
+						"basePrice": 1500,
+						"itemMinimum": 0,
+						"modifiers": [
+							{
+								"name": "Choose Your Entree",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 1,
+								"options": [
+									{
+										"name": "Rice Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Salad Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "1/2 Salad 1/2 Rice",
+										"default": false,
+										"price": 0
+									}
+								]
+							},
+							{
+								"name": "Choose Your Protein",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 1,
+								"options": [
+									{
+										"name": "Chicken Shawarma",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Falafel",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Beef Shawarma",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Roasted Veggies",
+										"default": false,
+										"price": 0
+									}
+								]
+							}
+						]
 					}
 				]
 			},
@@ -404,28 +463,28 @@
 					{
 						"name": "Chicken Shawarma Wrap",
 						"description": "Chicken Shawarma, Roasted Red Pepper Hummus, Seasoned Onions, Pickles, and Garlic Sauce",
-						"basePrice": 1300,
+						"basePrice": 1700,
 						"itemMinimum": 0,
 						"modifiers": []
 					},
 					{
 						"name": "Falafel Wrap",
 						"description": "Falafel, Roasted Red Pepper Hummus, Tomato & Cucumber Salad, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Original Tahini Sauce",
-						"basePrice": 1300,
+						"basePrice": 1700,
 						"itemMinimum": 0,
 						"modifiers": []
 					},
 					{
 						"name": "Beef Shawarma Wrap",
 						"description": "Beef Shawarma, Roasted Red Pepper Hummus, Tomato and Cucumber Salad, Seasoned Onions, Pickles, and Original Tahini Sauce",
-						"basePrice": 1300,
+						"basePrice": 1700,
 						"itemMinimum": 0,
 						"modifiers": []
 					},
 					{
 						"name": "Roasted Veggies Wrap",
 						"description": "Roasted Veggies, Roasted Red Pepper Hummus, Tomato & Cucumber Salad, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Vegan Tahini Sauce",
-						"basePrice": 1300,
+						"basePrice": 1700,
 						"itemMinimum": 0,
 						"modifiers": []
 					}
@@ -437,19 +496,19 @@
 				"items": [
 					{
 						"name": "Fattoush Salad (Feeds 10)",
-						"basePrice": 1000,
+						"basePrice": 1500,
 						"itemMinimum": 0,
 						"description": "Romaine Lettuce, Tomatoes, Cucumbers, Red Onions, Kalamata Olives, Pita Chips, and House Vinaigrette"
 					},
 					{
 						"name": "Stuffed Grape Leaves (Feeds 10)",
-						"basePrice": 1000,
+						"basePrice": 1500,
 						"itemMinimum": 0,
 						"description": "Rice, Tomatoes, Red Onions, Parsley, Mint, Olive Oil, Lemon Juice, and Spices"
 					},
 					{
 						"name": "Seasoned Pita Chips (Feeds 10)",
-						"basePrice": 1000,
+						"basePrice": 1500,
 						"itemMinimum": 0,
 						"description": ""
 					}
@@ -460,26 +519,26 @@
 				"description": "",
 				"items": [
 					{
-						"name": "(NEW!) Tahini Chocolate Chip Cookie (Feeds 6)",
-						"basePrice": 1000,
+						"name": "Tahini Chocolate Chip Cookie (Feeds 10)",
+						"basePrice": 2000,
 						"itemMinimum": 0,
 						"description": "Freshly baked cookie filled with tahini, chocolate chips, roasted cashews, and sprinkled with toasted sesame seeds"
 					},
 					{
 						"name": "Assorted Baklava (Feeds 10)",
-						"basePrice": 1250,
+						"basePrice": 1500,
 						"itemMinimum": 0,
 						"description": "A rich, sweet pastry made with layers of filo dough, filled with chopped cashews and held together with a syrup."
 					},
 					{
 						"name": "Original Baklava (Feeds 10)",
-						"basePrice": 1250,
+						"basePrice": 1500,
 						"itemMinimum": 0,
 						"description": "A rich, sweet pastry made with layers of filo dough, filled with chopped cashews and held together with a syrup."
 					},
 					{
 						"name": "Nutella Baklava (Feeds 10)",
-						"basePrice": 1250,
+						"basePrice": 1500,
 						"itemMinimum": 0,
 						"description": "A rich, sweet pastry made with layers of filo dough, filled with chopped cashews, Nutella, and held together with a syrup."
 					}
@@ -497,25 +556,13 @@
 					},
 					{
 						"name": "Assorted Sodas",
-						"basePrice": 125,
+						"basePrice": 150,
 						"itemMinimum": 0,
 						"description": ""
 					},
 					{
-						"name": "Pure Leaf Lemon Iced Tea",
-						"basePrice": 250,
-						"itemMinimum": 0,
-						"description": ""
-					},
-					{
-						"name": "Pure Leaf Unsweetened Iced Tea",
-						"basePrice": 250,
-						"itemMinimum": 0,
-						"description": ""
-					},
-					{
-						"name": "Pure Leaf Sweetened Iced Tea",
-						"basePrice": 250,
+						"name": "Assorted Pure Leaf Iced Teas",
+						"basePrice": 275,
 						"itemMinimum": 0,
 						"description": ""
 					}

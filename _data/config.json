@@ -3,7 +3,7 @@
 		"type": "menuConfig",
 		"settings": {
 			"taxRate": 0.08,
-			"cateringDeliveryFee": 25,
+			"cateringDeliveryFee": 30,
 			"minimumOrderAmount": 130
 		}
 	},
