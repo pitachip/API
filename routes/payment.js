@@ -3,6 +3,7 @@ const { auth } = require("firebase-admin");
 const {
 	createPaymentIntent,
 	createInvoice,
+	updateInvoice,
 	getPaymentIntent,
 	refundCreditCard,
 	voidInvoice,
@@ -16,6 +17,8 @@ router.route("/intent").post(createPaymentIntent);
 router.route("/intent/:id").get(protect, getPaymentIntent);
 
 router.route("/invoice").post(protect, createInvoice);
+router.route("/invoice").put(protect, updateInvoice);
+
 router
 	.route("/invoice/:id/pay")
 	.post(protect, authorize("admin", "manager"), markInvoicePaid);
