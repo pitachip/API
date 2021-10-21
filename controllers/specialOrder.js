@@ -180,7 +180,7 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 
 		modifyOrder.orderDetails.orderDate = new Date(
 			modifyOrder.orderDetails.orderDate
-		).toLocaleString({ timeZone: "EST" });
+		).toLocaleString("en-US", { timeZone: "America/New_York" });
 
 		const mailList = [
 			"info@pitachipphilly.com",
