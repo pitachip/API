@@ -87,7 +87,7 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	//Formatting the date and time
 	newSpecialOrder.orderDetails.orderDate = new Date(
 		newSpecialOrder.orderDetails.orderDate
-	).toLocaleString();
+	).toLocaleString({ timeZone: "EST" });
 
 	console.log(
 		"Date String for email: ",
@@ -180,7 +180,7 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 
 		modifyOrder.orderDetails.orderDate = new Date(
 			modifyOrder.orderDetails.orderDate
-		).toLocaleString();
+		).toLocaleString({ timeZone: "EST" });
 
 		const mailList = [
 			"info@pitachipphilly.com",
