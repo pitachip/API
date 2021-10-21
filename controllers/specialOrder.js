@@ -87,7 +87,7 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	//Formatting the date and time
 	newSpecialOrder.orderDetails.orderDate = new Date(
 		newSpecialOrder.orderDetails.orderDate
-	).toLocaleString("en-US", { timeZone: "EST" });
+	).toLocaleString("en-US", { timeZone: "America/New_York" });
 
 	console.log(
 		"Date String for email: ",
