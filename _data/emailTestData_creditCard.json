@@ -1,0 +1,93 @@
+{
+    "first_name":"Rend",
+    "order_number": "1000",
+    "order_date": "10/10/2020",
+    "order_time": "10:00AM",
+    "customerInformation": {
+        "firstName":"Rend",
+        "lastName": "Alsaadi",
+        "email": "alsaadirend@gmail.com",
+        "phoneNumber": "215-268-4810"
+    },
+    "deliveryInformation": {
+        "firstName":"Charlotte",
+        "lastName": "Adams",
+        "email": "charlotteadamsvt@gmail.com",
+        "phoneNumber": "215-268-4810",
+        "address1": "1806 Arbor Court",
+        "address2": "Confrence Room 700",
+        "city":"Jamison",
+        "state": "PA",
+        "zip":"18929",
+        "deliveryInstructions": "Knock on the door"
+    },
+    "orderTotals": {
+        "subTotal":352,
+        "tax" : 28.16,
+        "delivery" : 30,
+        "total" : 380.16
+    },
+    "orderItems":
+    [
+        {
+            "name": "Chicken Shawarma Box",
+            "quantity": 14, 
+            "specialInstructions": "Special instructions for chicken box", 
+            "modifiers": 
+            [
+                {
+                    "modifierName":"Choose Your Entree",
+                    "modifierChoices":
+                    [
+                        {
+                            "name": "Tortilla Wrap" 
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Falafel Box",
+            "quantity": 10, 
+            "modifiers": 
+            [
+                {
+                    "modifierName":"Choose Your Entree",
+                    "modifierChoices":
+                    [
+                        {
+                            "name": "Pita Bread Wrap" 
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "paymentInformation":
+    {
+        "paymentType": "cc",
+        "creditCardPaymentDetails": 
+        {
+            "charges": 
+            {
+                "data":
+                [
+                    {
+                        "payment_method_details": 
+                        {
+                            "card": 
+                            {
+                                "brand": "visa",
+                                "last4": "4242",
+                                "exp_month": 4,
+                                "exp_year": 2024
+                            }
+                        },
+                        "receipt_url":"https://pay.stripe.com/receipts/acct_17y5AuJuHI1QTbxd/ch_3JeI5FJuHI1QTbxd1Tq5OIMq/rcpt_KIttYbf8yem5bazhMSBJdU3K6wUVwcx"
+                    }
+                ]
+            }
+            
+        }
+    }
+}

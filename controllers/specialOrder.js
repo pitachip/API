@@ -6,6 +6,7 @@ const asyncHandler = require("../middleware/async");
 const stripeUtility = require("../utils/stripe");
 const nodemailer = require("../utils/nodemailer");
 const fs = require("fs");
+const sgMail = require("@sendgrid/mail");
 
 //@desc     get all special orders
 //@route    GET /api/v1/specialorder
@@ -45,6 +46,25 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 
 	//Save order to Mongo
 	const newSpecialOrder = await SpecialOrder.create(specialOrder);
+
+	/*
+	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+	const msg = {
+		to: "alsaadirend@gmail.com", // Change to your recipient
+		from: "info@pitachipphilly.com", // Change to your verified sender
+		subject: "Sending with SendGrid is Fun",
+		text: "and easy to do anywhere, even with Node.js",
+		html: "<strong>and easy to do anywhere, even with Node.js</strong>",
+	};
+	sgMail
+		.send(msg)
+		.then(() => {
+			console.log("Email sent");
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+	*/
 
 	res.status(201).json({
 		success: true,
