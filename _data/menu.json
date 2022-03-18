@@ -163,7 +163,7 @@
 									{
 										"name": "Extra Beef Shawarma",
 										"default": false,
-										"price": 200
+										"price": 300
 									},
 									{
 										"name": "Extra Falafel",
@@ -232,7 +232,7 @@
 				"description": "*Individually Wrapped* A great option to quickly order a meal with everything included in each package. The deluxe package includes Pita Chips & Hummus, Baklava, and Bottled Water.",
 				"items": [
 					{
-						"name": "Chicken Shawarma Box",
+						"name": "Chicken Shawarma Box (Deluxe)",
 						"description": "Choice of Entree with Chicken Shawarma, Lettuce, Roasted Red Pepper Hummus, Salsa, Seasoned Onions, Pickles, and Garlic Sauce",
 						"basePrice": 1600,
 						"itemMinimum": 0,
@@ -273,7 +273,7 @@
 						]
 					},
 					{
-						"name": "Falafel Box",
+						"name": "Falafel Box (Deluxe)",
 						"description": "Choice of Entree with Falafel, Roasted Red Pepper Hummus, Lettuce, Tomatos, Sliced Cucumbers, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Original Tahini Sauce",
 						"basePrice": 1600,
 						"itemMinimum": 0,
@@ -314,7 +314,7 @@
 						]
 					},
 					{
-						"name": "Beef Shawarma Box",
+						"name": "Beef Shawarma Box (Deluxe)",
 						"description": "Choice of Entree with Beef Shawarma, Lettuce, Roasted Red Pepper Hummus, Tomato and Cucumber Salad, Seasoned Onions, Pickles, and Original Tahini Sauce",
 						"basePrice": 1600,
 						"itemMinimum": 0,
@@ -355,7 +355,7 @@
 						]
 					},
 					{
-						"name": "Roasted Veggies Box",
+						"name": "Roasted Veggies Box (Deluxe)",
 						"description": "Choice of Entree with Roasted Veggies, Roasted Red Pepper Hummus, Tomato & Cucumber Salad, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Vegan Tahini Sauce",
 						"basePrice": 1600,
 						"itemMinimum": 0,
@@ -396,7 +396,7 @@
 						]
 					},
 					{
-						"name": "Gluten Free Box",
+						"name": "Gluten Free Box (Deluxe)",
 						"description": "Choice of Entree and Protein with Stuffed Grape Leaves (Gluten-Free) and Bottled Water",
 						"basePrice": 1500,
 						"itemMinimum": 0,
@@ -461,7 +461,7 @@
 				"description": "*Individually Wrapped* A great option to quickly order a meal on a budget. The lite package includes an Entree and Baklava.",
 				"items": [
 					{
-						"name": "Chicken Shawarma Box",
+						"name": "Chicken Shawarma Box (Lite)",
 						"description": "Choice of Entree with Chicken Shawarma, Lettuce, Roasted Red Pepper Hummus, Salsa, Seasoned Onions, Pickles, and Garlic Sauce",
 						"basePrice": 1300,
 						"itemMinimum": 0,
@@ -502,7 +502,7 @@
 						]
 					},
 					{
-						"name": "Falafel Box",
+						"name": "Falafel Box (Lite)",
 						"description": "Choice of Entree with Falafel, Roasted Red Pepper Hummus, Lettuce, Tomatos, Sliced Cucumbers, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Original Tahini Sauce",
 						"basePrice": 1300,
 						"itemMinimum": 0,
@@ -543,7 +543,7 @@
 						]
 					},
 					{
-						"name": "Beef Shawarma Box",
+						"name": "Beef Shawarma Box (Lite)",
 						"description": "Choice of Entree with Beef Shawarma, Lettuce, Roasted Red Pepper Hummus, Tomato and Cucumber Salad, Seasoned Onions, Pickles, and Original Tahini Sauce",
 						"basePrice": 1300,
 						"itemMinimum": 0,
@@ -584,7 +584,7 @@
 						]
 					},
 					{
-						"name": "Roasted Veggies Box",
+						"name": "Roasted Veggies Box (Lite)",
 						"description": "Choice of Entree with Roasted Veggies, Roasted Red Pepper Hummus, Tomato & Cucumber Salad, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Vegan Tahini Sauce",
 						"basePrice": 1300,
 						"itemMinimum": 0,
@@ -625,7 +625,7 @@
 						]
 					},
 					{
-						"name": "Gluten Free Box",
+						"name": "Gluten Free Box (Lite)",
 						"description": "Choice of Entree and Protein with Stuffed Grape Leaves (Gluten-Free) and Bottled Water",
 						"basePrice": 1200,
 						"itemMinimum": 0,

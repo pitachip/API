@@ -47,24 +47,28 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	//Save order to Mongo
 	const newSpecialOrder = await SpecialOrder.create(specialOrder);
 
-	/*
+	//Formatting the date and time
+	newSpecialOrder.orderDetails.orderDate = new Date(
+		newSpecialOrder.orderDetails.orderDate
+	).toLocaleString("en-US", { timeZone: "America/New_York" });
+
+	console.log(newSpecialOrder);
+
 	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 	const msg = {
-		to: "alsaadirend@gmail.com", // Change to your recipient
-		from: "info@pitachipphilly.com", // Change to your verified sender
-		subject: "Sending with SendGrid is Fun",
-		text: "and easy to do anywhere, even with Node.js",
-		html: "<strong>and easy to do anywhere, even with Node.js</strong>",
+		to: newSpecialOrder.customerInformation.email,
+		from: {
+			email: "info@pitachipphilly.com",
+			name: "Pita Chip",
+		},
+		templateId: "d-2d5d5f14a3f1458d914ac18cf2fadcf0",
+		subject: `Submitted Order# ${newSpecialOrder.orderNumber}`,
+		dynamic_template_data: newSpecialOrder,
 	};
-	sgMail
-		.send(msg)
-		.then(() => {
-			console.log("Email sent");
-		})
-		.catch((error) => {
-			console.error(error);
-		});
-	*/
+	sgMail.send(msg).catch((error) => {
+		console.error(error);
+	});
 
 	res.status(201).json({
 		success: true,
@@ -103,16 +107,6 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 			.readFileSync("./emails/orderConfirmation/invoiceConfirmationPickup.mjml")
 			.toString();
 	}
-
-	//Formatting the date and time
-	newSpecialOrder.orderDetails.orderDate = new Date(
-		newSpecialOrder.orderDetails.orderDate
-	).toLocaleString("en-US", { timeZone: "America/New_York" });
-
-	console.log(
-		"Date String for email: ",
-		newSpecialOrder.orderDetails.orderDate
-	);
 
 	const mailList = [
 		"info@pitachipphilly.com",
