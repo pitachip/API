@@ -82,6 +82,56 @@ const getPaymentIntent = async (paymentIntentId, next) => {
 	}
 };
 
+const updateInvoiceDescription = async (
+	invoiceId,
+	description,
+	paymentInformation,
+	orderNumber
+) => {
+	try {
+		await stripe.invoices.update(invoiceId, {
+			description: description,
+			footer: description,
+			custom_fields: [
+				{
+					name: "Order Ref. #",
+					value: orderNumber,
+				},
+				{
+					name: "PO#",
+					value: paymentInformation.purchaseOrderNumber
+						? paymentInformation.purchaseOrderNumber
+						: "N/A",
+				},
+				{
+					name: "Univ Acct. #",
+					value: paymentInformation.universityMoneyAccount
+						? paymentInformation.universityMoneyAccount
+						: "N/A",
+				},
+				{
+					name: "Tax Exempt ID",
+					value: paymentInformation.taxExemptId
+						? paymentInformation.taxExemptId
+						: "N/A",
+				},
+			],
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const finalizeInvoice = async (invoiceId) => {
+	try {
+		return await stripe.invoices.finalizeInvoice(invoiceId);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 exports.findStripeCustomer = findStripeCustomer;
 exports.createInvoiceItems = createInvoiceItems;
 exports.getPaymentIntent = getPaymentIntent;
+exports.updateInvoiceDescription = updateInvoiceDescription;
+exports.finalizeInvoice = finalizeInvoice;

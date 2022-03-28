@@ -75,34 +75,11 @@ exports.createInvoice = asyncHandler(async (req, res, next) => {
 		customer: stripeCustomer,
 		collection_method: "send_invoice",
 		days_until_due: 45,
-		custom_fields: [
-			{
-				name: "PO#",
-				value: paymentInformation.purchaseOrderNumber
-					? paymentInformation.purchaseOrderNumber
-					: "N/A",
-			},
-			{
-				name: "Univ Acct. #",
-				value: paymentInformation.universityMoneyAccount
-					? paymentInformation.universityMoneyAccount
-					: "N/A",
-			},
-			{
-				name: "Tax Exempt ID",
-				value: paymentInformation.taxExemptId
-					? paymentInformation.taxExemptId
-					: "N/A",
-			},
-		],
 	});
-
-	//finalize invoice
-	const finalizeInvoice = await stripe.invoices.finalizeInvoice(newInvoice.id);
 
 	res.status(200).json({
 		success: true,
-		data: finalizeInvoice,
+		data: newInvoice,
 	});
 });
 
@@ -154,34 +131,11 @@ exports.updateInvoice = asyncHandler(async (req, res, next) => {
 		customer: stripeCustomerId,
 		collection_method: "send_invoice",
 		days_until_due: 45,
-		custom_fields: [
-			{
-				name: "PO#",
-				value: paymentInformation.purchaseOrderNumber
-					? paymentInformation.purchaseOrderNumber
-					: "N/A",
-			},
-			{
-				name: "Univ Acct. #",
-				value: paymentInformation.universityMoneyAccount
-					? paymentInformation.universityMoneyAccount
-					: "N/A",
-			},
-			{
-				name: "Tax Exempt ID",
-				value: paymentInformation.taxExemptId
-					? paymentInformation.taxExemptId
-					: "N/A",
-			},
-		],
 	});
-
-	//finalize invoice
-	const finalizeInvoice = await stripe.invoices.finalizeInvoice(newInvoice.id);
 
 	res.status(200).json({
 		success: true,
-		data: finalizeInvoice,
+		data: newInvoice,
 	});
 });
 

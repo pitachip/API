@@ -1,12 +1,12 @@
 const SpecialOrder = require("../models/SpecialOrder");
-const stripe = require("stripe")(process.env.STRIPE_KEY);
 const _ = require("lodash");
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const stripeUtility = require("../utils/stripe");
-const nodemailer = require("../utils/nodemailer");
-const fs = require("fs");
-const sgMail = require("@sendgrid/mail");
+const nodemailer = require("../utils/nodemailer"); //delete once sendgrid is stable
+const sendGridMailer = require("../utils/sendGridMailer");
+const fs = require("fs"); //delete once sendgrid is stable
 
 //@desc     get all special orders
 //@route    GET /api/v1/specialorder
@@ -44,31 +44,57 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 		status: "Submitted",
 	};
 
+	/**
+	 * Create a draft invoice
+	 * Send draft invoice details to this endpoint
+	 * save the order in mongo to get an orderNumber
+	 * Add the description
+	 * Finalize the invoice using a stripe utility
+	 * Add the new invoice details to the object
+	 * modify the special order object in mongo so it has the link
+	 * add Order reference number to the list of custom fields
+	 * add information to the footer as well
+	 */
+
 	//Save order to Mongo
-	const newSpecialOrder = await SpecialOrder.create(specialOrder);
+	let newSpecialOrder = await SpecialOrder.create(specialOrder);
+
+	//update the invoice description now that you have an order number
+	if (newSpecialOrder.paymentInformation.paymentType !== "cc") {
+		const invoiceDescription = `Attention Accounts Payable: When processing payment for this order, please reference order: #${newSpecialOrder.orderNumber}. The invoice number listed is subject to change after the initial order has been placed due to order modifications leading up to the delivery date.`;
+		await stripeUtility.updateInvoiceDescription(
+			newSpecialOrder.paymentInformation.invoicePaymentDetails.id,
+			invoiceDescription,
+			newSpecialOrder.paymentInformation,
+			newSpecialOrder.orderNumber
+		);
+
+		const finalizedInvoice = await stripeUtility.finalizeInvoice(
+			newSpecialOrder.paymentInformation.invoicePaymentDetails.id
+		);
+
+		newSpecialOrder.paymentInformation.invoicePaymentDetails = finalizedInvoice;
+
+		newSpecialOrder = await SpecialOrder.findOneAndUpdate(
+			{ _id: newSpecialOrder.id },
+			newSpecialOrder,
+			{ new: true }
+		);
+	}
 
 	//Formatting the date and time
 	newSpecialOrder.orderDetails.orderDate = new Date(
 		newSpecialOrder.orderDetails.orderDate
 	).toLocaleString("en-US", { timeZone: "America/New_York" });
 
-	console.log(newSpecialOrder);
-
-	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-	const msg = {
-		to: newSpecialOrder.customerInformation.email,
-		from: {
-			email: "info@pitachipphilly.com",
-			name: "Pita Chip",
-		},
-		templateId: "d-2d5d5f14a3f1458d914ac18cf2fadcf0",
+	const mailOptions = {
+		templateData: newSpecialOrder,
+		toEmail: newSpecialOrder.customerInformation.email,
 		subject: `Submitted Order# ${newSpecialOrder.orderNumber}`,
-		dynamic_template_data: newSpecialOrder,
+		templateId: "d-2d5d5f14a3f1458d914ac18cf2fadcf0",
 	};
-	sgMail.send(msg).catch((error) => {
-		console.error(error);
-	});
+
+	await sendGridMailer(mailOptions);
 
 	res.status(201).json({
 		success: true,
@@ -81,6 +107,8 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	 * This is intentially bad. Will be switching how we send confirmation emails relatively soon
 	 * so I don't want to spend too much time on this. Just something quick and dirty
 	 */
+
+	/*
 	var template = "";
 	if (
 		newSpecialOrder.paymentInformation.paymentType === "cc" &&
@@ -122,6 +150,7 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	};
 
 	await nodemailer(mailOptions);
+	*/
 });
 
 //@desc     Update specialorder
@@ -139,6 +168,22 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 				401
 			)
 		);
+	}
+
+	if (modifiedOrder.paymentInformation.paymentType !== "cc") {
+		const invoiceDescription = `Attention Accounts Payable: When processing payment for this order, please reference order: #${order.orderNumber}. The invoice number listed is subject to change after the initial order has been placed due to order modifications leading up to the delivery date.`;
+		await stripeUtility.updateInvoiceDescription(
+			modifiedOrder.paymentInformation.invoicePaymentDetails.id,
+			invoiceDescription,
+			modifiedOrder.paymentInformation,
+			order.orderNumber
+		);
+
+		const finalizedInvoice = await stripeUtility.finalizeInvoice(
+			modifiedOrder.paymentInformation.invoicePaymentDetails.id
+		);
+
+		modifiedOrder.paymentInformation.invoicePaymentDetails = finalizedInvoice;
 	}
 
 	const modifyOrder = await SpecialOrder.findOneAndUpdate(
@@ -196,6 +241,16 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 			modifyOrder.orderDetails.orderDate
 		).toLocaleString("en-US", { timeZone: "America/New_York" });
 
+		const mailOptions = {
+			templateData: modifyOrder,
+			toEmail: modifyOrder.customerInformation.email,
+			subject: `${modifyOrder.status} Order# ${modifyOrder.orderNumber}`,
+			templateId: "d-8331a5ea5e8d439797d1adc632683a73",
+		};
+
+		await sendGridMailer(mailOptions);
+
+		/*
 		const mailList = [
 			"info@pitachipphilly.com",
 			modifyOrder.customerInformation.email,
@@ -210,6 +265,7 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 		};
 
 		await nodemailer(mailOptions);
+		*/
 	}
 });
 
@@ -241,6 +297,21 @@ exports.cancelSpecialOrder = asyncHandler(async (req, res, next) => {
 		},
 		{ new: true }
 	);
+
+	//Formatting the date and time
+	cancelOrder.orderDetails.orderDate = new Date(
+		cancelOrder.orderDetails.orderDate
+	).toLocaleString("en-US", { timeZone: "America/New_York" });
+
+	//Send Cancelation Email
+	const mailOptions = {
+		templateData: cancelOrder,
+		toEmail: cancelOrder.customerInformation.email,
+		subject: `Canceled Order# ${cancelOrder.orderNumber}`,
+		templateId: "d-327a605483e444d586db38821c05420c",
+	};
+
+	await sendGridMailer(mailOptions);
 
 	res.status(200).json({ success: true, data: cancelOrder });
 });
