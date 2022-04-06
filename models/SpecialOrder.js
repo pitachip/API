@@ -103,6 +103,7 @@ const SpecialOrderSchema = new mongoose.Schema({
 		subTotal: Number,
 		tax: Number,
 		delivery: Number,
+		tip: Number,
 		total: Number,
 	},
 	status: {

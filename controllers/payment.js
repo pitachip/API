@@ -26,8 +26,7 @@ exports.createPaymentIntent = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/payment/invoice
 //@access   Private: Authenticated users
 exports.createInvoice = asyncHandler(async (req, res, next) => {
-	const { contactInformation, orderItems, deliveryAndTax, paymentInformation } =
-		req.body;
+	const { contactInformation, orderItems, deliveryTaxTip } = req.body;
 
 	const stripeCustomer = await stripeUtility.findStripeCustomer(
 		contactInformation,
@@ -55,7 +54,7 @@ exports.createInvoice = asyncHandler(async (req, res, next) => {
 		);
 	});
 
-	_.each(deliveryAndTax, (deliveryAndTaxItem) => {
+	_.each(deliveryTaxTip, (deliveryAndTaxItem) => {
 		promiseArray.push(
 			stripe.invoiceItems.create({
 				customer: stripeCustomer,
@@ -87,7 +86,7 @@ exports.createInvoice = asyncHandler(async (req, res, next) => {
 //@route    PUT /api/v1/payment/invoice
 //@access   Private: Authenticated users
 exports.updateInvoice = asyncHandler(async (req, res, next) => {
-	const { orderItems, deliveryAndTax, paymentInformation, userId } = req.body;
+	const { orderItems, deliveryTaxTip, userId } = req.body;
 
 	const stripeCustomerId = await userUtility.findStripeIdByUserId(userId, next);
 
@@ -111,7 +110,7 @@ exports.updateInvoice = asyncHandler(async (req, res, next) => {
 		);
 	});
 
-	_.each(deliveryAndTax, (deliveryAndTaxItem) => {
+	_.each(deliveryTaxTip, (deliveryAndTaxItem) => {
 		promiseArray.push(
 			stripe.invoiceItems.create({
 				customer: stripeCustomerId,
