@@ -13,7 +13,8 @@
 		"seed-dev": "env-cmd -f ./config/config.env.dev node seeder -i",
 		"delete-seed-dev": "env-cmd -f ./config/config.env.dev node seeder -d",
 		"seed-prod": "env-cmd -f ./config/config.env.prod node seeder -seedProd",
-		"delete-seed-prod": "env-cmd -f ./config/config.env.prod node seeder -deleteProd"
+		"delete-seed-prod": "env-cmd -f ./config/config.env.prod node seeder -deleteProd",
+		"add-tip-field-local": "env-cmd -f ./config/config.env.local node dataOps -tips"
 	},
 	"author": "",
 	"license": "ISC",

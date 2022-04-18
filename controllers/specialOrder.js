@@ -44,18 +44,6 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 		status: "Submitted",
 	};
 
-	/**
-	 * Create a draft invoice
-	 * Send draft invoice details to this endpoint
-	 * save the order in mongo to get an orderNumber
-	 * Add the description
-	 * Finalize the invoice using a stripe utility
-	 * Add the new invoice details to the object
-	 * modify the special order object in mongo so it has the link
-	 * add Order reference number to the list of custom fields
-	 * add information to the footer as well
-	 */
-
 	//Save order to Mongo
 	let newSpecialOrder = await SpecialOrder.create(specialOrder);
 
@@ -86,6 +74,20 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	newSpecialOrder.orderDetails.orderDate = new Date(
 		newSpecialOrder.orderDetails.orderDate
 	).toLocaleString("en-US", { timeZone: "America/New_York" });
+
+	//Formatting the dollar amounts
+	newSpecialOrder.orderTotals.subTotal =
+		+newSpecialOrder.orderTotals.subTotal.toFixed(2);
+	newSpecialOrder.orderTotals.tax = +newSpecialOrder.orderTotals.tax.toFixed(2);
+	newSpecialOrder.orderTotals.tip = +newSpecialOrder.orderTotals.tip.toFixed(2);
+	newSpecialOrder.orderTotals.delivery =
+		+newSpecialOrder.orderTotals.delivery.toFixed(2);
+	newSpecialOrder.orderTotals.total =
+		+newSpecialOrder.orderTotals.total.toFixed(2);
+
+	//https://stackoverflow.com/questions/149055/how-to-format-numbers-as-currency-strings
+
+	console.log(newSpecialOrder.orderTotals);
 
 	const mailOptions = {
 		templateData: newSpecialOrder,
@@ -237,9 +239,17 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 				.toString();
 		}
 
+		//Formatting the date/time
 		modifyOrder.orderDetails.orderDate = new Date(
 			modifyOrder.orderDetails.orderDate
 		).toLocaleString("en-US", { timeZone: "America/New_York" });
+
+		//Formatting the dollar amounts
+		modifyOrder.orderTotals.subTotal.toFixed(2);
+		modifyOrder.orderTotals.tax.toFixed(2);
+		modifyOrder.orderTotals.tip.toFixed(2);
+		modifyOrder.orderTotals.delivery.toFixed(2);
+		modifyOrder.orderTotals.total.toFixed(2);
 
 		const mailOptions = {
 			templateData: modifyOrder,
