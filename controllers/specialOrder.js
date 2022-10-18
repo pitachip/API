@@ -4,9 +4,9 @@ const stripe = require("stripe")(process.env.STRIPE_KEY);
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const stripeUtility = require("../utils/stripe");
-const nodemailer = require("../utils/nodemailer"); //delete once sendgrid is stable
+const nodemailer = require("../utils/nodemailer"); //TODO: delete once sendgrid is stable
 const sendGridMailer = require("../utils/sendGridMailer");
-const fs = require("fs"); //delete once sendgrid is stable
+const fs = require("fs"); //TODO: delete once sendgrid is stable
 
 //@desc     get all special orders
 //@route    GET /api/v1/specialorder

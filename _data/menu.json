@@ -8,7 +8,7 @@
 				"items": [
 					{
 						"name": "Build Your Own",
-						"basePrice": 1600,
+						"basePrice": 1700,
 						"itemMinimum": 10,
 						"description": "All Orders Include Pita Bread, Rice, and Lettuce",
 						"modifiers": [
@@ -234,7 +234,7 @@
 					{
 						"name": "Chicken Shawarma Box (Deluxe)",
 						"description": "Choice of Entree with Chicken Shawarma, Lettuce, Roasted Red Pepper Hummus, Salsa, Seasoned Onions, Pickles, and Garlic Sauce",
-						"basePrice": 1600,
+						"basePrice": 1700,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -275,7 +275,7 @@
 					{
 						"name": "Falafel Box (Deluxe)",
 						"description": "Choice of Entree with Falafel, Roasted Red Pepper Hummus, Lettuce, Tomatos, Sliced Cucumbers, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Original Tahini Sauce",
-						"basePrice": 1600,
+						"basePrice": 1700,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -316,7 +316,7 @@
 					{
 						"name": "Beef Shawarma Box (Deluxe)",
 						"description": "Choice of Entree with Beef Shawarma, Lettuce, Roasted Red Pepper Hummus, Tomato and Cucumber Salad, Seasoned Onions, Pickles, and Original Tahini Sauce",
-						"basePrice": 1600,
+						"basePrice": 1700,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -357,7 +357,7 @@
 					{
 						"name": "Roasted Veggies Box (Deluxe)",
 						"description": "Choice of Entree with Roasted Veggies, Roasted Red Pepper Hummus, Tomato & Cucumber Salad, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Vegan Tahini Sauce",
-						"basePrice": 1600,
+						"basePrice": 1700,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -398,7 +398,7 @@
 					{
 						"name": "Gluten Free Box (Deluxe)",
 						"description": "Choice of Entree and Protein with Stuffed Grape Leaves (Gluten-Free) and Bottled Water",
-						"basePrice": 1500,
+						"basePrice": 1700,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -463,7 +463,7 @@
 					{
 						"name": "Chicken Shawarma Box (Lite)",
 						"description": "Choice of Entree with Chicken Shawarma, Lettuce, Roasted Red Pepper Hummus, Salsa, Seasoned Onions, Pickles, and Garlic Sauce",
-						"basePrice": 1300,
+						"basePrice": 1400,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -504,7 +504,7 @@
 					{
 						"name": "Falafel Box (Lite)",
 						"description": "Choice of Entree with Falafel, Roasted Red Pepper Hummus, Lettuce, Tomatos, Sliced Cucumbers, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Original Tahini Sauce",
-						"basePrice": 1300,
+						"basePrice": 1400,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -545,7 +545,7 @@
 					{
 						"name": "Beef Shawarma Box (Lite)",
 						"description": "Choice of Entree with Beef Shawarma, Lettuce, Roasted Red Pepper Hummus, Tomato and Cucumber Salad, Seasoned Onions, Pickles, and Original Tahini Sauce",
-						"basePrice": 1300,
+						"basePrice": 1400,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -586,7 +586,7 @@
 					{
 						"name": "Roasted Veggies Box (Lite)",
 						"description": "Choice of Entree with Roasted Veggies, Roasted Red Pepper Hummus, Tomato & Cucumber Salad, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Vegan Tahini Sauce",
-						"basePrice": 1300,
+						"basePrice": 1400,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -627,7 +627,7 @@
 					{
 						"name": "Gluten Free Box (Lite)",
 						"description": "Choice of Entree and Protein with Stuffed Grape Leaves (Gluten-Free) and Bottled Water",
-						"basePrice": 1200,
+						"basePrice": 1600,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -757,7 +757,7 @@
 					},
 					{
 						"name": "Assorted Pure Leaf Iced Teas",
-						"basePrice": 279,
+						"basePrice": 299,
 						"itemMinimum": 0,
 						"description": ""
 					}
