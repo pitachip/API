@@ -87,13 +87,11 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 
 	//https://stackoverflow.com/questions/149055/how-to-format-numbers-as-currency-strings
 
-	console.log(newSpecialOrder.orderTotals);
-
 	const mailOptions = {
 		templateData: newSpecialOrder,
 		toEmail: newSpecialOrder.customerInformation.email,
 		subject: `Submitted Order# ${newSpecialOrder.orderNumber}`,
-		templateId: "d-2d5d5f14a3f1458d914ac18cf2fadcf0",
+		templateId: "d-11e5319b9ac04fb4b08f23c0d3abeff1",
 	};
 
 	await sendGridMailer(mailOptions);
@@ -206,6 +204,7 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 		 * This is intentially bad. Will be switching how we send confirmation emails relatively soon
 		 * so I don't want to spend too much time on this. Just something quick and dirty
 		 */
+		/*
 		var template = "";
 		if (
 			modifyOrder.paymentInformation.paymentType === "cc" &&
@@ -238,6 +237,7 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 				)
 				.toString();
 		}
+		*/
 
 		//Formatting the date/time
 		modifyOrder.orderDetails.orderDate = new Date(
@@ -255,7 +255,7 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 			templateData: modifyOrder,
 			toEmail: modifyOrder.customerInformation.email,
 			subject: `${modifyOrder.status} Order# ${modifyOrder.orderNumber}`,
-			templateId: "d-8331a5ea5e8d439797d1adc632683a73",
+			templateId: "d-2ca81be6ff004c9ebaaf716c93dd0bf4",
 		};
 
 		await sendGridMailer(mailOptions);
@@ -318,7 +318,7 @@ exports.cancelSpecialOrder = asyncHandler(async (req, res, next) => {
 		templateData: cancelOrder,
 		toEmail: cancelOrder.customerInformation.email,
 		subject: `Canceled Order# ${cancelOrder.orderNumber}`,
-		templateId: "d-327a605483e444d586db38821c05420c",
+		templateId: "d-1e6c7198f5f043caa08ea464d27f0cc3",
 	};
 
 	await sendGridMailer(mailOptions);
