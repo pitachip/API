@@ -1,12 +1,12 @@
 const SpecialOrder = require("../models/SpecialOrder");
-const stripe = require("stripe")(process.env.STRIPE_KEY);
 const _ = require("lodash");
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const stripeUtility = require("../utils/stripe");
-const nodemailer = require("../utils/nodemailer");
-const orderUtility = require("../utils/orderUtility");
-const fs = require("fs");
+const nodemailer = require("../utils/nodemailer"); //TODO: delete once sendgrid is stable
+const sendGridMailer = require("../utils/sendGridMailer");
+const fs = require("fs"); //TODO: delete once sendgrid is stable
 
 //@desc     get all special orders
 //@route    GET /api/v1/specialorder
@@ -45,7 +45,56 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	};
 
 	//Save order to Mongo
-	const newSpecialOrder = await SpecialOrder.create(specialOrder);
+	let newSpecialOrder = await SpecialOrder.create(specialOrder);
+
+	//update the invoice description now that you have an order number
+	if (newSpecialOrder.paymentInformation.paymentType !== "cc") {
+		const invoiceDescription = `Attention Accounts Payable: When processing payment for this order, please reference order: #${newSpecialOrder.orderNumber}. The invoice number listed is subject to change after the initial order has been placed due to order modifications leading up to the delivery date.`;
+		await stripeUtility.updateInvoiceDescription(
+			newSpecialOrder.paymentInformation.invoicePaymentDetails.id,
+			invoiceDescription,
+			newSpecialOrder.paymentInformation,
+			newSpecialOrder.orderNumber
+		);
+
+		const finalizedInvoice = await stripeUtility.finalizeInvoice(
+			newSpecialOrder.paymentInformation.invoicePaymentDetails.id
+		);
+
+		newSpecialOrder.paymentInformation.invoicePaymentDetails = finalizedInvoice;
+
+		newSpecialOrder = await SpecialOrder.findOneAndUpdate(
+			{ _id: newSpecialOrder.id },
+			newSpecialOrder,
+			{ new: true }
+		);
+	}
+
+	//Formatting the date and time
+	newSpecialOrder.orderDetails.orderDate = new Date(
+		newSpecialOrder.orderDetails.orderDate
+	).toLocaleString("en-US", { timeZone: "America/New_York" });
+
+	//Formatting the dollar amounts
+	newSpecialOrder.orderTotals.subTotal =
+		+newSpecialOrder.orderTotals.subTotal.toFixed(2);
+	newSpecialOrder.orderTotals.tax = +newSpecialOrder.orderTotals.tax.toFixed(2);
+	newSpecialOrder.orderTotals.tip = +newSpecialOrder.orderTotals.tip.toFixed(2);
+	newSpecialOrder.orderTotals.delivery =
+		+newSpecialOrder.orderTotals.delivery.toFixed(2);
+	newSpecialOrder.orderTotals.total =
+		+newSpecialOrder.orderTotals.total.toFixed(2);
+
+	//https://stackoverflow.com/questions/149055/how-to-format-numbers-as-currency-strings
+
+	const mailOptions = {
+		templateData: newSpecialOrder,
+		toEmail: newSpecialOrder.customerInformation.email,
+		subject: `Submitted Order# ${newSpecialOrder.orderNumber}`,
+		templateId: "d-11e5319b9ac04fb4b08f23c0d3abeff1",
+	};
+
+	await sendGridMailer(mailOptions);
 
 	res.status(201).json({
 		success: true,
@@ -58,6 +107,8 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	 * This is intentially bad. Will be switching how we send confirmation emails relatively soon
 	 * so I don't want to spend too much time on this. Just something quick and dirty
 	 */
+
+	/*
 	var template = "";
 	if (
 		newSpecialOrder.paymentInformation.paymentType === "cc" &&
@@ -85,12 +136,6 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 			.toString();
 	}
 
-	newSpecialOrder.orderDetails.orderDate = new Date(
-		newSpecialOrder.orderDetails.orderDate
-	)
-		.toLocaleString()
-		.split(",")[0];
-
 	const mailList = [
 		"info@pitachipphilly.com",
 		newSpecialOrder.customerInformation.email,
@@ -105,6 +150,7 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	};
 
 	await nodemailer(mailOptions);
+	*/
 });
 
 //@desc     Update specialorder
@@ -122,6 +168,22 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 				401
 			)
 		);
+	}
+
+	if (modifiedOrder.paymentInformation.paymentType !== "cc") {
+		const invoiceDescription = `Attention Accounts Payable: When processing payment for this order, please reference order: #${order.orderNumber}. The invoice number listed is subject to change after the initial order has been placed due to order modifications leading up to the delivery date.`;
+		await stripeUtility.updateInvoiceDescription(
+			modifiedOrder.paymentInformation.invoicePaymentDetails.id,
+			invoiceDescription,
+			modifiedOrder.paymentInformation,
+			order.orderNumber
+		);
+
+		const finalizedInvoice = await stripeUtility.finalizeInvoice(
+			modifiedOrder.paymentInformation.invoicePaymentDetails.id
+		);
+
+		modifiedOrder.paymentInformation.invoicePaymentDetails = finalizedInvoice;
 	}
 
 	const modifyOrder = await SpecialOrder.findOneAndUpdate(
@@ -142,6 +204,7 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 		 * This is intentially bad. Will be switching how we send confirmation emails relatively soon
 		 * so I don't want to spend too much time on this. Just something quick and dirty
 		 */
+		/*
 		var template = "";
 		if (
 			modifyOrder.paymentInformation.paymentType === "cc" &&
@@ -174,13 +237,30 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 				)
 				.toString();
 		}
+		*/
 
+		//Formatting the date/time
 		modifyOrder.orderDetails.orderDate = new Date(
 			modifyOrder.orderDetails.orderDate
-		)
-			.toLocaleString()
-			.split(",")[0];
+		).toLocaleString("en-US", { timeZone: "America/New_York" });
 
+		//Formatting the dollar amounts
+		modifyOrder.orderTotals.subTotal.toFixed(2);
+		modifyOrder.orderTotals.tax.toFixed(2);
+		modifyOrder.orderTotals.tip.toFixed(2);
+		modifyOrder.orderTotals.delivery.toFixed(2);
+		modifyOrder.orderTotals.total.toFixed(2);
+
+		const mailOptions = {
+			templateData: modifyOrder,
+			toEmail: modifyOrder.customerInformation.email,
+			subject: `${modifyOrder.status} Order# ${modifyOrder.orderNumber}`,
+			templateId: "d-2ca81be6ff004c9ebaaf716c93dd0bf4",
+		};
+
+		await sendGridMailer(mailOptions);
+
+		/*
 		const mailList = [
 			"info@pitachipphilly.com",
 			modifyOrder.customerInformation.email,
@@ -195,6 +275,7 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 		};
 
 		await nodemailer(mailOptions);
+		*/
 	}
 });
 
@@ -226,6 +307,21 @@ exports.cancelSpecialOrder = asyncHandler(async (req, res, next) => {
 		},
 		{ new: true }
 	);
+
+	//Formatting the date and time
+	cancelOrder.orderDetails.orderDate = new Date(
+		cancelOrder.orderDetails.orderDate
+	).toLocaleString("en-US", { timeZone: "America/New_York" });
+
+	//Send Cancelation Email
+	const mailOptions = {
+		templateData: cancelOrder,
+		toEmail: cancelOrder.customerInformation.email,
+		subject: `Canceled Order# ${cancelOrder.orderNumber}`,
+		templateId: "d-1e6c7198f5f043caa08ea464d27f0cc3",
+	};
+
+	await sendGridMailer(mailOptions);
 
 	res.status(200).json({ success: true, data: cancelOrder });
 });

@@ -8,7 +8,7 @@
 				"items": [
 					{
 						"name": "Build Your Own",
-						"basePrice": 1600,
+						"basePrice": 1700,
 						"itemMinimum": 10,
 						"description": "All Orders Include Pita Bread, Rice, and Lettuce",
 						"modifiers": [
@@ -163,7 +163,7 @@
 									{
 										"name": "Extra Beef Shawarma",
 										"default": false,
-										"price": 200
+										"price": 300
 									},
 									{
 										"name": "Extra Falafel",
@@ -228,13 +228,13 @@
 				]
 			},
 			{
-				"title": "Lunch Boxes (Individually Packaged)",
-				"description": "Lunch boxes are a great option for those looking to quickly order a meal with everything included in each box. **All lunch boxes include Pita Chips & Hummus, Baklava, and Bottled Water",
+				"title": "Lunch Box Deluxe",
+				"description": "*Individually Wrapped* A great option to quickly order a meal with everything included in each package. The deluxe package includes Pita Chips & Hummus, Baklava, and Bottled Water.",
 				"items": [
 					{
-						"name": "Chicken Shawarma Box",
+						"name": "Chicken Shawarma Box (Deluxe)",
 						"description": "Choice of Entree with Chicken Shawarma, Lettuce, Roasted Red Pepper Hummus, Salsa, Seasoned Onions, Pickles, and Garlic Sauce",
-						"basePrice": 1600,
+						"basePrice": 1700,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -273,9 +273,9 @@
 						]
 					},
 					{
-						"name": "Falafel Box",
+						"name": "Falafel Box (Deluxe)",
 						"description": "Choice of Entree with Falafel, Roasted Red Pepper Hummus, Lettuce, Tomatos, Sliced Cucumbers, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Original Tahini Sauce",
-						"basePrice": 1600,
+						"basePrice": 1700,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -314,9 +314,9 @@
 						]
 					},
 					{
-						"name": "Beef Shawarma Box",
+						"name": "Beef Shawarma Box (Deluxe)",
 						"description": "Choice of Entree with Beef Shawarma, Lettuce, Roasted Red Pepper Hummus, Tomato and Cucumber Salad, Seasoned Onions, Pickles, and Original Tahini Sauce",
-						"basePrice": 1600,
+						"basePrice": 1700,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -355,9 +355,9 @@
 						]
 					},
 					{
-						"name": "Roasted Veggies Box",
+						"name": "Roasted Veggies Box (Deluxe)",
 						"description": "Choice of Entree with Roasted Veggies, Roasted Red Pepper Hummus, Tomato & Cucumber Salad, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Vegan Tahini Sauce",
-						"basePrice": 1600,
+						"basePrice": 1700,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -396,9 +396,9 @@
 						]
 					},
 					{
-						"name": "Gluten Free Box",
+						"name": "Gluten Free Box (Deluxe)",
 						"description": "Choice of Entree and Protein with Stuffed Grape Leaves (Gluten-Free) and Bottled Water",
-						"basePrice": 1500,
+						"basePrice": 1700,
 						"itemMinimum": 0,
 						"modifiers": [
 							{
@@ -457,36 +457,231 @@
 				]
 			},
 			{
-				"title": "Wrap Trays (Individually Wrapped)",
-				"description": "Wrap trays are a great option for those looking to quickly order sandwiches for a meeting or event. **All Orders Include Two 10-Inch Wraps, Pita Chips & Hummus, and Salad**",
+				"title": "Lunch Box Lite",
+				"description": "*Individually Wrapped* A great option to quickly order a meal on a budget. The lite package includes an Entree and Baklava.",
 				"items": [
 					{
-						"name": "Chicken Shawarma Wrap",
-						"description": "Chicken Shawarma, Roasted Red Pepper Hummus, Seasoned Onions, Pickles, and Garlic Sauce",
-						"basePrice": 1700,
+						"name": "Chicken Shawarma Box (Lite)",
+						"description": "Choice of Entree with Chicken Shawarma, Lettuce, Roasted Red Pepper Hummus, Salsa, Seasoned Onions, Pickles, and Garlic Sauce",
+						"basePrice": 1400,
 						"itemMinimum": 0,
-						"modifiers": []
+						"modifiers": [
+							{
+								"name": "Choose Your Entree",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 1,
+								"options": [
+									{
+										"name": "Rice Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Salad Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Pita Bread Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Tortilla Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "1/2 Salad 1/2 Rice",
+										"default": false,
+										"price": 0
+									}
+								]
+							}
+						]
 					},
 					{
-						"name": "Falafel Wrap",
-						"description": "Falafel, Roasted Red Pepper Hummus, Tomato & Cucumber Salad, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Original Tahini Sauce",
-						"basePrice": 1700,
+						"name": "Falafel Box (Lite)",
+						"description": "Choice of Entree with Falafel, Roasted Red Pepper Hummus, Lettuce, Tomatos, Sliced Cucumbers, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Original Tahini Sauce",
+						"basePrice": 1400,
 						"itemMinimum": 0,
-						"modifiers": []
+						"modifiers": [
+							{
+								"name": "Choose Your Entree",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 1,
+								"options": [
+									{
+										"name": "Rice Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Salad Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Pita Bread Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Tortilla Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "1/2 Salad 1/2 Rice",
+										"default": false,
+										"price": 0
+									}
+								]
+							}
+						]
 					},
 					{
-						"name": "Beef Shawarma Wrap",
-						"description": "Beef Shawarma, Roasted Red Pepper Hummus, Tomato and Cucumber Salad, Seasoned Onions, Pickles, and Original Tahini Sauce",
-						"basePrice": 1700,
+						"name": "Beef Shawarma Box (Lite)",
+						"description": "Choice of Entree with Beef Shawarma, Lettuce, Roasted Red Pepper Hummus, Tomato and Cucumber Salad, Seasoned Onions, Pickles, and Original Tahini Sauce",
+						"basePrice": 1400,
 						"itemMinimum": 0,
-						"modifiers": []
+						"modifiers": [
+							{
+								"name": "Choose Your Entree",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 1,
+								"options": [
+									{
+										"name": "Rice Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Salad Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Pita Bread Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Tortilla Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "1/2 Salad 1/2 Rice",
+										"default": false,
+										"price": 0
+									}
+								]
+							}
+						]
 					},
 					{
-						"name": "Roasted Veggies Wrap",
-						"description": "Roasted Veggies, Roasted Red Pepper Hummus, Tomato & Cucumber Salad, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Vegan Tahini Sauce",
-						"basePrice": 1700,
+						"name": "Roasted Veggies Box (Lite)",
+						"description": "Choice of Entree with Roasted Veggies, Roasted Red Pepper Hummus, Tomato & Cucumber Salad, Seasoned Onions, Red Cabbage Slaw, Pickled Turnips, and Vegan Tahini Sauce",
+						"basePrice": 1400,
 						"itemMinimum": 0,
-						"modifiers": []
+						"modifiers": [
+							{
+								"name": "Choose Your Entree",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 1,
+								"options": [
+									{
+										"name": "Rice Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Salad Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Pita Bread Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Tortilla Wrap",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "1/2 Salad 1/2 Rice",
+										"default": false,
+										"price": 0
+									}
+								]
+							}
+						]
+					},
+					{
+						"name": "Gluten Free Box (Lite)",
+						"description": "Choice of Entree and Protein with Stuffed Grape Leaves (Gluten-Free) and Bottled Water",
+						"basePrice": 1600,
+						"itemMinimum": 0,
+						"modifiers": [
+							{
+								"name": "Choose Your Entree",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 1,
+								"options": [
+									{
+										"name": "Rice Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Salad Bowl",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "1/2 Salad 1/2 Rice",
+										"default": false,
+										"price": 0
+									}
+								]
+							},
+							{
+								"name": "Choose Your Protein",
+								"price": 0,
+								"min_number_options": 1,
+								"max_number_options": 1,
+								"options": [
+									{
+										"name": "Chicken Shawarma",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Falafel",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Beef Shawarma",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Roasted Veggies",
+										"default": false,
+										"price": 0
+									}
+								]
+							}
+						]
 					}
 				]
 			},
@@ -550,19 +745,19 @@
 				"items": [
 					{
 						"name": "Bottled Water",
-						"basePrice": 150,
+						"basePrice": 200,
 						"itemMinimum": 0,
 						"description": ""
 					},
 					{
 						"name": "Assorted Sodas",
-						"basePrice": 150,
+						"basePrice": 200,
 						"itemMinimum": 0,
 						"description": ""
 					},
 					{
 						"name": "Assorted Pure Leaf Iced Teas",
-						"basePrice": 275,
+						"basePrice": 299,
 						"itemMinimum": 0,
 						"description": ""
 					}

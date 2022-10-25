@@ -7,16 +7,21 @@
 		"start": "NODE_ENV=production node server",
 		"dev": "nodemon server",
 		"local": "env-cmd -f ./config/config.env.local nodemon server",
+		"debug": "env-cmd -f ./config/config.env.local nodemon --inspect server", 
 		"seed-local": "env-cmd -f ./config/config.env.local node seeder -i",
 		"delete-seed-local": "env-cmd -f ./config/config.env.local node seeder -d",
 		"seed-dev": "env-cmd -f ./config/config.env.dev node seeder -i",
 		"delete-seed-dev": "env-cmd -f ./config/config.env.dev node seeder -d",
 		"seed-prod": "env-cmd -f ./config/config.env.prod node seeder -seedProd",
-		"delete-seed-prod": "env-cmd -f ./config/config.env.prod node seeder -deleteProd"
+		"delete-seed-prod": "env-cmd -f ./config/config.env.prod node seeder -deleteProd",
+		"add-tip-field-local": "env-cmd -f ./config/config.env.local node dataOps -tips",
+		"add-tip-field-dev": "env-cmd -f ./config/config.env.dev node dataOps -tips",
+		"add-tip-field-prod": "env-cmd -f ./config/config.env.prod node dataOps -tips"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@sendgrid/mail": "^7.4.6",
 		"axios": "^0.19.2",
 		"colors": "^1.4.0",
 		"cookie-parser": "^1.4.5",

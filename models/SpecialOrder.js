@@ -76,6 +76,10 @@ const SpecialOrderSchema = new mongoose.Schema({
 		purchaseOrder: Boolean,
 		purchaseOrderNumber: String,
 		universityMoneyAccount: String,
+		sendGridDateFormat: {
+			type: String,
+			default: "dddd, MMMM DD, YYYY",
+		},
 	},
 	orderItems: {
 		type: [Object],
@@ -99,6 +103,7 @@ const SpecialOrderSchema = new mongoose.Schema({
 		subTotal: Number,
 		tax: Number,
 		delivery: Number,
+		tip: Number,
 		total: Number,
 	},
 	status: {

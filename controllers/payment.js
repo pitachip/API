@@ -1,6 +1,7 @@
 const stripe = require("stripe")(process.env.STRIPE_KEY);
 const asyncHandler = require("../middleware/async");
 const stripeUtility = require("../utils/stripe");
+const userUtility = require("../utils/userUtils");
 const _ = require("lodash");
 const SpecialOrder = require("../models/SpecialOrder");
 
@@ -25,16 +26,7 @@ exports.createPaymentIntent = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/payment/invoice
 //@access   Private: Authenticated users
 exports.createInvoice = asyncHandler(async (req, res, next) => {
-	const {
-		contactInformation,
-		orderItems,
-		deliveryAndTax,
-		paymentInformation,
-	} = req.body;
-	/**
-	 * 2. TODO: go through the customer use cases
-	 * 			(e.g. has portal account, has portal account/stripeID, guest on the portal, guest on the portal with stripeID)
-	 */
+	const { contactInformation, orderItems, deliveryTaxTip } = req.body;
 
 	const stripeCustomer = await stripeUtility.findStripeCustomer(
 		contactInformation,
@@ -62,7 +54,7 @@ exports.createInvoice = asyncHandler(async (req, res, next) => {
 		);
 	});
 
-	_.each(deliveryAndTax, (deliveryAndTaxItem) => {
+	_.each(deliveryTaxTip, (deliveryAndTaxItem) => {
 		promiseArray.push(
 			stripe.invoiceItems.create({
 				customer: stripeCustomer,
@@ -82,34 +74,67 @@ exports.createInvoice = asyncHandler(async (req, res, next) => {
 		customer: stripeCustomer,
 		collection_method: "send_invoice",
 		days_until_due: 45,
-		custom_fields: [
-			{
-				name: "PO#",
-				value: paymentInformation.purchaseOrderNumber
-					? paymentInformation.purchaseOrderNumber
-					: "N/A",
-			},
-			{
-				name: "Univ Acct. #",
-				value: paymentInformation.universityMoneyAccount
-					? paymentInformation.universityMoneyAccount
-					: "N/A",
-			},
-			{
-				name: "Tax Exempt ID",
-				value: paymentInformation.taxExemptId
-					? paymentInformation.taxExemptId
-					: "N/A",
-			},
-		],
 	});
-
-	//finalize invoice
-	const finalizeInvoice = await stripe.invoices.finalizeInvoice(newInvoice.id);
 
 	res.status(200).json({
 		success: true,
-		data: finalizeInvoice,
+		data: newInvoice,
+	});
+});
+
+//@desc     update invoice
+//@route    PUT /api/v1/payment/invoice
+//@access   Private: Authenticated users
+exports.updateInvoice = asyncHandler(async (req, res, next) => {
+	const { orderItems, deliveryTaxTip, userId } = req.body;
+
+	const stripeCustomerId = await userUtility.findStripeIdByUserId(userId, next);
+
+	var promiseArray = [];
+
+	_.each(orderItems, (orderItem) => {
+		let modifierTotal = 0;
+		_.each(orderItem.modifiers, (modifier) => {
+			_.each(modifier.modifierChoices, (modifierChoice) => {
+				modifierTotal = +(modifierTotal + modifierChoice.price).toFixed(2);
+			});
+		});
+		promiseArray.push(
+			stripe.invoiceItems.create({
+				customer: stripeCustomerId,
+				unit_amount: orderItem.basePrice + modifierTotal,
+				description: orderItem.name,
+				currency: "usd",
+				quantity: orderItem.quantity,
+			})
+		);
+	});
+
+	_.each(deliveryTaxTip, (deliveryAndTaxItem) => {
+		promiseArray.push(
+			stripe.invoiceItems.create({
+				customer: stripeCustomerId,
+				unit_amount: deliveryAndTaxItem.basePrice,
+				description: deliveryAndTaxItem.name,
+				currency: "usd",
+				quantity: deliveryAndTaxItem.quantity,
+			})
+		);
+	});
+
+	//put all promises in an array and wait till they are done executing.
+	await Promise.all(promiseArray);
+
+	//create invoice
+	const newInvoice = await stripe.invoices.create({
+		customer: stripeCustomerId,
+		collection_method: "send_invoice",
+		days_until_due: 45,
+	});
+
+	res.status(200).json({
+		success: true,
+		data: newInvoice,
 	});
 });
 
