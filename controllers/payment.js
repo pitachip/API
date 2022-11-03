@@ -86,7 +86,13 @@ exports.createInvoice = asyncHandler(async (req, res, next) => {
 //@route    PUT /api/v1/payment/invoice
 //@access   Private: Authenticated users
 exports.updateInvoice = asyncHandler(async (req, res, next) => {
-	const { orderItems, deliveryTaxTip, userId } = req.body;
+	const {
+		orderItems,
+		deliveryTaxTip,
+		userId,
+		paymentInformation,
+		orderNumber,
+	} = req.body;
 
 	const stripeCustomerId = await userUtility.findStripeIdByUserId(userId, next);
 
@@ -132,9 +138,19 @@ exports.updateInvoice = asyncHandler(async (req, res, next) => {
 		days_until_due: 45,
 	});
 
+	const invoiceDescription = `Attention Accounts Payable: When processing payment for this order, please reference order: #${orderNumber}. The invoice number listed is subject to change after the initial order has been placed due to order modifications leading up to the delivery date.`;
+	await stripeUtility.updateInvoiceDescription(
+		newInvoice.id,
+		invoiceDescription,
+		paymentInformation,
+		orderNumber
+	);
+
+	const finalizedInvoice = await stripeUtility.finalizeInvoice(newInvoice.id);
+
 	res.status(200).json({
 		success: true,
-		data: newInvoice,
+		data: finalizedInvoice,
 	});
 });
 

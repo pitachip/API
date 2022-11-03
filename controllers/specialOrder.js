@@ -47,7 +47,10 @@ exports.createSpecialOrder = asyncHandler(async (req, res, next) => {
 	//Save order to Mongo
 	let newSpecialOrder = await SpecialOrder.create(specialOrder);
 
-	//update the invoice description now that you have an order number
+	/* 
+	update the invoice description now that you have an order number. This has to be here and not /payment because an orderNumber has not been created yet. 
+	to avoid this, I would need to make the special order first, then create the invoice, then update that special order. 
+	*/
 	if (newSpecialOrder.paymentInformation.paymentType !== "cc") {
 		const invoiceDescription = `Attention Accounts Payable: When processing payment for this order, please reference order: #${newSpecialOrder.orderNumber}. The invoice number listed is subject to change after the initial order has been placed due to order modifications leading up to the delivery date.`;
 		await stripeUtility.updateInvoiceDescription(
@@ -168,22 +171,6 @@ exports.updateSpecialOrder = asyncHandler(async (req, res, next) => {
 				401
 			)
 		);
-	}
-
-	if (modifiedOrder.paymentInformation.paymentType !== "cc") {
-		const invoiceDescription = `Attention Accounts Payable: When processing payment for this order, please reference order: #${order.orderNumber}. The invoice number listed is subject to change after the initial order has been placed due to order modifications leading up to the delivery date.`;
-		await stripeUtility.updateInvoiceDescription(
-			modifiedOrder.paymentInformation.invoicePaymentDetails.id,
-			invoiceDescription,
-			modifiedOrder.paymentInformation,
-			order.orderNumber
-		);
-
-		const finalizedInvoice = await stripeUtility.finalizeInvoice(
-			modifiedOrder.paymentInformation.invoicePaymentDetails.id
-		);
-
-		modifiedOrder.paymentInformation.invoicePaymentDetails = finalizedInvoice;
 	}
 
 	const modifyOrder = await SpecialOrder.findOneAndUpdate(
