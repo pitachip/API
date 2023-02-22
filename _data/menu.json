@@ -85,16 +85,6 @@
 										"price": 0
 									},
 									{
-										"name": "Tomatoes",
-										"default": false,
-										"price": 0
-									},
-									{
-										"name": "Sliced Cucumbers",
-										"default": false,
-										"price": 0
-									},
-									{
 										"name": "Seasoned Onions",
 										"default": false,
 										"price": 0
