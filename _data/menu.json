@@ -93,6 +93,16 @@
 										"name": "Red Cabbage Slaw",
 										"default": false,
 										"price": 0
+									},
+																		{
+										"name": "Baba Ghanoush",
+										"default": false,
+										"price": 0
+									},
+									{
+										"name": "Beet & Tahini Salad",
+										"default": false,
+										"price": 0
 									}
 								]
 							},
