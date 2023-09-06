@@ -7,7 +7,7 @@
 		"start": "NODE_ENV=production node server",
 		"dev": "nodemon server",
 		"local": "env-cmd -f ./config/config.env.local nodemon server",
-		"debug": "env-cmd -f ./config/config.env.local nodemon --inspect server", 
+		"debug": "env-cmd -f ./config/config.env.local nodemon --inspect server",
 		"seed-local": "env-cmd -f ./config/config.env.local node seeder -i",
 		"delete-seed-local": "env-cmd -f ./config/config.env.local node seeder -d",
 		"seed-dev": "env-cmd -f ./config/config.env.dev node seeder -i",
@@ -40,5 +40,8 @@
 		"nodemailer": "^6.4.8",
 		"pug": "^3.0.0",
 		"stripe": "^8.55.0"
+	},
+	"devDependencies": {
+		"underscore": "^1.13.6"
 	}
 }
