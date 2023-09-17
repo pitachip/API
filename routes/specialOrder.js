@@ -31,7 +31,7 @@ router
 
 router
 	.route("/:id")
-	.get(protect, authorize("admin", "customer"), getSpecialOrder)
+	.get(protect, authorize("admin", "manager", "customer"), getSpecialOrder)
 	.put(protect, authorize("admin", "customer"), updateSpecialOrder)
 	.delete(protect, authorize("admin", "customer"), cancelSpecialOrder);
 

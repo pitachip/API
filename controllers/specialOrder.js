@@ -21,7 +21,11 @@ exports.getSpecialOrders = asyncHandler(async (req, res, next) => {
 exports.getSpecialOrder = asyncHandler(async (req, res, next) => {
 	const order = await SpecialOrder.findById(req.params.id);
 	const user = req.user;
-	if (order.userId !== req.user.uid && !user.customClaims.admin) {
+	if (
+		order.userId !== req.user.uid &&
+		!user.customClaims.admin &&
+		!user.customClaims.manager
+	) {
 		return next(
 			new ErrorResponse(
 				`User ${req.user.uid} Not Authorized to Access Order ${req.params.id}`,
